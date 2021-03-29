@@ -22,7 +22,6 @@ buildscript {
             "recyclerview": "1.1.0",
             "constraintlayout": "2.0.4",
 
-            "jacoco": "0.2",
             "dokka": "1.4.20",
 
             "junit": "4.13.1",
@@ -31,12 +30,11 @@ buildscript {
     ]
     repositories {
         google()
-        maven { url "https://plugins.gradle.org/m2/" } // For com.hiya:jacoco-android
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.androidGradlePlugin}"
-        classpath "com.hiya:jacoco-android:${versions.jacoco}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}"
         classpath "org.jetbrains.dokka:kotlin-as-java-plugin:${versions.dokka}"

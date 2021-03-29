@@ -61,26 +61,6 @@ pipeline {
                 }
             }
         }
-        stage('Code Coverage') {
-            when {
-                anyOf {
-                    not {
-                        branch 'main'
-                    }
-                    allOf {
-                        branch 'main'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                sh './gradlew ginipaybusiness:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA9'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginipaybusiness/build/jacoco/jacocoHtml', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
-            }
-        }
         stage('Code Analysis') {
             when {
                 anyOf {
@@ -161,8 +141,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd ginipaybusiness/build/jacoco && zip -r testCoverage.zip jacocoHtml && cd -'
-                archiveArtifacts 'ginipaybusiness/build/outputs/aar/*.aar,ginipaybusiness/build/jacoco/testCoverage.zip'
+                archiveArtifacts 'ginipaybusiness/build/outputs/aar/*.aar'
             }
         }
 //        stage('Build Example Apps') {
