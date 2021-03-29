@@ -48,12 +48,14 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
 
-    implementation "net.gini:gini-pay-api-lib-android:${versions.payapi}"
-
+    api "net.gini:gini-pay-api-lib-android:${versions.payapi}"
 
     dokkaHtmlPlugin "org.jetbrains.dokka:kotlin-as-java-plugin:${versions.dokka}"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.mockk:mockk:1.10.3'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+    testImplementation 'app.cash.turbine:turbine:0.4.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
