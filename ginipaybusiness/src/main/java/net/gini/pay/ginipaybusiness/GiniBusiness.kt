@@ -13,7 +13,7 @@ import net.gini.pay.ginipaybusiness.review.model.wrapToResult
  * TODO
  */
 class GiniBusiness(
-    giniApi: Gini
+    val giniApi: Gini
 ) {
     private val documentManager = giniApi.documentManager
 

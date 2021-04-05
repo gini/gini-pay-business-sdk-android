@@ -20,6 +20,10 @@ android {
         buildConfigField 'String', 'VERSION_NAME', "\"$libVersionName\""
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         debug {
             testCoverageEnabled = true
@@ -44,6 +48,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
 
     api "net.gini:gini-pay-api-lib-android:${versions.payapi}"
+
+    implementation "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     dokkaHtmlPlugin "org.jetbrains.dokka:kotlin-as-java-plugin:${versions.dokka}"
 

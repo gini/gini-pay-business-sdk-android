@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.pager.adapter = PagerAdapter().apply {
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenStarted {
                 viewModel.pages.collect { pages ->
                     submitList(pages)
                 }

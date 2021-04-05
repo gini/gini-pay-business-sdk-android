@@ -14,7 +14,7 @@ import net.gini.pay.ginipaybusiness.GiniBusiness
 
 class ReviewViewModel(
     private val giniApi: Gini,
-    private val giniBusiness: GiniBusiness,
+    val giniBusiness: GiniBusiness,
 ) : ViewModel() {
 
     private val _uploadState: MutableStateFlow<ReviewState> = MutableStateFlow(ReviewState.Loading)
@@ -30,14 +30,16 @@ class ReviewViewModel(
                     giniApi.documentManager.createPartialDocument(stream.getBytes(), MediaTypes.IMAGE_JPEG)
                 }
                 val document = giniApi.documentManager.createCompositeDocument(documentPages)
-                _uploadState.value = ReviewState.Success(document.id)
+                val polledDocument = giniApi.documentManager.pollDocument(document)
+                _uploadState.value = ReviewState.Success(polledDocument.id)
+                setDocumentForReview(polledDocument.id)
             } catch (throwable: Throwable) {
                 _uploadState.value = ReviewState.Failure(throwable)
             }
         }
     }
 
-    fun setDocumentForReview(documentId: String) {
+    private fun setDocumentForReview(documentId: String) {
         viewModelScope.launch {
             giniBusiness.setDocumentForReview(documentId)
         }

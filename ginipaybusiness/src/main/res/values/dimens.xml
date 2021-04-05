@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gpb_indicator_radius">4dp</dimen>
+    <dimen name="gpb_tab_height">16dp</dimen>
+    <dimen name="gpb_tab_width">16dp</dimen>
+    <dimen name="gpb_payment_details_radius">12dp</dimen>
+    <dimen name="gpb_input_spacing">8dp</dimen>
+    <dimen name="gpb_payment_button_spacing">8dp</dimen>
+    <dimen name="gpb_input_iban_weight">.7</dimen>
+    <dimen name="gpb_input_amount_weight">.3</dimen>
+</resources>
