@@ -6,6 +6,7 @@
         <item name="hintEnabled">false</item>
         <item name="boxStrokeColor">@color/gpb_input_box_stroke_color</item>
         <item name="boxBackgroundColor">@color/gpb_input_box_background_color</item>
+        <item name="errorIconDrawable">@null</item>
     </style>
     <style name="GiniPay.PaymentInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:paddingTop">10dp</item>
