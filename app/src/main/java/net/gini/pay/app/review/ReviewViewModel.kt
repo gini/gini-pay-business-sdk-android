@@ -2,6 +2,7 @@ package net.gini.pay.app.review
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,9 @@ class ReviewViewModel(
                 val documentPages = pageUris.map { pageUri ->
                     val stream = contentResolver.openInputStream(pageUri)
                     check(stream != null) { "ContentResolver failed" }
-                    giniApi.documentManager.createPartialDocument(stream.getBytes(), MediaTypes.IMAGE_JPEG)
+                    giniApi.documentManager.createPartialDocument(
+                        stream.getBytes(),
+                        MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(pageUri)) ?: MediaTypes.IMAGE_JPEG)
                 }
                 val document = giniApi.documentManager.createCompositeDocument(documentPages)
                 val polledDocument = giniApi.documentManager.pollDocument(document)
