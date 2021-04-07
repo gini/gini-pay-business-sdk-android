@@ -4,16 +4,39 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import net.gini.pay.app.databinding.ActivityReviewBinding
+import net.gini.pay.app.review.ReviewViewModel.ReviewState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReviewActivity : AppCompatActivity() {
 
-    private val viewModel: ReviewViewModel by viewModels()
+    private val viewModel: ReviewViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.uploadDocuments(intent.pageUris)
+        val binding = ActivityReviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel.uploadDocuments(contentResolver, intent.pageUris)
+
+        lifecycleScope.launch {
+            viewModel.uploadState.collect { uploadState ->
+                if (uploadState is ReviewState.Success) {
+                     viewModel.setDocumentForReview(uploadState.documentId)
+                }
+                updateViews(binding, uploadState)
+            }
+        }
+    }
+
+    private fun updateViews(binding: ActivityReviewBinding, uploadState: ReviewState) {
+        binding.progress.isVisible = uploadState is ReviewState.Loading
+        binding.reviewFragment.isVisible = uploadState is ReviewState.Success
+        binding.errorMessage.isVisible = uploadState is ReviewState.Failure
     }
 
     companion object {
