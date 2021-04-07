@@ -18,6 +18,9 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
     private val _paymentDetails = MutableStateFlow(PaymentDetails("", "", "", ""))
     val paymentDetails: StateFlow<PaymentDetails> = _paymentDetails
 
+    private val _paymentValidation = MutableStateFlow<List<ValidationMessage>>(emptyList())
+    val paymentValidation: StateFlow<List<ValidationMessage>> = _paymentValidation
+
     init {
         viewModelScope.launch {
             giniBusiness.paymentFlow.collect { extractedPaymentDetails ->
@@ -53,6 +56,10 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
 
     fun setPurpose(purpose: String) {
         _paymentDetails.value = paymentDetails.value.copy(purpose = purpose)
+    }
+
+    fun validatePaymentDetails() {
+        _paymentValidation.value = paymentDetails.value.validate()
     }
 }
 

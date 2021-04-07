@@ -11,10 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.GiniBusiness
+import net.gini.pay.ginipaybusiness.R
 import net.gini.pay.ginipaybusiness.databinding.GpbFragmentReviewBinding
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
@@ -52,6 +54,7 @@ class ReviewFragment(
             setStateListeners()
             setInputListeners()
             payment.setOnClickListener {
+                viewModel.validatePaymentDetails()
                 Toast.makeText(requireContext(), viewModel.paymentDetails.value.toString(), Toast.LENGTH_LONG).show()
             }
         }
@@ -66,6 +69,9 @@ class ReviewFragment(
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.paymentDetails.collect { setPaymentDetails(it) }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.paymentValidation.collect { handleValidationResult(it) }
         }
     }
 
@@ -126,5 +132,41 @@ class ReviewFragment(
         iban.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setIban(text.toString()) })
         amount.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setAmount(text.toString()) })
         purpose.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setPurpose(text.toString()) })
+    }
+
+    private fun GpbFragmentReviewBinding.handleValidationResult(messages: List<ValidationMessage>) {
+        recipientLayout.error = ""
+        ibanLayout.error = ""
+        amountLayout.error = ""
+        purposeLayout.error = ""
+
+        TransitionManager.beginDelayedTransition(root)
+        messages.forEach { message ->
+            with(getField(message.field)) {
+                if (error.isNullOrEmpty()) {
+                    isErrorEnabled = true
+                    error = getString(
+                        when (message) {
+                            is ValidationMessage.Empty -> R.string.gpb_error_input_empty
+                            ValidationMessage.InvalidIban -> R.string.gpb_error_input_invalid_iban
+                            ValidationMessage.InvalidCurrency -> R.string.gpb_error_input_invalid_Currency
+                            ValidationMessage.NoCurrency -> R.string.gpb_error_input_no_currency
+                            ValidationMessage.AmountFormat -> R.string.gpb_error_input_amount_format
+                        }
+                    )
+                }
+            }
+        }
+        if (recipientLayout.error.isNullOrEmpty()) recipientLayout.isErrorEnabled = false
+        if (ibanLayout.error.isNullOrEmpty()) ibanLayout.isErrorEnabled = false
+        if (amountLayout.error.isNullOrEmpty()) amountLayout.isErrorEnabled = false
+        if (purposeLayout.error.isNullOrEmpty()) purposeLayout.isErrorEnabled = false
+    }
+
+    private fun GpbFragmentReviewBinding.getField(field: PaymentField) = when (field) {
+        PaymentField.Recipient -> recipientLayout
+        PaymentField.Iban -> ibanLayout
+        PaymentField.Amount -> amountLayout
+        PaymentField.Purpose -> purposeLayout
     }
 }
