@@ -81,7 +81,9 @@ class ReviewFragment(
                 // TODO
             }
             is ResultWrapper.Success -> {
-                documentPageAdapter.submitList(viewModel.getPages(documentResult.value))
+                documentPageAdapter.submitList(viewModel.getPages(documentResult.value).also { pages ->
+                    indicator.isVisible = pages.size != 1
+                })
             }
             is ResultWrapper.Error -> {
                 // TODO
