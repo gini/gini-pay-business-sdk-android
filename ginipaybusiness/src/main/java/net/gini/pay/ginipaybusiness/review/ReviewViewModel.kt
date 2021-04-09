@@ -91,9 +91,9 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
 
     fun onPayment() {
         viewModelScope.launch {
-            _openBank.value = PaymentState.Loading
             val valid = validatePaymentDetails()
             if (valid) {
+                _openBank.value = PaymentState.Loading
                 sendFeedback()
                 _openBank.value = try {
                     PaymentState.Success(getPaymentRequest())
