@@ -25,7 +25,7 @@
         <item name="android:background">@drawable/gpb_payment_details_background</item>
         <item name="android:padding">16dp</item>
     </style>
-    <style name="GiniPay.BankButtonStyle">
+    <style name="GiniPay.BankButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
