@@ -47,7 +47,7 @@ class GiniBusinessTest {
     @Test
     fun `When setting document for review then document and payment flow emit success`() = runBlockingTest {
         coEvery { documentManager.getExtractions(document) } returns extractions
-        val paymentDetails = PaymentDetails("recipient", "iban", "123.56", "purpose")
+        val paymentDetails = PaymentDetails("recipient", "iban", "123.56", "purpose", extractions)
 
         assert(giniBusiness.documentFlow.value is ResultWrapper.Loading<Document>) { "Expected Loading but was ${giniBusiness.documentFlow.value}" }
         assert(giniBusiness.paymentFlow.value is ResultWrapper.Loading<PaymentDetails>) { "Expected Loading but was ${giniBusiness.paymentFlow.value}" }
@@ -84,7 +84,7 @@ class GiniBusinessTest {
     fun `When setting document id for review without payment details then payment flow emits details`() = runBlockingTest {
         coEvery { documentManager.getExtractions(any()) } returns extractions
         coEvery { documentManager.getDocument(any<String>()) } returns document
-        val paymentDetails = PaymentDetails("recipient", "iban", "123.56", "purpose")
+        val paymentDetails = PaymentDetails("recipient", "iban", "123.56", "purpose", extractions)
 
         assert(giniBusiness.paymentFlow.value is ResultWrapper.Loading<PaymentDetails>) { "Expected Loading" }
         giniBusiness.setDocumentForReview("")
