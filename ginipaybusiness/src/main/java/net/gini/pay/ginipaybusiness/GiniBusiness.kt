@@ -1,9 +1,12 @@
 package net.gini.pay.ginipaybusiness
 
+import android.content.pm.PackageManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import net.gini.android.Gini
 import net.gini.android.models.Document
+import net.gini.pay.ginipaybusiness.requirement.Requirement
+import net.gini.pay.ginipaybusiness.requirement.internalCheckRequirements
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.toPaymentDetails
@@ -86,4 +89,10 @@ class GiniBusiness(
             }
         }
     }
+
+    /**
+     * Checks the required conditions needed to finish the payment flow to avoid unnecessary document upload.
+     * See [Requirement] for possible requirements.
+     */
+    fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
 }

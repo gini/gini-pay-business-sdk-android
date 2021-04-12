@@ -1,6 +1,7 @@
 package net.gini.pay.app
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
@@ -8,8 +9,12 @@ import java.io.File
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import net.gini.pay.app.pager.PagerAdapter
+import net.gini.pay.ginipaybusiness.GiniBusiness
+import net.gini.pay.ginipaybusiness.requirement.Requirement
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val giniBusiness: GiniBusiness,
+) : ViewModel() {
     private val _pages: MutableStateFlow<List<PagerAdapter.Page>> = MutableStateFlow(emptyList())
     val pages: StateFlow<List<PagerAdapter.Page>> = _pages
 
@@ -31,5 +36,9 @@ class MainViewModel : ViewModel() {
             _pages.value = _pages.value.toMutableList().apply { add(PagerAdapter.Page(currentIndex, uri)) }
         }
         ++currentIndex
+    }
+
+    fun checkRequirements(packageManager: PackageManager): List<Requirement> {
+        return giniBusiness.checkRequirements(packageManager)
     }
 }
