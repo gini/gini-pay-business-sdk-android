@@ -84,7 +84,8 @@
                 style="@style/GiniPay.PaymentInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/gpb_iban_hint" />
+                android:hint="@string/gpb_iban_hint"
+                android:nextFocusDown="@id/amount" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
