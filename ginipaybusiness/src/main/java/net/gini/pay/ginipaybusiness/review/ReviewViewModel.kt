@@ -14,6 +14,7 @@ import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.review.bank.BankApp
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
+import net.gini.pay.ginipaybusiness.review.model.withFeedback
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
 
 internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewModel() {
@@ -115,7 +116,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
                     is ResultWrapper.Success -> paymentDetails.value.extractions?.let { extractionsContainer ->
                         giniBusiness.giniApi.documentManager.sendFeedback(
                             documentResult.value,
-                            extractionsContainer.specificExtractions,
+                            extractionsContainer.specificExtractions.withFeedback(paymentDetails.value),
                             extractionsContainer.compoundExtractions
                         )
                     }

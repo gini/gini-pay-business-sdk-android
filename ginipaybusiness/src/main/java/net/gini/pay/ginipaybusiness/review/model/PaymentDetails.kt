@@ -1,6 +1,7 @@
 package net.gini.pay.ginipaybusiness.review.model
 
 import net.gini.android.models.ExtractionsContainer
+import net.gini.android.models.SpecificExtraction
 
 data class PaymentDetails(
     val recipient: String,
@@ -25,4 +26,45 @@ internal fun String.toAmount(): String {
     } else {
         this
     }
+}
+
+
+fun MutableMap<String, SpecificExtraction>.withFeedback(paymentDetails: PaymentDetails): Map<String, SpecificExtraction> {
+    this["paymentRecipient"] = this["paymentRecipient"].let { extraction ->
+        SpecificExtraction(
+            extraction?.name ?: "paymentRecipient",
+            paymentDetails.recipient,
+            extraction?.entity,
+            extraction?.box,
+            extraction?.candidate
+        )
+    }
+    this["iban"] = this["iban"].let { exrtaction ->
+        SpecificExtraction(
+            exrtaction?.name ?: "iban",
+            paymentDetails.iban,
+            exrtaction?.entity,
+            exrtaction?.box,
+            exrtaction?.candidate
+        )
+    }
+    this["amountToPay"] = this["amountToPay"].let { exrtaction ->
+        SpecificExtraction(
+            exrtaction?.name ?: "amountToPay",
+            paymentDetails.amount,
+            exrtaction?.entity,
+            exrtaction?.box,
+            exrtaction?.candidate
+        )
+    }
+    this["paymentPurpose"] = this["paymentPurpose"].let { exrtaction ->
+        SpecificExtraction(
+            exrtaction?.name ?: "paymentPurpose",
+            paymentDetails.purpose,
+            exrtaction?.entity,
+            exrtaction?.box,
+            exrtaction?.candidate
+        )
+    }
+    return this
 }
