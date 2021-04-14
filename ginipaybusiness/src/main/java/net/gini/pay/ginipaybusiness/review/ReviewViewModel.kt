@@ -82,7 +82,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
                 paymentProvider = getPaymentProviderForPackage(selectedBank!!.packageName)!!.id,
                 recipient = paymentDetails.value.recipient,
                 iban = paymentDetails.value.iban,
-                amount = paymentDetails.value.amount,
+                amount = "${paymentDetails.value.amount}:EUR",
                 bic = null,
                 purpose = paymentDetails.value.purpose,
             )

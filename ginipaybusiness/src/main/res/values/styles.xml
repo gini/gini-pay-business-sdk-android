@@ -14,6 +14,9 @@
         <item name="paddingStart">12dp</item>
         <item name="paddingEnd">12dp</item>
     </style>
+    <style name="GiniPay.CurrencyStyle">
+        <item name="android:layout_marginEnd">12dp</item>
+    </style>
     <style name="GiniPay.DocumentPagerStyle"/>
     <style name="GiniPay.DocumentListStyle"/>
     <style name="GiniPay.PageIndicatorStyle">
