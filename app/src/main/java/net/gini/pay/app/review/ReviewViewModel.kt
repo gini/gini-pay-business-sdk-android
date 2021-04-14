@@ -2,6 +2,7 @@ package net.gini.pay.app.review
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,7 @@ import net.gini.pay.ginipaybusiness.GiniBusiness
 
 class ReviewViewModel(
     private val giniApi: Gini,
-    private val giniBusiness: GiniBusiness,
+    val giniBusiness: GiniBusiness,
 ) : ViewModel() {
 
     private val _uploadState: MutableStateFlow<ReviewState> = MutableStateFlow(ReviewState.Loading)
@@ -27,17 +28,21 @@ class ReviewViewModel(
                 val documentPages = pageUris.map { pageUri ->
                     val stream = contentResolver.openInputStream(pageUri)
                     check(stream != null) { "ContentResolver failed" }
-                    giniApi.documentManager.createPartialDocument(stream.getBytes(), MediaTypes.IMAGE_JPEG)
+                    giniApi.documentManager.createPartialDocument(
+                        stream.getBytes(),
+                        MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(pageUri)) ?: MediaTypes.IMAGE_JPEG)
                 }
                 val document = giniApi.documentManager.createCompositeDocument(documentPages)
-                _uploadState.value = ReviewState.Success(document.id)
+                val polledDocument = giniApi.documentManager.pollDocument(document)
+                _uploadState.value = ReviewState.Success(polledDocument.id)
+                setDocumentForReview(polledDocument.id)
             } catch (throwable: Throwable) {
                 _uploadState.value = ReviewState.Failure(throwable)
             }
         }
     }
 
-    fun setDocumentForReview(documentId: String) {
+    private fun setDocumentForReview(documentId: String) {
         viewModelScope.launch {
             giniBusiness.setDocumentForReview(documentId)
         }

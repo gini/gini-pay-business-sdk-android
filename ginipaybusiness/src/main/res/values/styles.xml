@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GiniPay"/>
+    <style name="GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/gpb_input_box_stroke_color</item>
+        <item name="boxBackgroundColor">@color/gpb_input_box_background_color</item>
+        <item name="errorIconDrawable">@null</item>
+    </style>
+    <style name="GiniPay.PaymentInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="paddingStart">12dp</item>
+        <item name="paddingEnd">12dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="GiniPay.DocumentPagerStyle"/>
+    <style name="GiniPay.DocumentListStyle"/>
+    <style name="GiniPay.PageIndicatorStyle">
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+    <style name="GiniPay.PaymentDetailsCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/gpb_payment_details_background</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    <style name="GiniPay.BankButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="GiniPay.PaymentButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/gpb_payment_button_spacing</item>
+    </style>
+</resources>
