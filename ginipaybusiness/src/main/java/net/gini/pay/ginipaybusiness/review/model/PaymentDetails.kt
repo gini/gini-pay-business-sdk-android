@@ -39,31 +39,31 @@ fun MutableMap<String, SpecificExtraction>.withFeedback(paymentDetails: PaymentD
             extraction?.candidate
         )
     }
-    this["iban"] = this["iban"].let { exrtaction ->
+    this["iban"] = this["iban"].let { extraction ->
         SpecificExtraction(
-            exrtaction?.name ?: "iban",
+            extraction?.name ?: "iban",
             paymentDetails.iban,
-            exrtaction?.entity,
-            exrtaction?.box,
-            exrtaction?.candidate
+            extraction?.entity,
+            extraction?.box,
+            extraction?.candidate
         )
     }
-    this["amountToPay"] = this["amountToPay"].let { exrtaction ->
+    this["amountToPay"] = this["amountToPay"].let { extraction ->
         SpecificExtraction(
-            exrtaction?.name ?: "amountToPay",
+            extraction?.name ?: "amountToPay",
             paymentDetails.amount,
-            exrtaction?.entity,
-            exrtaction?.box,
-            exrtaction?.candidate
+            extraction?.entity,
+            extraction?.box,
+            extraction?.candidate
         )
     }
-    this["paymentPurpose"] = this["paymentPurpose"].let { exrtaction ->
+    this["paymentPurpose"] = this["paymentPurpose"].let { extraction ->
         SpecificExtraction(
-            exrtaction?.name ?: "paymentPurpose",
+            extraction?.name ?: "paymentPurpose",
             paymentDetails.purpose,
-            exrtaction?.entity,
-            exrtaction?.box,
-            exrtaction?.candidate
+            extraction?.entity,
+            extraction?.box,
+            extraction?.candidate
         )
     }
     return this
