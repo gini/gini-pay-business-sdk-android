@@ -2,4 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.gini.pay.ginipaybusiness">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="gini"/>
+        </intent>
+    </queries>
+
 </manifest>

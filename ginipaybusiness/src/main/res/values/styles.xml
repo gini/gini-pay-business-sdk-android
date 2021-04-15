@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="GiniPay"/>
     <style name="GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
@@ -26,7 +26,8 @@
         <item name="android:background">@drawable/gpb_payment_details_background</item>
         <item name="android:padding">16dp</item>
     </style>
-    <style name="GiniPay.BankButtonStyle">
+    <style name="GiniPay.BankButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:drawableLeft">@drawable/ic_bank</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -34,5 +35,9 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/gpb_payment_button_spacing</item>
+    </style>
+    <style name="GiniPay.PaymentButtonProgressStyle">
+        <item name="android:padding">8dp</item>
+        <item name="android:translationZ" tools:targetApi="lollipop">100dp</item>
     </style>
 </resources>

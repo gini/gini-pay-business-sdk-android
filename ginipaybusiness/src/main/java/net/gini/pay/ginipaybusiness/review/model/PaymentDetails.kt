@@ -7,6 +7,7 @@ data class PaymentDetails(
     val iban: String,
     val amount: String,
     val purpose: String,
+    internal val extractions: ExtractionsContainer? = null
 )
 
 internal fun ExtractionsContainer.toPaymentDetails() = PaymentDetails(
@@ -14,4 +15,5 @@ internal fun ExtractionsContainer.toPaymentDetails() = PaymentDetails(
     iban = specificExtractions["iban"]?.value ?: "",
     amount = specificExtractions["amountToPay"]?.value ?: "",
     purpose = specificExtractions["paymentPurpose"]?.value ?: "",
+    extractions = this
 )

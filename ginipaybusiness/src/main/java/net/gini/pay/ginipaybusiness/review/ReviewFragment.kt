@@ -1,10 +1,10 @@
 package net.gini.pay.ginipaybusiness.review
 
+import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -18,6 +18,7 @@ import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.R
 import net.gini.pay.ginipaybusiness.databinding.GpbFragmentReviewBinding
+import net.gini.pay.ginipaybusiness.review.bank.getBanks
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
@@ -51,12 +52,21 @@ class ReviewFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            setBank()
             setStateListeners()
             setInputListeners()
-            payment.setOnClickListener {
-                viewModel.validatePaymentDetails()
-                Toast.makeText(requireContext(), viewModel.paymentDetails.value.toString(), Toast.LENGTH_LONG).show()
+            setActionListeners()
+        }
+    }
+
+    private fun GpbFragmentReviewBinding.setBank() {
+        requireActivity().packageManager.getBanks().firstOrNull()?.let { bankInfo ->
+            viewModel.selectedBank = bankInfo
+            val icon = bankInfo.getIconDrawable(requireActivity().packageManager).apply {
+                resources.getDimension(R.dimen.gpb_bank_icon_size).toInt().let { this.setBounds(0, 0, it, it) }
             }
+            bank.setCompoundDrawables(icon, null, null, null)
+            bank.text = bankInfo.name
         }
     }
 
@@ -72,6 +82,9 @@ class ReviewFragment(
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.paymentValidation.collect { handleValidationResult(it) }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.openBank.collect { handlePaymentState(it) }
         }
     }
 
@@ -170,5 +183,38 @@ class ReviewFragment(
         PaymentField.Iban -> ibanLayout
         PaymentField.Amount -> amountLayout
         PaymentField.Purpose -> purposeLayout
+    }
+
+    private fun GpbFragmentReviewBinding.handlePaymentState(paymentState: ReviewViewModel.PaymentState) {
+        (paymentState is ReviewViewModel.PaymentState.Loading).let { isLoading ->
+            paymentProgress.isVisible = isLoading
+            recipientLayout.isEnabled = !isLoading
+            ibanLayout.isEnabled = !isLoading
+            amountLayout.isEnabled = !isLoading
+            purposeLayout.isEnabled = !isLoading
+            bank.isEnabled = !isLoading
+            payment.isEnabled = !isLoading
+            payment.text = if (isLoading) "" else getString(R.string.gpb_pay_button)
+        }
+        when (paymentState) {
+            is ReviewViewModel.PaymentState.Error -> { // TODO
+            }
+            is ReviewViewModel.PaymentState.Success -> {
+                try {
+                    startActivity(viewModel.selectedBank?.getIntent(paymentState.requestId))
+                    viewModel.onBankOpened()
+                } catch (exception: ActivityNotFoundException) {
+                    // TODO
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun GpbFragmentReviewBinding.setActionListeners() {
+        payment.setOnClickListener {
+            viewModel.onPayment()
+        }
     }
 }

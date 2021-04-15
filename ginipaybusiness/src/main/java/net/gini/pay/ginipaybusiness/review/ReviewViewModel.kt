@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import net.gini.android.models.Document
+import net.gini.android.models.PaymentProvider
+import net.gini.android.models.PaymentRequestInput
 import net.gini.pay.ginipaybusiness.GiniBusiness
+import net.gini.pay.ginipaybusiness.review.bank.BankApp
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
@@ -20,6 +23,11 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
 
     private val _paymentValidation = MutableStateFlow<List<ValidationMessage>>(emptyList())
     val paymentValidation: StateFlow<List<ValidationMessage>> = _paymentValidation
+
+    private val _openBank = MutableStateFlow<PaymentState>(PaymentState.NoAction)
+    val openBank: StateFlow<PaymentState> = _openBank
+
+    var selectedBank: BankApp? = null
 
     init {
         viewModelScope.launch {
@@ -58,8 +66,71 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         _paymentDetails.value = paymentDetails.value.copy(purpose = purpose)
     }
 
-    fun validatePaymentDetails() {
-        _paymentValidation.value = paymentDetails.value.validate()
+    fun validatePaymentDetails(): Boolean {
+        val items = paymentDetails.value.validate()
+        _paymentValidation.value = items
+        return items.isEmpty()
+    }
+
+    private suspend fun getPaymentProviderForPackage(packageName: String): PaymentProvider {
+        return giniBusiness.giniApi.documentManager.getPaymentProviders()[0] // TODO find by package name
+    }
+
+    private suspend fun getPaymentRequest(): String {
+        return giniBusiness.giniApi.documentManager.createPaymentRequest(
+            PaymentRequestInput(
+                paymentProvider = getPaymentProviderForPackage(selectedBank!!.packageName).id,
+                recipient = paymentDetails.value.recipient,
+                iban = paymentDetails.value.iban,
+                amount = paymentDetails.value.amount,
+                bic = "CMCIDEDDXXX", // TODO remove BIC
+                purpose = paymentDetails.value.purpose,
+            )
+        )
+    }
+
+    fun onPayment() {
+        viewModelScope.launch {
+            val valid = validatePaymentDetails()
+            if (valid) {
+                _openBank.value = PaymentState.Loading
+                sendFeedback()
+                _openBank.value = try {
+                    PaymentState.Success(getPaymentRequest())
+                } catch (throwable: Throwable) {
+                    PaymentState.Error(throwable)
+                }
+            }
+        }
+    }
+
+    fun onBankOpened() {
+        _openBank.value = PaymentState.NoAction
+    }
+
+    private fun sendFeedback() {
+        viewModelScope.launch {
+            try {
+                when (val documentResult = giniBusiness.documentFlow.value) {
+                    is ResultWrapper.Success -> paymentDetails.value.extractions?.let { extractionsContainer ->
+                        giniBusiness.giniApi.documentManager.sendFeedback(
+                            documentResult.value,
+                            extractionsContainer.specificExtractions,
+                            extractionsContainer.compoundExtractions
+                        )
+                    }
+                }
+            } catch (ignored: Throwable) {
+                // Ignored since we don't want to interrupt the flow because of feedback failure
+            }
+        }
+    }
+
+    sealed class PaymentState {
+        object NoAction : PaymentState()
+        object Loading : PaymentState()
+        class Success(val requestId: String) : PaymentState()
+        class Error(val throwable: Throwable) : PaymentState()
     }
 }
 

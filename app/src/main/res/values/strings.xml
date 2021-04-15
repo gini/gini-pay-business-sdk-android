@@ -4,4 +4,5 @@
     <string name="import_file">Import</string>
     <string name="payment">Payment</string>
     <string name="upload_failed">Upload failed</string>
+    <string name="no_bank">No bank app installed</string>
 </resources>
