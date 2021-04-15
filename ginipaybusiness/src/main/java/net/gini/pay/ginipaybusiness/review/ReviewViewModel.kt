@@ -72,18 +72,18 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         return items.isEmpty()
     }
 
-    private suspend fun getPaymentProviderForPackage(packageName: String): PaymentProvider {
-        return giniBusiness.giniApi.documentManager.getPaymentProviders()[0] // TODO find by package name
+    private suspend fun getPaymentProviderForPackage(packageName: String): PaymentProvider? {
+        return giniBusiness.giniApi.documentManager.getPaymentProviders().find { it.packageName == packageName }
     }
 
     private suspend fun getPaymentRequest(): String {
         return giniBusiness.giniApi.documentManager.createPaymentRequest(
             PaymentRequestInput(
-                paymentProvider = getPaymentProviderForPackage(selectedBank!!.packageName).id,
+                paymentProvider = getPaymentProviderForPackage(selectedBank!!.packageName)!!.id,
                 recipient = paymentDetails.value.recipient,
                 iban = paymentDetails.value.iban,
                 amount = paymentDetails.value.amount,
-                bic = "CMCIDEDDXXX", // TODO remove BIC
+                bic = null,
                 purpose = paymentDetails.value.purpose,
             )
         )
