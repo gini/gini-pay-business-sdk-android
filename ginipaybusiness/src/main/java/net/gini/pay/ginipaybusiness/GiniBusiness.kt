@@ -20,7 +20,7 @@ class GiniBusiness(
 ) {
     private val documentManager = giniApi.documentManager
 
-    private var documentId: String? = null
+    private var capturedArguments: CapturedArguments? = null
 
     private val _documentFlow = MutableStateFlow<ResultWrapper<Document>>(ResultWrapper.Loading())
 
@@ -54,7 +54,7 @@ class GiniBusiness(
      * @param document document received from Gini API.
      */
     suspend fun setDocumentForReview(document: Document) {
-        documentId = document.id
+        capturedArguments = CapturedArguments.DocumentInstance(document)
         _documentFlow.value = ResultWrapper.Success(document)
         _paymentFlow.value = ResultWrapper.Loading()
 
@@ -70,7 +70,7 @@ class GiniBusiness(
      * @param paymentDetails optional [PaymentDetails] for the document corresponding to [documentId]
      */
     suspend fun setDocumentForReview(documentId: String, paymentDetails: PaymentDetails? = null) {
-        this.documentId = documentId
+        capturedArguments = CapturedArguments.DocumentId(documentId, paymentDetails)
         _paymentFlow.value = ResultWrapper.Loading()
         _documentFlow.value = ResultWrapper.Loading()
         _documentFlow.value = wrapToResult {
@@ -95,4 +95,18 @@ class GiniBusiness(
      * See [Requirement] for possible requirements.
      */
     fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
+
+    internal suspend fun retryDocumentReview() {
+        when (val arguments = capturedArguments) {
+            is CapturedArguments.DocumentId -> setDocumentForReview(arguments.id, arguments.paymentDetails)
+            is CapturedArguments.DocumentInstance -> setDocumentForReview(arguments.value)
+            null -> { // Nothing
+            }
+        }
+    }
+
+    private sealed class CapturedArguments {
+        class DocumentInstance(val value: Document): CapturedArguments()
+        class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null): CapturedArguments()
+    }
 }

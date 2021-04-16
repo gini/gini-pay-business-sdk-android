@@ -12,6 +12,8 @@ import net.gini.android.models.PaymentProvider
 import net.gini.android.models.PaymentRequestInput
 import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.review.bank.BankApp
+import net.gini.pay.ginipaybusiness.review.error.NoBankSelected
+import net.gini.pay.ginipaybusiness.review.error.NoProviderForPackageName
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.withFeedback
@@ -46,11 +48,6 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         }
     }
 
-
-    fun setPaymentDetails(value: PaymentDetails) {
-        _paymentDetails.value = value
-    }
-
     fun setRecipient(recipient: String) {
         _paymentDetails.value = paymentDetails.value.copy(recipient = recipient)
     }
@@ -73,14 +70,16 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         return items.isEmpty()
     }
 
-    private suspend fun getPaymentProviderForPackage(packageName: String): PaymentProvider? {
+    private suspend fun getPaymentProviderForPackage(packageName: String): PaymentProvider {
         return giniBusiness.giniApi.documentManager.getPaymentProviders().find { it.packageName == packageName }
+            ?: throw NoProviderForPackageName(packageName)
     }
 
     private suspend fun getPaymentRequest(): String {
+        val bank = selectedBank ?: throw NoBankSelected()
         return giniBusiness.giniApi.documentManager.createPaymentRequest(
             PaymentRequestInput(
-                paymentProvider = getPaymentProviderForPackage(selectedBank!!.packageName)!!.id,
+                paymentProvider = getPaymentProviderForPackage(bank.packageName).id,
                 recipient = paymentDetails.value.recipient,
                 iban = paymentDetails.value.iban,
                 amount = "${paymentDetails.value.amount}:EUR",
@@ -99,6 +98,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
                 _openBank.value = try {
                     PaymentState.Success(getPaymentRequest())
                 } catch (throwable: Throwable) {
+                    // TODO expose error
                     PaymentState.Error(throwable)
                 }
             }
@@ -124,6 +124,12 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
             } catch (ignored: Throwable) {
                 // Ignored since we don't want to interrupt the flow because of feedback failure
             }
+        }
+    }
+
+    fun retryDocumentReview() {
+        viewModelScope.launch {
+            giniBusiness.retryDocumentReview()
         }
     }
 
