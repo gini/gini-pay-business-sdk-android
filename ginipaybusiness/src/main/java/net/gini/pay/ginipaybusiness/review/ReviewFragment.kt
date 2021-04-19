@@ -190,7 +190,7 @@ class ReviewFragment(
         when (paymentState) {
             is GiniBusiness.PaymentState.Success -> {
                 try {
-                    startActivity(viewModel.selectedBank?.getIntent(paymentState.requestId))
+                    startActivity(viewModel.selectedBank?.getIntent(paymentState.paymentRequest.id))
                     viewModel.onBankOpened()
                 } catch (exception: ActivityNotFoundException) {
                     handleError(getString(R.string.gpb_error_bank_not_found)) { viewModel.onPayment() }

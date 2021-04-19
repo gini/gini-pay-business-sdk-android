@@ -7,8 +7,8 @@ import net.gini.android.Gini
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.requirement.Requirement
 import net.gini.pay.ginipaybusiness.requirement.internalCheckRequirements
-import net.gini.pay.ginipaybusiness.review.bank.BankApp
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
+import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.toPaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.wrapToResult
@@ -125,7 +125,7 @@ class GiniBusiness(
     sealed class PaymentState {
         object NoAction : PaymentState()
         object Loading : PaymentState()
-        class Success(val bank: BankApp, val requestId: String) : PaymentState()
+        class Success(val paymentRequest: PaymentRequest) : PaymentState()
         class Error(val throwable: Throwable) : PaymentState()
     }
 }

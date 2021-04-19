@@ -15,6 +15,7 @@ import net.gini.pay.ginipaybusiness.review.bank.BankApp
 import net.gini.pay.ginipaybusiness.review.error.NoBankSelected
 import net.gini.pay.ginipaybusiness.review.error.NoProviderForPackageName
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
+import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.withFeedback
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
@@ -72,16 +73,19 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
             ?: throw NoProviderForPackageName(packageName)
     }
 
-    private suspend fun getPaymentRequest(bank: BankApp): String {
-        return giniBusiness.giniApi.documentManager.createPaymentRequest(
-            PaymentRequestInput(
-                paymentProvider = getPaymentProviderForPackage(bank.packageName).id,
-                recipient = paymentDetails.value.recipient,
-                iban = paymentDetails.value.iban,
-                amount = "${paymentDetails.value.amount}:EUR",
-                bic = null,
-                purpose = paymentDetails.value.purpose,
-            )
+    private suspend fun getPaymentRequest(bank: BankApp): PaymentRequest {
+        return PaymentRequest(
+            id = giniBusiness.giniApi.documentManager.createPaymentRequest(
+                PaymentRequestInput(
+                    paymentProvider = getPaymentProviderForPackage(bank.packageName).id,
+                    recipient = paymentDetails.value.recipient,
+                    iban = paymentDetails.value.iban,
+                    amount = "${paymentDetails.value.amount}:EUR",
+                    bic = null,
+                    purpose = paymentDetails.value.purpose,
+                )
+            ),
+            bankApp = bank
         )
     }
 
@@ -93,7 +97,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
                 sendFeedback()
                 giniBusiness.setOpenBankState(try {
                     selectedBank?.let { bankApp ->
-                        GiniBusiness.PaymentState.Success(bankApp, getPaymentRequest(bankApp)) // TODO bank app has to be associated with request id
+                        GiniBusiness.PaymentState.Success(getPaymentRequest(bankApp))
                     } ?: GiniBusiness.PaymentState.Error(NoBankSelected())
                 } catch (throwable: Throwable) {
                     GiniBusiness.PaymentState.Error(throwable)
