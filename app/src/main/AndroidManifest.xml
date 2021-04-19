@@ -20,6 +20,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".upload.UploadActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".review.ReviewActivity"
             android:screenOrientation="portrait" />
 

@@ -5,15 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
 import net.gini.pay.app.R
 import net.gini.pay.app.databinding.ActivityReviewBinding
-import net.gini.pay.app.review.ReviewViewModel.ReviewState
 import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.review.ReviewFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,27 +23,12 @@ class ReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (savedInstanceState == null) {
-            viewModel.uploadDocuments(contentResolver, intent.pageUris)
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.uploadState.collect { uploadState ->
-                updateViews(binding, uploadState)
-            }
-        }
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 replace(R.id.review_fragment, ReviewFragment::class.java, null)
             }
         }
-    }
-
-    private fun updateViews(binding: ActivityReviewBinding, uploadState: ReviewState) {
-        binding.progress.isVisible = uploadState is ReviewState.Loading
-        binding.reviewFragment.isVisible = uploadState is ReviewState.Success
-        binding.errorMessage.isVisible = uploadState is ReviewState.Failure
     }
 
     companion object {

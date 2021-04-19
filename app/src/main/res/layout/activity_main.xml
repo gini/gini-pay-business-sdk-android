@@ -42,14 +42,14 @@
         android:layout_height="wrap_content"
         android:text="@string/take_photo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/payment"
+        app:layout_constraintEnd_toStartOf="@id/upload"
         app:layout_constraintStart_toEndOf="@id/import_file" />
 
     <Button
-        android:id="@+id/payment"
+        android:id="@+id/upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/payment"
+        android:text="@string/upload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/take_photo" />
