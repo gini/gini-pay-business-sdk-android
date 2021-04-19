@@ -7,6 +7,7 @@ import net.gini.android.Gini
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.requirement.Requirement
 import net.gini.pay.ginipaybusiness.requirement.internalCheckRequirements
+import net.gini.pay.ginipaybusiness.review.bank.BankApp
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.toPaymentDetails
@@ -47,6 +48,13 @@ class GiniBusiness(
      * It never completes.
      */
     val paymentFlow: StateFlow<ResultWrapper<PaymentDetails>> = _paymentFlow
+
+    private val _openBankState = MutableStateFlow<PaymentState>(PaymentState.NoAction)
+
+    /**
+     * A flow that exposes the state of opening the bank. You can collect this flow to get information about the errors of this action.
+     */
+    val openBankState: StateFlow<PaymentState> = _openBankState
 
     /**
      * Sets a [Document] for review. Results can be collected from [documentFlow] and [paymentFlow].
@@ -96,6 +104,10 @@ class GiniBusiness(
      */
     fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
 
+    internal fun setOpenBankState(state: PaymentState) {
+        _openBankState.value = state
+    }
+
     internal suspend fun retryDocumentReview() {
         when (val arguments = capturedArguments) {
             is CapturedArguments.DocumentId -> setDocumentForReview(arguments.id, arguments.paymentDetails)
@@ -108,5 +120,12 @@ class GiniBusiness(
     private sealed class CapturedArguments {
         class DocumentInstance(val value: Document): CapturedArguments()
         class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null): CapturedArguments()
+    }
+
+    sealed class PaymentState {
+        object NoAction : PaymentState()
+        object Loading : PaymentState()
+        class Success(val bank: BankApp, val requestId: String) : PaymentState()
+        class Error(val throwable: Throwable) : PaymentState()
     }
 }

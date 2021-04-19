@@ -86,7 +86,7 @@ class ReviewFragment(
             viewModel.paymentValidation.collect { handleValidationResult(it) }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.openBank.collect { handlePaymentState(it) }
+            viewModel.giniBusiness.openBankState.collect { handlePaymentState(it) }
         }
     }
 
@@ -176,8 +176,8 @@ class ReviewFragment(
         PaymentField.Purpose -> purposeLayout
     }
 
-    private fun GpbFragmentReviewBinding.handlePaymentState(paymentState: ReviewViewModel.PaymentState) {
-        (paymentState is ReviewViewModel.PaymentState.Loading).let { isLoading ->
+    private fun GpbFragmentReviewBinding.handlePaymentState(paymentState: GiniBusiness.PaymentState) {
+        (paymentState is GiniBusiness.PaymentState.Loading).let { isLoading ->
             paymentProgress.isVisible = isLoading
             recipientLayout.isEnabled = !isLoading
             ibanLayout.isEnabled = !isLoading
@@ -188,7 +188,7 @@ class ReviewFragment(
             payment.text = if (isLoading) "" else getString(R.string.gpb_pay_button)
         }
         when (paymentState) {
-            is ReviewViewModel.PaymentState.Success -> {
+            is GiniBusiness.PaymentState.Success -> {
                 try {
                     startActivity(viewModel.selectedBank?.getIntent(paymentState.requestId))
                     viewModel.onBankOpened()
@@ -196,7 +196,7 @@ class ReviewFragment(
                     handleError(getString(R.string.gpb_error_bank_not_found)) { viewModel.onPayment() }
                 }
             }
-            is ReviewViewModel.PaymentState.Error -> handleError(getString(R.string.gpb_error_open_bank)) { viewModel.onPayment() }
+            is GiniBusiness.PaymentState.Error -> handleError(getString(R.string.gpb_error_open_bank)) { viewModel.onPayment() }
             else -> { // Loading is already handled
             }
         }

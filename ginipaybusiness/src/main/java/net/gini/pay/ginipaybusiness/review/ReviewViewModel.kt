@@ -27,9 +27,6 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
     private val _paymentValidation = MutableStateFlow<List<ValidationMessage>>(emptyList())
     val paymentValidation: StateFlow<List<ValidationMessage>> = _paymentValidation
 
-    private val _openBank = MutableStateFlow<PaymentState>(PaymentState.NoAction)
-    val openBank: StateFlow<PaymentState> = _openBank
-
     var selectedBank: BankApp? = null
 
     init {
@@ -64,7 +61,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         _paymentDetails.value = paymentDetails.value.copy(purpose = purpose)
     }
 
-    fun validatePaymentDetails(): Boolean {
+    private fun validatePaymentDetails(): Boolean {
         val items = paymentDetails.value.validate()
         _paymentValidation.value = items
         return items.isEmpty()
@@ -75,8 +72,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
             ?: throw NoProviderForPackageName(packageName)
     }
 
-    private suspend fun getPaymentRequest(): String {
-        val bank = selectedBank ?: throw NoBankSelected()
+    private suspend fun getPaymentRequest(bank: BankApp): String {
         return giniBusiness.giniApi.documentManager.createPaymentRequest(
             PaymentRequestInput(
                 paymentProvider = getPaymentProviderForPackage(bank.packageName).id,
@@ -93,20 +89,21 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         viewModelScope.launch {
             val valid = validatePaymentDetails()
             if (valid) {
-                _openBank.value = PaymentState.Loading
+                giniBusiness.setOpenBankState(GiniBusiness.PaymentState.Loading)
                 sendFeedback()
-                _openBank.value = try {
-                    PaymentState.Success(getPaymentRequest())
+                giniBusiness.setOpenBankState(try {
+                    selectedBank?.let { bankApp ->
+                        GiniBusiness.PaymentState.Success(bankApp, getPaymentRequest(bankApp)) // TODO bank app has to be associated with request id
+                    } ?: GiniBusiness.PaymentState.Error(NoBankSelected())
                 } catch (throwable: Throwable) {
-                    // TODO expose error
-                    PaymentState.Error(throwable)
-                }
+                    GiniBusiness.PaymentState.Error(throwable)
+                })
             }
         }
     }
 
     fun onBankOpened() {
-        _openBank.value = PaymentState.NoAction
+        giniBusiness.setOpenBankState(GiniBusiness.PaymentState.NoAction)
     }
 
     private fun sendFeedback() {
@@ -131,13 +128,6 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         viewModelScope.launch {
             giniBusiness.retryDocumentReview()
         }
-    }
-
-    sealed class PaymentState {
-        object NoAction : PaymentState()
-        object Loading : PaymentState()
-        class Success(val requestId: String) : PaymentState()
-        class Error(val throwable: Throwable) : PaymentState()
     }
 }
 
