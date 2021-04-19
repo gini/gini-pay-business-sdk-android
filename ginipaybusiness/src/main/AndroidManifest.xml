@@ -5,7 +5,8 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW"/>
-            <data android:scheme="gini"/>
+            <!-- It has to match the scheme in Bank.kt -->
+            <data android:scheme="ginipay"/>
         </intent>
     </queries>
 

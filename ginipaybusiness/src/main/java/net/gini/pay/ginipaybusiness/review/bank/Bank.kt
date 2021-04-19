@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo
 import android.graphics.drawable.Drawable
 import android.net.Uri
 
-internal const val Scheme = "gini"
+internal const val Scheme = "ginipay" // It has to match the scheme in query tag in manifest
 internal const val QueryUri = "$Scheme://id"
 internal fun getBankUri(requestId: String) = "$Scheme://$requestId"
 
