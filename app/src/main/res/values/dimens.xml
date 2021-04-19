@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="indicator_size">4dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+
 </resources>

@@ -7,4 +7,5 @@
     <string name="upload_succeeded">Upload succeeded</string>
     <string name="no_bank">No bank app installed</string>
     <string name="upload">Upload</string>
+    <string name="invoice">Invoice</string>
 </resources>

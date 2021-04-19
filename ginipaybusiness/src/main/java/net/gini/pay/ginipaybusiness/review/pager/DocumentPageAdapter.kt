@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
@@ -70,7 +71,15 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
         override val loadingView: ProgressBar = binding.loading,
         override val imageView: ImageView = binding.image,
         override val errorView: TextView = binding.error,
-    ) : PageViewHolder(giniBusiness, binding.root)
+    ) : PageViewHolder(giniBusiness, binding.root) {
+        init {
+            imageView.applyInsetter {
+                type(statusBars = true) {
+                    padding(top = true)
+                }
+            }
+        }
+    }
 
     class VerticalViewHolder(
         giniBusiness: GiniBusiness,
@@ -78,7 +87,15 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
         override val loadingView: ProgressBar = binding.loading,
         override val imageView: ImageView = binding.image,
         override val errorView: TextView = binding.error,
-    ) : PageViewHolder(giniBusiness, binding.root)
+    ) : PageViewHolder(giniBusiness, binding.root) {
+        init {
+            imageView.applyInsetter {
+                type(statusBars = true) {
+                    padding(top = true)
+                }
+            }
+        }
+    }
 
     override fun onViewRecycled(holder: PageViewHolder) {
         holder.cancel()

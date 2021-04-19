@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black30">#30000000</color>
+    <color name="black80">#CC000000</color>
     <color name="selected_dot">#90000000</color>
 </resources>

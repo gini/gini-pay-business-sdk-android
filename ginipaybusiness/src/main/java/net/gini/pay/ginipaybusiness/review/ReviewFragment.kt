@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.collect
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.GiniBusiness
@@ -47,6 +48,7 @@ class ReviewFragment(
         documentPageAdapter = DocumentPageAdapter(giniBusiness, configuration)
         binding = GpbFragmentReviewBinding.inflate(inflater).apply {
             configureOrientation()
+            applyInsets()
         }
         return binding.root
     }
@@ -218,6 +220,14 @@ class ReviewFragment(
     private fun GpbFragmentReviewBinding.setActionListeners() {
         payment.setOnClickListener {
             viewModel.onPayment()
+        }
+    }
+
+    private fun GpbFragmentReviewBinding.applyInsets() {
+        paymentDetails.applyInsetter {
+            type(navigationBars = true, ime = true) {
+                padding(bottom = true)
+            }
         }
     }
 }

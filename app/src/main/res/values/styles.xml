@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GiniPay.PagePhotoStyle">
+        <item name="android:paddingTop">@dimen/toolbar_height</item>
+    </style>
+</resources>
