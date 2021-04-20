@@ -36,7 +36,7 @@
 
     <style name="Root.GiniPay.CurrencyStyle">
         <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="GiniPay.CurrencyStyle" parent="Root.GiniPay.CurrencyStyle" />

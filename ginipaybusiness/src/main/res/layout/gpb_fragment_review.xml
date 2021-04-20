@@ -113,13 +113,18 @@
             android:id="@+id/currency"
             style="@style/GiniPay.CurrencyStyle"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:text="€"
-            app:layout_constraintBottom_toBottomOf="@id/amount_layout"
             app:layout_constraintEnd_toEndOf="@id/amount_layout"
             app:layout_constraintTop_toTopOf="@id/amount_layout"
             tools:ignore="HardcodedText" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/iban_amount_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="iban_layout,amount_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/purpose_layout"
@@ -129,7 +134,7 @@
             android:layout_marginTop="@dimen/gpb_input_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iban_layout">
+            app:layout_constraintTop_toBottomOf="@id/iban_amount_barrier">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/purpose"
