@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="blue_light">#D1EEF8</color>
+    <color name="blue_dark">#274FBB</color>
+    <color name="blue">#368BD5</color>
+    <color name="red">#D9004B</color>
+    <color name="yellow">#F4C50A</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black30">#30000000</color>
     <color name="black80">#CC000000</color>
     <color name="selected_dot">#90000000</color>
+
+
+    <color name="gpb_input_stroke_default">#F2F3F6</color>
+    <color name="gbp_input_stroke_active">#0077FF</color>
+    <color name="gpb_input_background_default">#F2F3F6</color>
+    <color name="gpb_input_background_active">#fff</color>
 </resources>

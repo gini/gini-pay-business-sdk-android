@@ -3,4 +3,15 @@
     <style name="GiniPay.PagePhotoStyle">
         <item name="android:paddingTop">@dimen/toolbar_height</item>
     </style>
+    <style name="GiniPay.PaymentButtonStyle" parent="Root.GiniPay.PaymentButtonStyle">
+        <item name="android:layout_height">74dp</item>
+        <item name="backgroundTint">#FF6800</item>
+        <item name="android:insetTop">16dp</item>
+        <item name="android:insetBottom">16dp</item>
+    </style>
+    <style name="GiniPay.BankButtonStyle" parent="Root.GiniPay.BankButtonStyle">
+        <item name="android:layout_height">74dp</item>
+        <item name="android:insetTop">16dp</item>
+        <item name="android:insetBottom">16dp</item>
+    </style>
 </resources>

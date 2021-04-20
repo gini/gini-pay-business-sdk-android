@@ -102,7 +102,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/amount"
-                style="@style/GiniPay.PaymentInputStyle"
+                style="@style/GiniPay.PaymentInputStyle.Amount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/gpb_amount_hint"
@@ -142,8 +142,6 @@
         <Button
             android:id="@+id/bank"
             style="@style/GiniPay.BankButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="@string/gpb_bank_placeholder"
             app:layout_constraintEnd_toStartOf="@id/payment"
             app:layout_constraintStart_toStartOf="parent"
