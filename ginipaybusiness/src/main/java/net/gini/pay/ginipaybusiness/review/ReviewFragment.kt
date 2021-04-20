@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import net.gini.android.models.Document
@@ -26,6 +27,7 @@ import net.gini.pay.ginipaybusiness.util.autoCleared
 import net.gini.pay.ginipaybusiness.util.setTextIfDifferent
 
 data class ReviewConfiguration(
+    val handleErrorsInternally: Boolean = true,
     val documentOrientation: Orientation = Orientation.Horizontal
 )
 
@@ -84,38 +86,27 @@ class ReviewFragment(
             viewModel.paymentValidation.collect { handleValidationResult(it) }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.openBank.collect { handlePaymentState(it) }
+            viewModel.giniBusiness.openBankState.collect { handlePaymentState(it) }
         }
     }
 
     private fun GpbFragmentReviewBinding.handleDocumentResult(documentResult: ResultWrapper<Document>) {
         when (documentResult) {
-            is ResultWrapper.Loading -> {
-                // TODO
-            }
             is ResultWrapper.Success -> {
                 documentPageAdapter.submitList(viewModel.getPages(documentResult.value).also { pages ->
                     indicator.isVisible = pages.size != 1
                 })
             }
-            is ResultWrapper.Error -> {
-                // TODO
+            is ResultWrapper.Error -> handleError(getString(R.string.gpb_error_document)) { viewModel.retryDocumentReview() }
+            else -> { // Loading state handled by payment details
             }
         }
     }
 
     private fun GpbFragmentReviewBinding.handlePaymentResult(paymentResult: ResultWrapper<PaymentDetails>) {
         binding.loading.isVisible = paymentResult is ResultWrapper.Loading
-        when (paymentResult) {
-            is ResultWrapper.Loading -> {
-                // TODO
-            }
-            is ResultWrapper.Success -> {
-                // TODO?
-            }
-            is ResultWrapper.Error -> {
-                // TODO
-            }
+        if (paymentResult is ResultWrapper.Error) {
+            handleError(getString(R.string.gpb_error_payment_details)) { viewModel.retryDocumentReview() }
         }
     }
 
@@ -185,8 +176,8 @@ class ReviewFragment(
         PaymentField.Purpose -> purposeLayout
     }
 
-    private fun GpbFragmentReviewBinding.handlePaymentState(paymentState: ReviewViewModel.PaymentState) {
-        (paymentState is ReviewViewModel.PaymentState.Loading).let { isLoading ->
+    private fun GpbFragmentReviewBinding.handlePaymentState(paymentState: GiniBusiness.PaymentState) {
+        (paymentState is GiniBusiness.PaymentState.Loading).let { isLoading ->
             paymentProgress.isVisible = isLoading
             recipientLayout.isEnabled = !isLoading
             ibanLayout.isEnabled = !isLoading
@@ -197,19 +188,31 @@ class ReviewFragment(
             payment.text = if (isLoading) "" else getString(R.string.gpb_pay_button)
         }
         when (paymentState) {
-            is ReviewViewModel.PaymentState.Error -> { // TODO
-            }
-            is ReviewViewModel.PaymentState.Success -> {
+            is GiniBusiness.PaymentState.Success -> {
                 try {
-                    startActivity(viewModel.selectedBank?.getIntent(paymentState.requestId))
+                    startActivity(viewModel.selectedBank?.getIntent(paymentState.paymentRequest.id))
                     viewModel.onBankOpened()
                 } catch (exception: ActivityNotFoundException) {
-                    // TODO
+                    handleError(getString(R.string.gpb_error_bank_not_found)) { viewModel.onPayment() }
                 }
             }
-            else -> {
+            is GiniBusiness.PaymentState.Error -> handleError(getString(R.string.gpb_error_open_bank)) { viewModel.onPayment() }
+            else -> { // Loading is already handled
             }
         }
+    }
+
+    private fun GpbFragmentReviewBinding.handleError(text: String, onRetry: () -> Unit) {
+        if (configuration.handleErrorsInternally) {
+            showSnackbar(text, onRetry)
+        }
+    }
+
+    private fun GpbFragmentReviewBinding.showSnackbar(text: String, onRetry: () -> Unit) {
+        Snackbar.make(root, text, Snackbar.LENGTH_INDEFINITE)
+            .setAnchorView(paymentDetails)
+            .setAction(getString(R.string.gpb_snackbar_retry)) { onRetry() }
+            .show()
     }
 
     private fun GpbFragmentReviewBinding.setActionListeners() {

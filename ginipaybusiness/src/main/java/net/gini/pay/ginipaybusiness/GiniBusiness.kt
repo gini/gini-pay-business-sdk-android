@@ -8,6 +8,7 @@ import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.requirement.Requirement
 import net.gini.pay.ginipaybusiness.requirement.internalCheckRequirements
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
+import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.toPaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.wrapToResult
@@ -20,7 +21,7 @@ class GiniBusiness(
 ) {
     private val documentManager = giniApi.documentManager
 
-    private var documentId: String? = null
+    private var capturedArguments: CapturedArguments? = null
 
     private val _documentFlow = MutableStateFlow<ResultWrapper<Document>>(ResultWrapper.Loading())
 
@@ -48,13 +49,20 @@ class GiniBusiness(
      */
     val paymentFlow: StateFlow<ResultWrapper<PaymentDetails>> = _paymentFlow
 
+    private val _openBankState = MutableStateFlow<PaymentState>(PaymentState.NoAction)
+
+    /**
+     * A flow that exposes the state of opening the bank. You can collect this flow to get information about the errors of this action.
+     */
+    val openBankState: StateFlow<PaymentState> = _openBankState
+
     /**
      * Sets a [Document] for review. Results can be collected from [documentFlow] and [paymentFlow].
      *
      * @param document document received from Gini API.
      */
     suspend fun setDocumentForReview(document: Document) {
-        documentId = document.id
+        capturedArguments = CapturedArguments.DocumentInstance(document)
         _documentFlow.value = ResultWrapper.Success(document)
         _paymentFlow.value = ResultWrapper.Loading()
 
@@ -70,7 +78,7 @@ class GiniBusiness(
      * @param paymentDetails optional [PaymentDetails] for the document corresponding to [documentId]
      */
     suspend fun setDocumentForReview(documentId: String, paymentDetails: PaymentDetails? = null) {
-        this.documentId = documentId
+        capturedArguments = CapturedArguments.DocumentId(documentId, paymentDetails)
         _paymentFlow.value = ResultWrapper.Loading()
         _documentFlow.value = ResultWrapper.Loading()
         _documentFlow.value = wrapToResult {
@@ -95,4 +103,29 @@ class GiniBusiness(
      * See [Requirement] for possible requirements.
      */
     fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
+
+    internal fun setOpenBankState(state: PaymentState) {
+        _openBankState.value = state
+    }
+
+    internal suspend fun retryDocumentReview() {
+        when (val arguments = capturedArguments) {
+            is CapturedArguments.DocumentId -> setDocumentForReview(arguments.id, arguments.paymentDetails)
+            is CapturedArguments.DocumentInstance -> setDocumentForReview(arguments.value)
+            null -> { // Nothing
+            }
+        }
+    }
+
+    private sealed class CapturedArguments {
+        class DocumentInstance(val value: Document): CapturedArguments()
+        class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null): CapturedArguments()
+    }
+
+    sealed class PaymentState {
+        object NoAction : PaymentState()
+        object Loading : PaymentState()
+        class Success(val paymentRequest: PaymentRequest) : PaymentState()
+        class Error(val throwable: Throwable) : PaymentState()
+    }
 }
