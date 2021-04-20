@@ -8,5 +8,6 @@
     <dimen name="gpb_payment_button_spacing">8dp</dimen>
     <dimen name="gpb_input_iban_weight">.7</dimen>
     <dimen name="gpb_input_amount_weight">.3</dimen>
-    <dimen name="gpb_bank_icon_size" type="id">16dp</dimen>
+    <dimen name="gpb_bank_icon_size">16dp</dimen>
+    <dimen name="gpb_page_padding_top">0dp</dimen>
 </resources>

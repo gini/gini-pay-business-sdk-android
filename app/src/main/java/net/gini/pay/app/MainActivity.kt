@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.collect
 import net.gini.pay.app.databinding.ActivityMainBinding
 import net.gini.pay.app.pager.PagerAdapter
 import net.gini.pay.app.review.ReviewActivity
+import net.gini.pay.app.upload.UploadActivity
 import net.gini.pay.ginipaybusiness.requirement.Requirement
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,10 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(binding.indicator, binding.pager) { _, _ -> }.attach()
 
-        binding.payment.setOnClickListener {
+        binding.upload.setOnClickListener {
             val requirements = viewModel.checkRequirements(packageManager)
             if (requirements.isEmpty()) {
-                startActivity(ReviewActivity.getStartIntent(this, viewModel.pages.value.map { it.uri }))
+                startActivity(UploadActivity.getStartIntent(this, viewModel.pages.value.map { it.uri }))
             } else {
                 showMissingRequirements(requirements)
             }
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun importResult(uri: Uri) {
-        startActivity(ReviewActivity.getStartIntent(this, listOf(uri)))
+        startActivity(UploadActivity.getStartIntent(this, listOf(uri)))
     }
 
     private fun showMissingRequirements(requirements: List<Requirement>) {

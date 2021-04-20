@@ -20,8 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".review.ReviewActivity"
+            android:name=".upload.UploadActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".review.ReviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.GiniPayBussiness.Review"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

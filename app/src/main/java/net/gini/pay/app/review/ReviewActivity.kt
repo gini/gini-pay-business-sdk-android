@@ -5,15 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
+import dev.chrisbanes.insetter.applyInsetter
 import net.gini.pay.app.R
 import net.gini.pay.app.databinding.ActivityReviewBinding
-import net.gini.pay.app.review.ReviewViewModel.ReviewState
 import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.review.ReviewFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,17 +21,15 @@ class ReviewActivity : AppCompatActivity() {
     private val viewModel: ReviewViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         supportFragmentManager.fragmentFactory = ReviewFragmentFactory(viewModel.giniBusiness)
         super.onCreate(savedInstanceState)
         val binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (savedInstanceState == null) {
-            viewModel.uploadDocuments(contentResolver, intent.pageUris)
-        }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.uploadState.collect { uploadState ->
-                updateViews(binding, uploadState)
+        binding.toolbar.applyInsetter {
+            type(statusBars = true) {
+                padding(top = true)
             }
         }
 
@@ -42,12 +38,8 @@ class ReviewActivity : AppCompatActivity() {
                 replace(R.id.review_fragment, ReviewFragment::class.java, null)
             }
         }
-    }
 
-    private fun updateViews(binding: ActivityReviewBinding, uploadState: ReviewState) {
-        binding.progress.isVisible = uploadState is ReviewState.Loading
-        binding.reviewFragment.isVisible = uploadState is ReviewState.Success
-        binding.errorMessage.isVisible = uploadState is ReviewState.Failure
+        binding.close.setOnClickListener { finish() }
     }
 
     companion object {

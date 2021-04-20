@@ -6,6 +6,7 @@
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/image"
+        style="@style/GiniPay.PagePhotoStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -17,11 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <!-- TODO -->
-    <TextView
+    <include
         android:id="@+id/error"
+        layout="@layout/gpb_item_page_error"
         android:visibility="gone"
-        android:text="@string/gpb_error_failed_to_load_image"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
