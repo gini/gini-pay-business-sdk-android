@@ -4,9 +4,10 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -41,7 +42,8 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
 
         protected abstract val loadingView: ProgressBar
         protected abstract val imageView: ImageView
-        protected abstract val errorView: TextView
+        protected abstract val errorView: FrameLayout
+        protected abstract val retry: Button
 
         fun onBind(page: Page) {
             imageLoadingScope.launch {
@@ -50,6 +52,10 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
                     is ResultWrapper.Error -> {
                         loadingView.isVisible = false
                         errorView.isVisible = true
+                        retry.setOnClickListener {
+                            errorView.isVisible = false
+                            onBind(page)
+                        }
                     }
                     is ResultWrapper.Success -> {
                         loadingView.isVisible = false
@@ -70,7 +76,8 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
         private val binding: GpbItemPageHorizontalBinding,
         override val loadingView: ProgressBar = binding.loading,
         override val imageView: ImageView = binding.image,
-        override val errorView: TextView = binding.error,
+        override val errorView: FrameLayout = binding.error.root,
+        override val retry: Button = binding.error.pageErrorRetry,
     ) : PageViewHolder(giniBusiness, binding.root) {
         init {
             imageView.applyInsetter {
@@ -86,7 +93,8 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
         private val binding: GpbItemPageVerticalBinding,
         override val loadingView: ProgressBar = binding.loading,
         override val imageView: ImageView = binding.image,
-        override val errorView: TextView = binding.error,
+        override val errorView: FrameLayout = binding.error.root,
+        override val retry: Button = binding.error.pageErrorRetry,
     ) : PageViewHolder(giniBusiness, binding.root) {
         init {
             imageView.applyInsetter {

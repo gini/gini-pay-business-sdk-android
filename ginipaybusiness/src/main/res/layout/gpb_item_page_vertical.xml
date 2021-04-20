@@ -18,12 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <!-- TODO -->
-    <TextView
+    <include
         android:id="@+id/error"
-        android:visibility="gone"
-        android:text="@string/gpb_error_failed_to_load_image"
-        android:layout_gravity="center"
+        layout="@layout/gpb_item_page_error"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>
