@@ -27,7 +27,7 @@ class ReviewActivity : AppCompatActivity() {
         val binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar .applyInsetter {
+        binding.toolbar.applyInsetter {
             type(statusBars = true) {
                 padding(top = true)
             }

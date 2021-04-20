@@ -1,10 +1,15 @@
 package net.gini.pay.ginipaybusiness.review
 
 import android.content.ActivityNotFoundException
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -12,9 +17,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
+import com.google.android.material.math.MathUtils.lerp
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dev.chrisbanes.insetter.applyInsetter
+import dev.chrisbanes.insetter.windowInsetTypesOf
 import kotlinx.coroutines.flow.collect
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.GiniBusiness
@@ -60,6 +67,7 @@ class ReviewFragment(
             setStateListeners()
             setInputListeners()
             setActionListeners()
+            setKeyboardAnimation(resources)
         }
     }
 
@@ -230,4 +238,52 @@ class ReviewFragment(
             }
         }
     }
+}
+
+private fun GpbFragmentReviewBinding.setKeyboardAnimation(resources: Resources) {
+    if (Build.VERSION.SDK_INT < 30) return
+    ViewCompat.setWindowInsetsAnimationCallback(paymentDetails, object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+        var startBottom = 0
+        var endBottom = 0
+        var startHeight = 0
+        var endHeight = 0
+        override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+            startBottom = paymentDetails.paddingBottom
+            startHeight = pager.height
+        }
+
+        override fun onStart(
+            animation: WindowInsetsAnimationCompat,
+            bounds: WindowInsetsAnimationCompat.BoundsCompat
+        ): WindowInsetsAnimationCompat.BoundsCompat {
+            endBottom = paymentDetails.paddingBottom
+            endHeight = pager.height
+            paymentDetails.translationY = (endBottom - startBottom).toFloat()
+            pager.pivotY = (resources.getDimension(R.dimen.gpb_page_padding_top) + (ViewCompat.getRootWindowInsets(root)
+                ?.getInsets(windowInsetTypesOf(statusBars = true))?.top?.toFloat() ?: 0f))
+            (startHeight.toFloat() / endHeight).let {
+                pager.scaleX = it
+                pager.scaleY = it
+            }
+            return bounds
+        }
+
+        override fun onProgress(insets: WindowInsetsCompat, runningAnimations: MutableList<WindowInsetsAnimationCompat>): WindowInsetsCompat {
+            runningAnimations.find { it.typeMask == windowInsetTypesOf(ime = true) }?.let { animation ->
+                paymentDetails.translationY = lerp((endBottom - startBottom).toFloat(), 0f, animation.interpolatedFraction)
+                (lerp((startHeight.toFloat() / endHeight), 1f, animation.interpolatedFraction)).let {
+                    pager.scaleX = it
+                    pager.scaleY = it
+                }
+            }
+            return insets
+        }
+
+        override fun onEnd(animation: WindowInsetsAnimationCompat) {
+            super.onEnd(animation)
+            pager.scaleX = 1f
+            pager.scaleY = 1f
+            paymentDetails.translationY = 0f
+        }
+    })
 }

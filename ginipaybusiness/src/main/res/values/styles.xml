@@ -45,7 +45,10 @@
 
     <style name="GiniPay.DocumentListStyle" />
 
-    <style name="GiniPay.PagePhotoStyle" />
+    <style name="Root.GiniPay.PagePhotoStyle">
+        <item name="android:paddingTop">@dimen/gpb_page_padding_top</item>
+    </style>
+    <style name="GiniPay.PagePhotoStyle" parent="Root.GiniPay.PagePhotoStyle"/>
 
     <style name="Root.GiniPay.PageIndicatorStyle">
         <item name="android:layout_marginBottom">16dp</item>
