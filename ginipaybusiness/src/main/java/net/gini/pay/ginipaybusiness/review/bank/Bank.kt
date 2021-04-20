@@ -8,8 +8,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 
 internal const val Scheme = "ginipay" // It has to match the scheme in query tag in manifest
-internal const val QueryUri = "$Scheme://id"
-internal fun getBankUri(requestId: String) = "$Scheme://$requestId"
+private const val PaymentPath = "payment"
+internal const val QueryUri = "$Scheme://$PaymentPath/id"
+internal fun getBankUri(requestId: String) = "$Scheme://$PaymentPath/$requestId"
 
 fun PackageManager.getBanks(): List<BankApp> = queryIntentActivities(getBankQueryIntent(), 0).map { app ->
     BankApp(packageManager = this, resolveInfo = app)
