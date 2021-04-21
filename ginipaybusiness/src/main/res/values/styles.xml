@@ -4,7 +4,7 @@
     <style name="GiniPay" />
 
     <style name="Root" />
-
+    <!-- Root styles shouldn't be overridden, instead override their descendant styles -->
     <style name="Root.GiniPay" />
 
     <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -15,6 +15,7 @@
         <item name="errorIconDrawable">@null</item>
     </style>
 
+    <!-- Style for TextInputLayouts in ReviewFragment -->
     <style name="GiniPay.PaymentInputLayoutStyle" parent="Root.GiniPay.PaymentInputLayoutStyle" />
 
     <style name="Root.GiniPay.PaymentInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -25,6 +26,7 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <!-- Style for TextInputEditTexts in ReviewFragment -->
     <style name="GiniPay.PaymentInputStyle" parent="Root.GiniPay.PaymentInputStyle" />
 
     <style name="Root.GiniPay.PaymentInputStyle.Amount">
@@ -32,6 +34,7 @@
         <item name="android:paddingEnd">24dp</item>
     </style>
 
+    <!-- Style for the amount TextInputEditText in ReviewFragment -->
     <style name="GiniPay.PaymentInputStyle.Amount" parent="Root.GiniPay.PaymentInputStyle.Amount" />
 
     <style name="Root.GiniPay.CurrencyStyle">
@@ -39,8 +42,10 @@
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
+    <!-- Style for the currency sign of the amount field in ReviewFragment -->
     <style name="GiniPay.CurrencyStyle" parent="Root.GiniPay.CurrencyStyle" />
 
+    <!-- Style for the ViewPager2 that displays the pages of the document in ReviewFragment -->
     <style name="GiniPay.DocumentPagerStyle" />
 
     <style name="GiniPay.DocumentListStyle" />
@@ -48,19 +53,25 @@
     <style name="Root.GiniPay.PagePhotoStyle">
         <item name="android:paddingTop">@dimen/gpb_page_padding_top</item>
     </style>
-    <style name="GiniPay.PagePhotoStyle" parent="Root.GiniPay.PagePhotoStyle"/>
+
+    <!-- Style for ImageView that displays the page of a document in ReviewFragment -->
+    <style name="GiniPay.PagePhotoStyle" parent="Root.GiniPay.PagePhotoStyle" />
 
     <style name="Root.GiniPay.PageIndicatorStyle">
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
+    <!-- Style for the page indicator under the ViewPager in ReviewFragment -->
     <style name="GiniPay.PageIndicatorStyle" parent="Root.GiniPay.PageIndicatorStyle" />
 
     <style name="Root.GiniPay.PageErrorText">
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- Style for error text that is displayed when loading a page fails -->
     <style name="GiniPay.PageErrorText" parent="Root.GiniPay.PageErrorText" />
+
+    <!-- Style for retry button that is displayed when loading a page fails -->
     <style name="GiniPay.PageErrorRetry" parent="Widget.MaterialComponents.Button.OutlinedButton" />
 
     <style name="Root.GiniPay.PaymentDetailsCard">
@@ -74,6 +85,7 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
 
+    <!-- Style for the Payment Details card in ReviewFragment -->
     <style name="GiniPay.PaymentDetailsCard" parent="Root.GiniPay.PaymentDetailsCard" />
 
     <style name="Root.GiniPay.BankButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -87,6 +99,7 @@
         <item name="layout_constraintHorizontal_weight">.4</item>
     </style>
 
+    <!-- Style for the bank button in ReviewFragment -->
     <style name="GiniPay.BankButtonStyle" parent="Root.GiniPay.BankButtonStyle" />
 
     <style name="Root.GiniPay.PaymentButtonStyle">
@@ -96,6 +109,7 @@
         <item name="layout_constraintHorizontal_weight">.6</item>
     </style>
 
+    <!-- Style for Pay button in ReviewFragment -->
     <style name="GiniPay.PaymentButtonStyle" parent="Root.GiniPay.PaymentButtonStyle" />
 
     <style name="Root.GiniPay.PaymentButtonProgressStyle">
@@ -103,6 +117,7 @@
         <item name="android:translationZ" tools:targetApi="lollipop">100dp</item>
     </style>
 
+    <!-- Style for the progress indicator that is displayed on top of the Pay button in ReviewFragment -->
     <style name="GiniPay.PaymentButtonProgressStyle" parent="Root.GiniPay.PaymentButtonProgressStyle" />
 
 </resources>

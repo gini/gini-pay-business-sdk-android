@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,13 +35,37 @@ import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
 import net.gini.pay.ginipaybusiness.util.autoCleared
 import net.gini.pay.ginipaybusiness.util.setTextIfDifferent
 
+
+/**
+ * Configuration for [ReviewFragment].
+ */
 data class ReviewConfiguration(
+    /**
+     * If true errors will be observed abd snackbars will be displayed.
+     * If false errors will be ignored, in this case the flows exposed by [GiniBusiness] should be observed for errors.
+     */
     val handleErrorsInternally: Boolean = true,
+    /**
+     * Experimental orientation configuration for document pages.
+     */
     val documentOrientation: Orientation = Orientation.Horizontal
 )
 
 enum class Orientation { Horizontal, Vertical }
 
+/**
+ * Fragment that displays document pages and extractions and it lets the user pay using a payment provider.
+ *
+ * To instantiate it you need to create a [FragmentFactory] and set it to fragment manager:
+ *
+ * ```
+ *  class ReviewFragmentFactory(private val giniBusiness: GiniBusiness) : FragmentFactory() {
+ *      override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+ *          return ReviewFragment(giniBusiness)
+ *      }
+ *  }
+ * ```
+ */
 class ReviewFragment(
     private val giniBusiness: GiniBusiness,
     private val configuration: ReviewConfiguration = ReviewConfiguration()
@@ -204,7 +229,7 @@ class ReviewFragment(
         when (paymentState) {
             is GiniBusiness.PaymentState.Success -> {
                 try {
-                    startActivity(viewModel.selectedBank?.getIntent(paymentState.paymentRequest.id))
+                    startActivity(paymentState.paymentRequest.bankApp.getIntent(paymentState.paymentRequest.id))
                     viewModel.onBankOpened()
                 } catch (exception: ActivityNotFoundException) {
                     handleError(getString(R.string.gpb_error_bank_not_found)) { viewModel.onPayment() }

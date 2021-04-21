@@ -25,6 +25,24 @@ dependencies {
 }
 ```
 
+Example Apps
+---
+
+### Business
+
+The bussiness example app is in the `:app` module. 
+It needs `app/src/main/resources/client.properties` with credentials:
+```
+clientId=*******
+clientSecret=*******
+```
+Note: `resources` needs to be a java resources folder, not a regular folder.
+
+### Bank
+
+In order to pass the Requirements a bank app needs to be installed on the device.
+An example bank app is in `:bankexample`  
+
 ## License
 
 Gini Pay Business SDK is available under a commercial license.
