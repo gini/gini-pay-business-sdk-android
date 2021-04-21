@@ -7,6 +7,7 @@ import net.gini.android.Gini
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.requirement.Requirement
 import net.gini.pay.ginipaybusiness.requirement.internalCheckRequirements
+import net.gini.pay.ginipaybusiness.review.ReviewFragment
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
@@ -14,7 +15,22 @@ import net.gini.pay.ginipaybusiness.review.model.toPaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.wrapToResult
 
 /**
- * TODO
+ * [GiniBusiness] is the main class for interacting with Gini Pay Business SDK.
+ * It provides a way to submit a document for reviewing its extracted payment details and
+ * let's the user make the payment with one of the payment providers.
+ *
+ * The recommended flow is:
+ *  1. Call [checkRequirements] to make sure that the flow can be completed.
+ *  2. Call one of the overloads of [setDocumentForReview], to submit a document.
+ *  3. Display [ReviewFragment].
+ *
+ * [setDocumentForReview] can be called with:
+ *  1. [Document] instance in the case the upload was performed with Gini Pay Api lib ([Gini]).
+ *  2. Document id, this will probably be the case when there's backend integration between the Business Client and Gini.
+ *      This method will make a network call to obtain a [Document] instance so the other one is preferred if you have the [Document] instance.
+ *
+ *  [documentFlow], [paymentFlow], [openBankState] are used by the ReviewFragment to observe their state, but they are public
+ *  so that they can be observed anywhere, the main purpose for this is to observe errors.
  */
 class GiniBusiness(
     val giniApi: Gini
@@ -118,8 +134,8 @@ class GiniBusiness(
     }
 
     private sealed class CapturedArguments {
-        class DocumentInstance(val value: Document): CapturedArguments()
-        class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null): CapturedArguments()
+        class DocumentInstance(val value: Document) : CapturedArguments()
+        class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null) : CapturedArguments()
     }
 
     sealed class PaymentState {

@@ -18,7 +18,7 @@ private val countryIbanLength = mapOf(
 
 private const val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-fun isValidIban(iban: String): Boolean {
+internal fun isValidIban(iban: String): Boolean {
     var ibanNumber = iban.filter { !it.isWhitespace() }.toUpperCase(Locale.US)
 
     if (countryIbanLength[ibanNumber.take(2)] != ibanNumber.length) return false

@@ -33,7 +33,7 @@ internal fun String.toAmount(): String {
  */
 val PaymentDetails.isPayable get() = iban.isNotEmpty()
 
-fun MutableMap<String, SpecificExtraction>.withFeedback(paymentDetails: PaymentDetails): Map<String, SpecificExtraction> {
+internal fun MutableMap<String, SpecificExtraction>.withFeedback(paymentDetails: PaymentDetails): Map<String, SpecificExtraction> {
     this["paymentRecipient"] = this["paymentRecipient"].let { extraction ->
         SpecificExtraction(
             extraction?.name ?: "paymentRecipient",
