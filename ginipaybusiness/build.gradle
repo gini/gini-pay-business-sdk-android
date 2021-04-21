@@ -1,12 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'com.hiya.jacoco-android'
     id 'org.jetbrains.dokka'
-}
-
-jacoco {
-    toolVersion = "0.8.3"
 }
 
 android {
@@ -23,6 +18,10 @@ android {
 
         buildConfigField 'int', 'VERSION_CODE', "$libVersionCode"
         buildConfigField 'String', 'VERSION_NAME', "\"$libVersionName\""
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
@@ -46,10 +45,25 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+
+    api "net.gini:gini-pay-api-lib-android:${versions.payapi}"
+
+    implementation "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation "dev.chrisbanes.insetter:insetter:${versions.insetter}"
 
     dokkaHtmlPlugin "org.jetbrains.dokka:kotlin-as-java-plugin:${versions.dokka}"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.mockk:mockk:1.11.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+    testImplementation 'app.cash.turbine:turbine:0.4.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
