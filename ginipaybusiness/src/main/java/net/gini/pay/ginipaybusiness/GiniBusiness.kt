@@ -117,6 +117,8 @@ class GiniBusiness(
     /**
      * Checks the required conditions needed to finish the payment flow to avoid unnecessary document upload.
      * See [Requirement] for possible requirements.
+     *
+     * @return List of missing requirements. Empty list means all requirements are met.
      */
     fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
 
