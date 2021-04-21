@@ -1,0 +1,57 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:net.gini.pay.ginipaybusiness.ginipayapi//getGiniApi/#android.content.Context#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.ginipayapi/-gini-pay-api-kt/get-gini-api.html
+$dokka.location:net.gini.pay.ginipaybusiness.ginipayapi//getGiniApi/#android.content.Context#net.gini.android.authorization.SessionManager/PointingToDeclaration/net.gini.pay.ginipaybusiness.ginipayapi/-gini-pay-api-kt/get-gini-api.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.bank//getBankQueryIntent/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.bank/-bank-kt/get-bank-query-intent.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.bank//getBanks/android.content.pm.PackageManager#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.bank/-bank-kt/get-banks.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.bank/BankApp/<get-name>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.bank/-bank-app/get-name.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.bank/BankApp/<get-packageName>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.bank/-bank-app/get-package-name.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.bank/BankApp/<get-version>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.bank/-bank-app/get-version.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.error/NoBankSelected/<get-cause>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.error/-no-bank-selected/get-cause.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.error/NoBankSelected/<get-message>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.error/-no-bank-selected/get-message.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.error/NoProviderForPackageName/<get-cause>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.error/-no-provider-for-package-name/get-cause.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.error/NoProviderForPackageName/<get-message>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.error/-no-provider-for-package-name/get-message.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model//withFeedback/kotlin.collections.MutableMap[kotlin.String,net.gini.android.models.SpecificExtraction]#net.gini.pay.ginipaybusiness.review.model.PaymentDetails/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-details-kt/with-feedback.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model//wrapToResult/#kotlin.coroutines.SuspendFunction0[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-extraction-result-kt/wrap-to-result.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentDetails/<get-amount>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-details/get-amount.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentDetails/<get-iban>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-details/get-iban.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentDetails/<get-purpose>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-details/get-purpose.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentDetails/<get-recipient>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-details/get-recipient.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentRequest/<get-bankApp>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-request/get-bank-app.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentRequest/<get-id>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-request/get-id.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/ResultWrapper.Error/<get-error>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-result-wrapper/-error/get-error.html
+$dokka.location:net.gini.pay.ginipaybusiness.review.model/ResultWrapper.Success/<get-value>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-result-wrapper/-success/get-value.html
+$dokka.location:net.gini.pay.ginipaybusiness.review//validate/net.gini.pay.ginipaybusiness.review.model.PaymentDetails#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-details-validation-kt/validate.html
+$dokka.location:net.gini.pay.ginipaybusiness.review//validateAmount/#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-details-validation-kt/validate-amount.html
+$dokka.location:net.gini.pay.ginipaybusiness.review//validateIban/#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-details-validation-kt/validate-iban.html
+$dokka.location:net.gini.pay.ginipaybusiness.review//validatePurpose/#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-details-validation-kt/validate-purpose.html
+$dokka.location:net.gini.pay.ginipaybusiness.review//validateRecipient/#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-details-validation-kt/validate-recipient.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/Orientation/<get-name>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-orientation/get-name.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/Orientation/<get-ordinal>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-orientation/get-ordinal.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/PaymentField/<get-name>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-field/get-name.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/PaymentField/<get-ordinal>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-payment-field/get-ordinal.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ReviewConfiguration/<get-documentOrientation>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-review-configuration/get-document-orientation.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ReviewConfiguration/<get-handleErrorsInternally>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-review-configuration/get-handle-errors-internally.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage.AmountFormat/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/-amount-format/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage.Empty/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/-empty/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage.InvalidCurrency/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/-invalid-currency/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage.InvalidIban/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/-invalid-iban/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage.NoCurrency/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/-no-currency/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.review/ValidationMessage/<get-field>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-validation-message/get-field.html
+$dokka.location:net.gini.pay.ginipaybusiness.util//isValidIban/#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.util/-iban-validator-kt/is-valid-iban.html
+$dokka.location:net.gini.pay.ginipaybusiness.util//setTextIfDifferent/com.google.android.material.textfield.TextInputEditText#kotlin.String/PointingToDeclaration/net.gini.pay.ginipaybusiness.util/-extensions-kt/set-text-if-different.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness.PaymentState.Error/<get-throwable>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/-payment-state/-error/get-throwable.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness.PaymentState.Success/<get-paymentRequest>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/-payment-state/-success/get-payment-request.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness/<get-documentFlow>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/get-document-flow.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness/<get-giniApi>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/get-gini-api.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness/<get-openBankState>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/get-open-bank-state.html
+$dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness/<get-paymentFlow>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/get-payment-flow.html
+net.gini.pay.ginipaybusiness
+net.gini.pay.ginipaybusiness.ginipayapi
+net.gini.pay.ginipaybusiness.requirement
+net.gini.pay.ginipaybusiness.review
+net.gini.pay.ginipaybusiness.review.bank
+net.gini.pay.ginipaybusiness.review.error
+net.gini.pay.ginipaybusiness.review.model
+net.gini.pay.ginipaybusiness.util
+
