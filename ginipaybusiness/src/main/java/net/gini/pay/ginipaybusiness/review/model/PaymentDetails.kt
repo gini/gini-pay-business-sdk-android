@@ -28,6 +28,10 @@ internal fun String.toAmount(): String {
     }
 }
 
+/**
+ * Checks if the document is payable which looks for iban extraction.
+ */
+val PaymentDetails.isPayable get() = iban.isNotEmpty()
 
 fun MutableMap<String, SpecificExtraction>.withFeedback(paymentDetails: PaymentDetails): Map<String, SpecificExtraction> {
     this["paymentRecipient"] = this["paymentRecipient"].let { extraction ->
