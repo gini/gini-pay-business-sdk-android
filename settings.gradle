@@ -1,3 +1,4 @@
+include ':bankexample'
 include ':app'
 include ':ginipaybusiness'
 rootProject.name = "Gini Pay Business"
