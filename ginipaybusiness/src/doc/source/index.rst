@@ -1,5 +1,5 @@
 Gini Pay Business SDK for Android
-===============================
+=================================
 
 Gini Pay provides an information extraction system for analyzing business invoices and
 transfers them to the Android banking app, where the payment process will be completed.
@@ -10,7 +10,7 @@ Table of contents
 -----------------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     Gini Pay Business KDoc <http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html>
     setup

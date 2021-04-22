@@ -1,5 +1,5 @@
 Getting started
-===
+===============
 
 Installation
 ------------
@@ -9,18 +9,18 @@ module's build.gradle.
 
 build.gradle:
 
-```
-repositories {
-    maven {
-        url 'https://repo.gini.net/nexus/content/repositories/open
+.. code-block:: groovy
+
+    repositories {
+        maven {
+            url 'https://repo.gini.net/nexus/content/repositories/open
+        }
     }
-}
-```
 
 app/build.gradle:
 
-```
-dependencies {
-    implementation 'net.gini:gini-pay-business-sdk:1.0.0-beta02'
-}
-```
+.. code-block:: groovy
+
+    dependencies {
+        implementation 'net.gini:gini-pay-business-sdk:1.0.0-beta02'
+    }
