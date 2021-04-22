@@ -79,7 +79,19 @@
         
         
             <ul>
-<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-bank-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-setup">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-authentication">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-flow">Flow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#checking-requirements">Checking requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#setting-a-document-for-review">Setting a document for review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#display-reviewfragment">Display ReviewFragment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-customization">Customization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-license">License</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-license#licenses-and-acknowledgements-for-incorporated-software">Licenses and Acknowledgements for Incorporated Software</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="index.html#document-license#apache-commons-sanselan">Apache Commons Sanselan</a></li>
@@ -122,9 +134,120 @@
             
   <div class="section" id="gini-pay-business-sdk-for-android">
 <h1>Gini Pay Business SDK for Android<a class="headerlink" href="#gini-pay-business-sdk-for-android" title="Permalink to this headline">¶</a></h1>
+<p>Gini Pay provides an information extraction system for analyzing business invoices and
+transfers them to the Android banking app, where the payment process will be completed.
+The Gini Pay Business SDK for Android provides functionality to review the document and
+its extractions and pay using a payment provider.</p>
 <div class="section" id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
+<span id="document-setup"></span><div class="section" id="getting-started">
+<h3>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installation">
+<h4>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h4>
+<p>To install add our Maven repo to the root build.gradle file and add it as a dependency to your app
+module&#8217;s build.gradle.</p>
+<p>build.gradle:</p>
+<div class="highlight-groovy"><div class="highlight"><pre>repositories {
+    maven {
+        url &#39;https://repo.gini.net/nexus/content/repositories/open
+    }
+}
+</pre></div>
+</div>
+<p>app/build.gradle:</p>
+<div class="highlight-groovy"><div class="highlight"><pre><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="s1">&#39;net.gini:gini-pay-business-sdk:1.0.0-beta03&#39;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<span id="document-authentication"></span><div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p>The entry point for Business SDK is <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> class which depends
+on <tt class="docutils literal"><span class="pre">Gini</span></tt> (Gini Pay API lib) to interact with the backend.</p>
+<p>The <tt class="docutils literal"><span class="pre">Gini</span></tt> class can be built either with client credentials (clientId and clientSecret)
+or with a <tt class="docutils literal"><span class="pre">SessionManager</span></tt> if you have a token. For these two cases there are helper methods:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></tt></li>
+</ul>
+</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">SessionManager</span></tt> is an interface which you need to implement to send the token.</p>
+<p>For more details about <tt class="docutils literal"><span class="pre">Gini</span></tt> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
+</div>
+<span id="document-flow"></span><div class="section" id="flow">
+<h3>Flow<a class="headerlink" href="#flow" title="Permalink to this headline">¶</a></h3>
+<p>GiniBusiness is the main class for interacting with Gini Pay Business SDK.
+It provides a way to submit a document for reviewing its extracted payment details and
+let&#8217;s the user make the payment with one of the payment providers.</p>
+<dl class="docutils">
+<dt>The recommended flow is to:</dt>
+<dd><ol class="first last arabic simple">
+<li>Call <tt class="docutils literal"><span class="pre">GiniBusiness.checkRequirements()</span></tt> to make sure that the flow can be completed.</li>
+<li>Call one of the overloads of <tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt>, to submit a document.</li>
+<li>Display <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</li>
+</ol>
+</dd>
+</dl>
+<div class="section" id="checking-requirements">
+<h4>Checking requirements<a class="headerlink" href="#checking-requirements" title="Permalink to this headline">¶</a></h4>
+<p>Requirements are not enforced, but recommended. Review Fragment will still start, but
+the flow cannot be completed if not all requirements are met.</p>
+<p><tt class="docutils literal"><span class="pre">checkRequirements()</span></tt> returns a list of missing requirements. Empty list means all requirements are met.</p>
+</div>
+<div class="section" id="setting-a-document-for-review">
+<h4>Setting a document for review<a class="headerlink" href="#setting-a-document-for-review" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt> can be called with:</dt>
+<dd><ol class="first last arabic simple">
+<li><tt class="docutils literal"><span class="pre">Document</span></tt> instance in the case the upload was performed with Gini Pay Api lib (see <tt class="docutils literal"><span class="pre">Gini</span></tt> class).</li>
+<li>Document id, this will probably be the case when there&#8217;s backend integration between the Business Client and Gini.</li>
+</ol>
+</dd>
+</dl>
+<p>When calling it with an id the SDK will make a network call to obtain a <tt class="docutils literal"><span class="pre">Document</span></tt> instance.
+So it is preferred to use the <tt class="docutils literal"><span class="pre">Document</span></tt> instance if you already have it.
+The same applies to the optional <tt class="docutils literal"><span class="pre">PaymentDetails</span></tt>, if they are present they will be displayed
+and network calls to get extractions will be skipped.</p>
+<p>The exposed flows of <tt class="docutils literal"><span class="pre">GiniBussines</span></tt> are used by the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt> to observe the state of the document and extractions, but they are public
+so that they can be observed anywhere, the main purpose for this is to observe errors.</p>
+<p>Note: If you observe payment details flow, you can check PaymentDetails.isPayable as an extra condition before displaying the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</p>
+</div>
+<div class="section" id="display-reviewfragment">
+<h4>Display ReviewFragment<a class="headerlink" href="#display-reviewfragment" title="Permalink to this headline">¶</a></h4>
+<p>ReviewFragment displays document pages and extractions and it lets the user pay using a payment provider</p>
+<p>To instantiate it you need to create a <tt class="docutils literal"><span class="pre">FragmentFactory</span></tt> and set it to fragment manager:</p>
+<div class="highlight-kotlin"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ReviewFragmentFactory</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">giniBusiness</span><span class="p">:</span> <span class="n">GiniBusiness</span><span class="p">)</span> <span class="p">:</span> <span class="n">FragmentFactory</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">instantiate</span><span class="p">(</span><span class="n">classLoader</span><span class="p">:</span> <span class="n">ClassLoader</span><span class="p">,</span> <span class="n">className</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Fragment</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ReviewFragment</span><span class="p">(</span><span class="n">giniBusiness</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">supportFragmentManager</span><span class="p">.</span><span class="n">fragmentFactory</span> <span class="p">=</span> <span class="n">ReviewFragmentFactory</span><span class="p">(</span><span class="n">giniBusiness</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ReviewFragment handles errors by default, displaying snackbars for errors, but it
+can be configured to ignore them, in which case all flows of <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> should
+be observed for errors.</p>
+</div>
+</div>
+<span id="document-customization"></span><div class="section" id="customization">
+<h3>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h3>
+<p>Customization of is achieved through Android&#8217;s resourcing system.
+This means that all <a class="reference external" href="https://github.com/gini/gini-pay-business-sdk-android/tree/main/ginipaybusiness/src/main/res">resources of the library</a>
+can be overridden by providing resources with the same name in the
+application.</p>
+<p>Material components are used so for in the ReviewFragment, so those
+components will pick attributes of the hosting activity if it uses
+a Material Theme.</p>
+<p>Some attributes are set inside the library (styles that start with
+<tt class="docutils literal"><span class="pre">Root.</span></tt>) to provide the basic UI, but you can hook into the other
+styles to customize the screen further.</p>
+<p><a class="reference external" href="https://github.com/gini/gini-pay-business-sdk-android/blob/main/ginipaybusiness/src/main/res/values/styles.xml">See styles file</a></p>
+</div>
 <span id="document-license"></span><div class="section" id="license">
 <h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
 <p>The Gini Pay Business SDK are licensed under a Private License and
@@ -133,7 +256,7 @@ also integrate several third party libraries.</p>
 <p class="first admonition-title">Important</p>
 <p class="last">Always make sure to ship all license notices and permissions with your application.</p>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Copyright (c) 2014-2018, Gini GmbH
+<div class="highlight-python"><div class="highlight"><pre>Copyright (c) 2014-2021, Gini GmbH
 All rights reserved.
 
 The Gini Pay Business SDK is licensed through Gini GmbH (&quot;Gini&quot;) and may not be
@@ -414,7 +537,7 @@ limitations under the License.
 <h5>Gini Android SDK<a class="headerlink" href="#gini-android-sdk" title="Permalink to this headline">¶</a></h5>
 <div class="highlight-python"><div class="highlight"><pre>The MIT License (MIT)
 
-Copyright (c) 2018 Gini GmbH
+Copyright (c) 2021 Gini GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the &quot;Software&quot;), to deal

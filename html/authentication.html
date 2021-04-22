@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; Gini Capture SDK for Android 2.0 documentation</title>
+  <title>Authentication &mdash; Gini Capture SDK for Android 2.0 documentation</title>
   
 
   
@@ -31,7 +31,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
     
 
@@ -54,13 +53,8 @@
 
   
     <link rel="top" title="Gini Capture SDK for Android 2.0 documentation" href="index.html"/>
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
-   
-
+        <link rel="next" title="Flow" href="flow.html"/>
+        <link rel="prev" title="Getting started" href="setup.html"/> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -75,7 +69,7 @@
       <div class="wy-side-nav-search">
         <a href="index.html" id="gini-logo">gini API</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -86,13 +80,13 @@
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
         
         
-            <ul>
+            <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#installation">Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flow.html">Flow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#checking-requirements">Checking requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#setting-a-document-for-review">Setting a document for review</a></li>
@@ -131,7 +125,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Search</li>
+    <li>Authentication</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -140,22 +134,34 @@
 </div>
           <div role="main">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="authentication">
+<h1>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h1>
+<p>The entry point for Business SDK is <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> class which depends
+on <tt class="docutils literal"><span class="pre">Gini</span></tt> (Gini Pay API lib) to interact with the backend.</p>
+<p>The <tt class="docutils literal"><span class="pre">Gini</span></tt> class can be built either with client credentials (clientId and clientSecret)
+or with a <tt class="docutils literal"><span class="pre">SessionManager</span></tt> if you have a token. For these two cases there are helper methods:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></tt></li>
+</ul>
+</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">SessionManager</span></tt> is an interface which you need to implement to send the token.</p>
+<p>For more details about <tt class="docutils literal"><span class="pre">Gini</span></tt> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="flow.html" class="btn btn-neutral float-right" title="Flow">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="setup.html" class="btn btn-neutral" title="Getting started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
