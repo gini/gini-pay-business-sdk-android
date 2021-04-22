@@ -30,5 +30,5 @@ cd gh-pages
 touch .nojekyll
 git add -u
 git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Gini Pay Bank SDK KDoc'
+git diff --quiet --exit-code --cached || git commit -a -m 'Gini Pay Business SDK KDoc'
 git push

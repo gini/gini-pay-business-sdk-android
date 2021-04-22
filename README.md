@@ -21,9 +21,27 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-pay-business-sdk:1.0.0-beta02'
+    implementation 'net.gini:gini-pay-business-sdk:1.0.0-beta03'
 }
 ```
+
+Example Apps
+---
+
+### Business
+
+The bussiness example app is in the `:app` module. 
+It needs `app/src/main/resources/client.properties` with credentials:
+```
+clientId=*******
+clientSecret=*******
+```
+Note: `resources` needs to be a java resources folder, not a regular folder.
+
+### Bank
+
+In order to pass the Requirements a bank app needs to be installed on the device.
+An example bank app is in `:bankexample`  
 
 ## License
 
