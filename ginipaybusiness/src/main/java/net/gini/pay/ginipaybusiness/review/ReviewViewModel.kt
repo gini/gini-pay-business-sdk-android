@@ -3,7 +3,10 @@ package net.gini.pay.ginipaybusiness.review
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,8 +28,8 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
     private val _paymentDetails = MutableStateFlow(PaymentDetails("", "", "", ""))
     val paymentDetails: StateFlow<PaymentDetails> = _paymentDetails
 
-    private val _paymentValidation = MutableStateFlow<List<ValidationMessage>>(emptyList())
-    val paymentValidation: StateFlow<List<ValidationMessage>> = _paymentValidation
+    private val _paymentValidation = MutableSharedFlow<List<ValidationMessage>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val paymentValidation: SharedFlow<List<ValidationMessage>> = _paymentValidation
 
     var selectedBank: BankApp? = null
 
@@ -64,7 +67,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
 
     private fun validatePaymentDetails(): Boolean {
         val items = paymentDetails.value.validate()
-        _paymentValidation.value = items
+        _paymentValidation.tryEmit(items)
         return items.isEmpty()
     }
 
