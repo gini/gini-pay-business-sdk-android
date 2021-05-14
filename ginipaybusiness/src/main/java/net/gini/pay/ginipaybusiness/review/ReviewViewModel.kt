@@ -34,7 +34,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         viewModelScope.launch {
             giniBusiness.paymentFlow.collect { extractedPaymentDetails ->
                 if (extractedPaymentDetails is ResultWrapper.Success) {
-                    _paymentDetails.value = extractedPaymentDetails.value
+                    _paymentDetails.value = paymentDetails.value.add(extractedPaymentDetails.value)
                 }
             }
         }
@@ -134,6 +134,13 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         }
     }
 }
+
+private fun PaymentDetails.add(value: PaymentDetails): PaymentDetails = this.copy(
+    recipient = if (recipient.trim().isEmpty()) value.recipient else recipient,
+    iban = if (iban.trim().isEmpty()) value.iban else iban,
+    amount = if (amount.trim().isEmpty()) value.amount else amount,
+    purpose = if (purpose.trim().isEmpty()) value.purpose else purpose,
+)
 
 internal fun getReviewViewModelFactory(giniBusiness: GiniBusiness) = object : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
