@@ -111,3 +111,8 @@ private fun String.removeLeadingZero(): String {
         }
     } else this
 }
+
+
+internal fun String.adjustToLocalDecimalSeparation(): String {
+    return this.replace('.', DecimalFormatSymbols.getInstance().decimalSeparator)
+}
