@@ -148,6 +148,12 @@ class GiniBusiness(
         }
     }
 
+    /**
+     * Sets a lifecycle observer to handle state restoration after the system kills the app.
+     *
+     * @param registryOwner The SavedStateRegistryOwner to which the observer is attached.
+     * @param retryScope Should be a scope [setDocumentForReview] would be called in (ex: viewModelScope).
+     */
     fun setSavedStateRegistryOwner(registryOwner: SavedStateRegistryOwner, retryScope: CoroutineScope) {
         this.registryOwner.get()?.let { registry ->
             savedStateObserver?.let { observer ->
