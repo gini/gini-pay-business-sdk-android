@@ -22,6 +22,7 @@ import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.withFeedback
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
+import net.gini.pay.ginipaybusiness.util.toBackendFormat
 
 internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewModel() {
 
@@ -83,7 +84,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
                     paymentProvider = getPaymentProviderForPackage(bank.packageName).id,
                     recipient = paymentDetails.value.recipient,
                     iban = paymentDetails.value.iban,
-                    amount = "${paymentDetails.value.amount}:EUR",
+                    amount = "${paymentDetails.value.amount.toBackendFormat()}:EUR",
                     bic = null,
                     purpose = paymentDetails.value.purpose,
                 )
