@@ -3,9 +3,7 @@ package net.gini.pay.ginipaybusiness.util
 import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.textfield.TextInputEditText
-import java.math.RoundingMode
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
 
 internal fun TextInputEditText.setTextIfDifferent(text: String) {
     if (this.text.toString() != text) {
@@ -16,7 +14,7 @@ internal fun TextInputEditText.setTextIfDifferent(text: String) {
 internal fun String.isNumber(): Boolean {
     val separator = DecimalFormatSymbols.getInstance().decimalSeparator
     return try {
-        this.filter { it.isDigit() || it == separator}
+        this.filter { it.isDigit() || it == separator }
             .map { if (it == separator) "." else it.toString() }
             .joinToString(separator = "") { it }
             .toDouble()
@@ -28,7 +26,7 @@ internal fun String.isNumber(): Boolean {
 
 internal fun String.toBackendFormat(): String {
     val separator = DecimalFormatSymbols.getInstance().decimalSeparator
-    return this.filter { it.isDigit() || it == separator}
+    return this.filter { it.isDigit() || it == separator }
         .map { if (it == separator) "." else it.toString() }
         .joinToString(separator = "") { it }
         .toDouble()
@@ -48,46 +46,24 @@ internal val amountWatcher = object : TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
+        val formatSymbols = DecimalFormatSymbols.getInstance()
         try {
             if (s != null && s.toString().trim().isNotEmpty()) {
-                if (fractionPosition != -1) {
-                    val number = s.toString().mapIndexedNotNull { index, c ->
-                        when {
-                            index == fractionPosition -> '.'.toString()
-                            c == ',' || c == '.' -> null
-                            else -> c.toString()
-                        }
-                    }.joinToString(separator = "") { it }
-                    var newString = NumberFormat.getInstance().apply {
-                        maximumFractionDigits = 2
-                        roundingMode = RoundingMode.DOWN
-                    }.format(number.toDouble())
-                    newString = if (number.last() == '.' || number.last() == ',') newString + DecimalFormatSymbols.getInstance().decimalSeparator else newString
-                    if (newString != s.toString()) {
-                        s.replace(0, s.length, newString)
+                val oldString = s.toString().updateFractionPosition(fractionPosition, formatSymbols.decimalSeparator)
+                    .removeLeadingZero()
+                    .takeNumberCharacters(formatSymbols.decimalSeparator)
+                val fractionIndex = oldString.getDecimalSeparatorIndex(formatSymbols.decimalSeparator)
+                val newString = oldString.mapIndexedNotNull { index, c ->
+                    when {
+                        index == 0 -> c.toString()
+                        index < fractionIndex && (fractionIndex - index) % 3 == 0 -> "${formatSymbols.groupingSeparator}$c"
+                        index > fractionIndex && index - fractionIndex > 2 -> null
+                        index > 11 -> null
+                        else -> c.toString()
                     }
-                } else {
-                    val groupSeparator = DecimalFormatSymbols.getInstance().groupingSeparator
-                    var oldString = s.toString().removeLeadingZero()
-                    var fractionIndex = oldString.indexOf(DecimalFormatSymbols.getInstance().decimalSeparator)
-                    oldString = oldString.filterIndexed { index, c -> c.isDigit() || index == fractionIndex }
-                    fractionIndex = oldString.indexOf(DecimalFormatSymbols.getInstance().decimalSeparator)
-                    if (fractionIndex == -1) {
-                        fractionIndex = oldString.length
-                    }
-                    val newString = oldString
-                        .mapIndexedNotNull { index, c ->
-                            when {
-                                index == 0 -> c.toString()
-                                index < fractionIndex && (fractionIndex - index) % 3 == 0 -> "$groupSeparator$c"
-                                index > fractionIndex && index - fractionIndex > 2 -> null
-                                index > 11 -> null
-                                else -> c.toString()
-                            }
-                        }.joinToString(separator = "") { it }
-                    if (newString != s.toString()) {
-                        s.replace(0, s.length, newString)
-                    }
+                }.joinToString(separator = "") { it }
+                if (newString != s.toString()) {
+                    s.replace(0, s.length, newString)
                 }
             }
         } catch (_: Throwable) {
@@ -97,13 +73,41 @@ internal val amountWatcher = object : TextWatcher {
 
 }
 
+private fun String.updateFractionPosition(fractionPosition: Int, decimalSeparator: Char): String {
+    return if (fractionPosition > -1) {
+        this.mapIndexedNotNull { index, c ->
+            when {
+                index == fractionPosition -> decimalSeparator.toString()
+                c == ',' || c == '.' -> null
+                else -> c.toString()
+            }
+        }.joinToString(separator = "") { it }
+    } else {
+        this
+    }
+}
+
+private fun String.getDecimalSeparatorIndex(decimalSeparator: Char): Int {
+    val index = this.indexOf(decimalSeparator)
+    return if (index != -1) {
+        index
+    } else {
+        this.length
+    }
+}
+
+private fun String.takeNumberCharacters(decimalSeparator: Char): String {
+    val fractionIndex = this.indexOf(decimalSeparator)
+    return this.filterIndexed { index, c -> c.isDigit() || index == fractionIndex }
+}
+
 private fun String.removeLeadingZero(): String {
     return if (length > 1 && first() == '0' && this[1] != ',' && this[1] != '.') {
         val firstNonZero = indexOfFirst { it != '0' }
         if (firstNonZero == -1) {
             "0"
         } else {
-            this.slice(firstNonZero until  length)
+            this.slice(firstNonZero until length)
         }
     } else this
 }
