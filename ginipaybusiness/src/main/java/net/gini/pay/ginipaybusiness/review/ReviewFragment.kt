@@ -34,7 +34,6 @@ import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
 import net.gini.pay.ginipaybusiness.util.amountWatcher
 import net.gini.pay.ginipaybusiness.util.autoCleared
-import net.gini.pay.ginipaybusiness.util.adjustToLocalDecimalSeparation
 import net.gini.pay.ginipaybusiness.util.setTextIfDifferent
 
 
@@ -166,7 +165,7 @@ class ReviewFragment(
     private fun GpbFragmentReviewBinding.setPaymentDetails(paymentDetails: PaymentDetails) {
         recipient.setTextIfDifferent(paymentDetails.recipient)
         iban.setTextIfDifferent(paymentDetails.iban)
-        amount.setTextIfDifferent(paymentDetails.amount.adjustToLocalDecimalSeparation())
+        amount.setTextIfDifferent(paymentDetails.amount)
         purpose.setTextIfDifferent(paymentDetails.purpose)
         payment.isEnabled = !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
     }

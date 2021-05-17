@@ -22,6 +22,7 @@ import net.gini.pay.ginipaybusiness.review.model.PaymentRequest
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.withFeedback
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
+import net.gini.pay.ginipaybusiness.util.adjustToLocalDecimalSeparation
 import net.gini.pay.ginipaybusiness.util.toBackendFormat
 
 internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewModel() {
@@ -38,7 +39,9 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         viewModelScope.launch {
             giniBusiness.paymentFlow.collect { extractedPaymentDetails ->
                 if (extractedPaymentDetails is ResultWrapper.Success) {
-                    _paymentDetails.value = paymentDetails.value.add(extractedPaymentDetails.value)
+                    _paymentDetails.value = paymentDetails.value.add(extractedPaymentDetails.value.copy(
+                        amount = extractedPaymentDetails.value.amount.adjustToLocalDecimalSeparation()
+                    ))
                 }
             }
         }
