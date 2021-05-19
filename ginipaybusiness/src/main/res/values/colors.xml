@@ -16,4 +16,5 @@
     <color name="gbp_input_stroke_active">?attr/colorPrimaryVariant</color>
     <color name="gpb_input_background_default">#F2F3F6</color>
     <color name="gpb_input_background_active">#fff</color>
+    <color name="gpb_payment_button_background_enabled">#FF6800</color>
 </resources>

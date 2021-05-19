@@ -166,6 +166,7 @@ class ReviewFragment(
         iban.setTextIfDifferent(paymentDetails.iban)
         amount.setTextIfDifferent(paymentDetails.amount)
         purpose.setTextIfDifferent(paymentDetails.purpose)
+        payment.isEnabled = !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
     }
 
     private fun GpbFragmentReviewBinding.setInputListeners() {
