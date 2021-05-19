@@ -9,6 +9,7 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.commit
+import androidx.lifecycle.viewModelScope
 import dev.chrisbanes.insetter.applyInsetter
 import net.gini.pay.app.R
 import net.gini.pay.app.databinding.ActivityReviewBinding
@@ -21,6 +22,7 @@ class ReviewActivity : AppCompatActivity() {
     private val viewModel: ReviewViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.giniBusiness.setSavedStateRegistryOwner(this, viewModel.viewModelScope)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         supportFragmentManager.fragmentFactory = ReviewFragmentFactory(viewModel.giniBusiness)
         super.onCreate(savedInstanceState)

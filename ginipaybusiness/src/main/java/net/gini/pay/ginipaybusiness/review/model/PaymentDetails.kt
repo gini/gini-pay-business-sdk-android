@@ -1,15 +1,18 @@
 package net.gini.pay.ginipaybusiness.review.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import net.gini.android.models.ExtractionsContainer
 import net.gini.android.models.SpecificExtraction
 
+@Parcelize
 data class PaymentDetails(
     val recipient: String,
     val iban: String,
     val amount: String,
     val purpose: String,
     internal val extractions: ExtractionsContainer? = null
-)
+): Parcelable
 
 internal fun ExtractionsContainer.toPaymentDetails() = PaymentDetails(
     recipient = specificExtractions["paymentRecipient"]?.value ?: "",
