@@ -1,6 +1,7 @@
 package net.gini.pay.ginipaybusiness.review
 
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
+import net.gini.pay.ginipaybusiness.util.isNumber
 import net.gini.pay.ginipaybusiness.util.isValidIban
 
 internal enum class PaymentField { Recipient, Iban, Amount, Purpose }
@@ -31,6 +32,7 @@ internal fun validateIban(iban: String): List<ValidationMessage> = mutableListOf
 
 internal fun validateAmount(amount: String): List<ValidationMessage> = mutableListOf<ValidationMessage>().apply {
     if (amount.trim().isEmpty()) add(ValidationMessage.Empty(PaymentField.Amount))
+    if (!amount.trim().isNumber()) add(ValidationMessage.AmountFormat)
 }
 
 internal fun validatePurpose(purpose: String): List<ValidationMessage> = mutableListOf<ValidationMessage>().apply {
