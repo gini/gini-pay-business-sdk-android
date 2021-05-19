@@ -1,8 +1,18 @@
 package net.gini.pay.ginipaybusiness
 
 import android.content.pm.PackageManager
+import android.os.Bundle
+import android.os.Parcelable
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryOwner
+import java.lang.ref.WeakReference
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import net.gini.android.Gini
 import net.gini.android.models.Document
 import net.gini.pay.ginipaybusiness.requirement.Requirement
@@ -36,6 +46,9 @@ class GiniBusiness(
     val giniApi: Gini
 ) {
     private val documentManager = giniApi.documentManager
+
+    private var registryOwner = WeakReference<SavedStateRegistryOwner?>(null)
+    private var savedStateObserver: LifecycleEventObserver? = null
 
     private var capturedArguments: CapturedArguments? = null
 
@@ -135,8 +148,62 @@ class GiniBusiness(
         }
     }
 
-    private sealed class CapturedArguments {
+    /**
+     * Sets a lifecycle observer to handle state restoration after the system kills the app.
+     *
+     * @param registryOwner The SavedStateRegistryOwner to which the observer is attached.
+     * @param retryScope Should be a scope [setDocumentForReview] would be called in (ex: viewModelScope).
+     */
+    fun setSavedStateRegistryOwner(registryOwner: SavedStateRegistryOwner, retryScope: CoroutineScope) {
+        this.registryOwner.get()?.let { registry ->
+            savedStateObserver?.let { observer ->
+                registry.lifecycle.removeObserver(observer)
+            }
+        }
+        this.registryOwner = WeakReference(registryOwner)
+        savedStateObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_CREATE) {
+                val registry = this.registryOwner.get()?.savedStateRegistry
+                registry?.registerSavedStateProvider(PROVIDER, savedStateProvider)
+
+                val state = registry?.consumeRestoredStateForKey(PROVIDER)
+                if (capturedArguments == null) {
+                    capturedArguments = when (state?.getString(CAPTURED_ARGUMENTS_TYPE)) {
+                        CAPTURED_ARGUMENTS_ID -> state.getParcelable<CapturedArguments.DocumentId>(CAPTURED_ARGUMENTS)
+                        CAPTURED_ARGUMENTS_DOCUMENT -> state.getParcelable<CapturedArguments.DocumentInstance>(CAPTURED_ARGUMENTS)
+                        else -> null
+                    }
+                    retryScope.launch {
+                        retryDocumentReview()
+                    }
+                }
+            }
+        }.also { observer ->
+            registryOwner.lifecycle.addObserver(observer)
+        }
+    }
+
+    private val savedStateProvider = SavedStateRegistry.SavedStateProvider {
+        Bundle().apply {
+            when (capturedArguments) {
+                is CapturedArguments.DocumentId -> {
+                    this.putString(CAPTURED_ARGUMENTS_TYPE, CAPTURED_ARGUMENTS_ID)
+                    this.putParcelable(CAPTURED_ARGUMENTS, capturedArguments)
+                }
+                is CapturedArguments.DocumentInstance -> {
+                    this.putString(CAPTURED_ARGUMENTS_TYPE, CAPTURED_ARGUMENTS_DOCUMENT)
+                    this.putParcelable(CAPTURED_ARGUMENTS, capturedArguments)
+                }
+                null -> this.putString(CAPTURED_ARGUMENTS_TYPE, CAPTURED_ARGUMENTS_NULL)
+            }
+        }
+    }
+
+    private sealed class CapturedArguments : Parcelable {
+        @Parcelize
         class DocumentInstance(val value: Document) : CapturedArguments()
+
+        @Parcelize
         class DocumentId(val id: String, val paymentDetails: PaymentDetails? = null) : CapturedArguments()
     }
 
@@ -145,5 +212,14 @@ class GiniBusiness(
         object Loading : PaymentState()
         class Success(val paymentRequest: PaymentRequest) : PaymentState()
         class Error(val throwable: Throwable) : PaymentState()
+    }
+
+    companion object {
+        private const val CAPTURED_ARGUMENTS_NULL = "CAPTURED_ARGUMENTS_NULL"
+        private const val CAPTURED_ARGUMENTS_ID = "CAPTURED_ARGUMENTS_ID"
+        private const val CAPTURED_ARGUMENTS_DOCUMENT = "CAPTURED_ARGUMENTS_DOCUMENT"
+        private const val CAPTURED_ARGUMENTS_TYPE = "CAPTURED_ARGUMENTS_TYPE"
+        private const val PROVIDER = "net.gini.pay.ginipaybusiness.GiniBusiness"
+        private const val CAPTURED_ARGUMENTS = "CAPTURED_ARGUMENTS"
     }
 }

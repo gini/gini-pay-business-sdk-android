@@ -32,6 +32,7 @@ import net.gini.pay.ginipaybusiness.review.bank.getBanks
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.pager.DocumentPageAdapter
+import net.gini.pay.ginipaybusiness.util.amountWatcher
 import net.gini.pay.ginipaybusiness.util.autoCleared
 import net.gini.pay.ginipaybusiness.util.setTextIfDifferent
 
@@ -166,12 +167,14 @@ class ReviewFragment(
         iban.setTextIfDifferent(paymentDetails.iban)
         amount.setTextIfDifferent(paymentDetails.amount)
         purpose.setTextIfDifferent(paymentDetails.purpose)
+        payment.isEnabled = !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
     }
 
     private fun GpbFragmentReviewBinding.setInputListeners() {
         recipient.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setRecipient(text.toString()) })
         iban.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setIban(text.toString()) })
         amount.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setAmount(text.toString()) })
+        amount.addTextChangedListener(amountWatcher)
         purpose.addTextChangedListener(onTextChanged = { text, _, _, _ -> viewModel.setPurpose(text.toString()) })
         recipient.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) recipientLayout.isErrorEnabled = false }
         iban.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) ibanLayout.isErrorEnabled = false }
