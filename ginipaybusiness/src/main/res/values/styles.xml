@@ -7,9 +7,8 @@
     <!-- Root styles shouldn't be overridden, instead override their descendant styles -->
     <style name="Root.GiniPay" />
 
-    <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textAppearance">?attr/textAppearanceBody2</item>
-        <item name="hintEnabled">false</item>
         <item name="boxStrokeColor">@color/gpb_input_box_stroke_color</item>
         <item name="boxBackgroundColor">@color/gpb_input_box_background_color</item>
         <item name="errorIconDrawable">@null</item>
@@ -19,10 +18,10 @@
     <style name="GiniPay.PaymentInputLayoutStyle" parent="Root.GiniPay.PaymentInputLayoutStyle" />
 
     <style name="Root.GiniPay.PaymentInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingTop">25dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
         <item name="android:singleLine">true</item>
     </style>
 

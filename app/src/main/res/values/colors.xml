@@ -14,6 +14,4 @@
 
     <color name="gpb_input_stroke_default">#F2F3F6</color>
     <color name="gbp_input_stroke_active">#0077FF</color>
-    <color name="gpb_input_background_default">#F2F3F6</color>
-    <color name="gpb_input_background_active">#fff</color>
 </resources>
