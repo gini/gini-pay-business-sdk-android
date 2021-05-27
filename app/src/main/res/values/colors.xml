@@ -9,9 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black30">#30000000</color>
     <color name="black80">#CC000000</color>
+    <color name="gray10">#E6E7ED</color>
     <color name="selected_dot">#90000000</color>
 
-
-    <color name="gpb_input_stroke_default">#F2F3F6</color>
-    <color name="gbp_input_stroke_active">#0077FF</color>
+    <color name="gpb_input_stroke_default">@color/gray10</color>
+    <color name="gbp_input_stroke_active">@color/blue</color>
 </resources>
