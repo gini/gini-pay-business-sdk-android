@@ -9,4 +9,5 @@
     <color name="gpb_input_background_default">#fff</color>
     <color name="gpb_input_background_active">#fff</color>
     <color name="gpb_payment_button_background_enabled">#FF6800</color>
+    <color name="gpb_page_error">#FFF</color>
 </resources>
