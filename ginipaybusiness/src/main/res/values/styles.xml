@@ -29,7 +29,6 @@
 
     <style name="Root.GiniPay.PaymentInputStyle.Amount">
         <item name="android:gravity">end</item>
-        <item name="android:paddingEnd">24dp</item>
     </style>
 
     <!-- Style for the amount TextInputEditText in ReviewFragment -->
