@@ -22,5 +22,5 @@ app/build.gradle:
 .. code-block:: groovy
 
     dependencies {
-        implementation 'net.gini:gini-pay-business-sdk:1.0.0-beta04'
+        implementation 'net.gini:gini-pay-business-sdk:1.0.0'
     }
