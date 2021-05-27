@@ -36,14 +36,6 @@
     <!-- Style for the amount TextInputEditText in ReviewFragment -->
     <style name="GiniPay.PaymentInputStyle.Amount" parent="Root.GiniPay.PaymentInputStyle.Amount" />
 
-    <style name="Root.GiniPay.CurrencyStyle">
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-    </style>
-
-    <!-- Style for the currency sign of the amount field in ReviewFragment -->
-    <style name="GiniPay.CurrencyStyle" parent="Root.GiniPay.CurrencyStyle" />
-
     <!-- Style for the ViewPager2 that displays the pages of the document in ReviewFragment -->
     <style name="GiniPay.DocumentPagerStyle" />
 
