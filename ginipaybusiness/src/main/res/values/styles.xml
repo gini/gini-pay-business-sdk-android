@@ -16,7 +16,7 @@
     <!-- Style for TextInputLayouts in ReviewFragment -->
     <style name="GiniPay.PaymentInputLayoutStyle" parent="Root.GiniPay.PaymentInputLayoutStyle" />
 
-    <style name="Root.GiniPay.PaymentInputStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Root.GiniPay.PaymentInputStyle" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">
         <item name="android:paddingTop">25dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingStart">0dp</item>
