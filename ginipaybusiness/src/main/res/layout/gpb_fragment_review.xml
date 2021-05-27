@@ -81,7 +81,7 @@
                 android:layout_marginTop="@dimen/gpb_input_spacing_vertical"
                 android:layout_marginEnd="@dimen/gpb_input_spacing_horizontal"
                 app:layout_constraintEnd_toStartOf="@id/amount_layout"
-                app:layout_constraintHorizontal_weight=".7"
+                app:layout_constraintHorizontal_weight="@dimen/gpb_input_iban_weight"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recipient_layout">
 
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/gpb_input_spacing_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight=".3"
+                app:layout_constraintHorizontal_weight="@dimen/gpb_input_amount_weight"
                 app:layout_constraintStart_toEndOf="@id/iban_layout"
                 app:layout_constraintTop_toBottomOf="@id/recipient_layout">
 
