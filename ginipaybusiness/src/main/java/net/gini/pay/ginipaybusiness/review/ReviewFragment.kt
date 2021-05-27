@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
@@ -93,7 +94,8 @@ class ReviewFragment(
             setStateListeners()
             setInputListeners()
             setActionListeners()
-            setKeyboardAnimation(resources)
+            setKeyboardAnimation()
+            removePagerConstraint()
         }
     }
 
@@ -131,7 +133,9 @@ class ReviewFragment(
             is ResultWrapper.Success -> {
                 documentPageAdapter.submitList(viewModel.getPages(documentResult.value).also { pages ->
                     indicator.isVisible = pages.size != 1
+                    pager.isUserInputEnabled = pages.size > 1
                 })
+                removePagerConstraint()
             }
             is ResultWrapper.Error -> handleError(getString(R.string.gpb_error_document)) { viewModel.retryDocumentReview() }
             else -> { // Loading state handled by payment details
@@ -167,7 +171,8 @@ class ReviewFragment(
         iban.setTextIfDifferent(paymentDetails.iban)
         amount.setTextIfDifferent(paymentDetails.amount)
         purpose.setTextIfDifferent(paymentDetails.purpose)
-        payment.isEnabled = !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
+        payment.isEnabled =
+            !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
     }
 
     private fun GpbFragmentReviewBinding.setInputListeners() {
@@ -270,52 +275,59 @@ class ReviewFragment(
             }
         }
     }
-}
 
-private fun GpbFragmentReviewBinding.setKeyboardAnimation(resources: Resources) {
-    if (Build.VERSION.SDK_INT < 30) return
-    ViewCompat.setWindowInsetsAnimationCallback(paymentDetails, object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-        var startBottom = 0
-        var endBottom = 0
-        var startHeight = 0
-        var endHeight = 0
-        override fun onPrepare(animation: WindowInsetsAnimationCompat) {
-            startBottom = paymentDetails.paddingBottom
-            startHeight = pager.height
-        }
-
-        override fun onStart(
-            animation: WindowInsetsAnimationCompat,
-            bounds: WindowInsetsAnimationCompat.BoundsCompat
-        ): WindowInsetsAnimationCompat.BoundsCompat {
-            endBottom = paymentDetails.paddingBottom
-            endHeight = pager.height
-            paymentDetails.translationY = (endBottom - startBottom).toFloat()
-            pager.pivotY = (resources.getDimension(R.dimen.gpb_page_padding_top) + (ViewCompat.getRootWindowInsets(root)
-                ?.getInsets(windowInsetTypesOf(statusBars = true))?.top?.toFloat() ?: 0f))
-            (startHeight.toFloat() / endHeight).let {
-                pager.scaleX = it
-                pager.scaleY = it
+    private fun GpbFragmentReviewBinding.removePagerConstraint() {
+        root.post {
+            ConstraintSet().apply {
+                clone(constraintRoot)
+                constrainHeight(R.id.pager, pager.height)
+                clear(R.id.pager, ConstraintSet.BOTTOM)
+                applyTo(constraintRoot)
             }
-            return bounds
         }
+    }
 
-        override fun onProgress(insets: WindowInsetsCompat, runningAnimations: MutableList<WindowInsetsAnimationCompat>): WindowInsetsCompat {
-            runningAnimations.find { it.typeMask == windowInsetTypesOf(ime = true) }?.let { animation ->
-                paymentDetails.translationY = lerp((endBottom - startBottom).toFloat(), 0f, animation.interpolatedFraction)
-                (lerp((startHeight.toFloat() / endHeight), 1f, animation.interpolatedFraction)).let {
-                    pager.scaleX = it
-                    pager.scaleY = it
+    private fun GpbFragmentReviewBinding.setKeyboardAnimation() {
+        ViewCompat.setWindowInsetsAnimationCallback(paymentDetails, object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+            var startBottom = 0
+            var endBottom = 0
+
+            override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+                startBottom = paymentDetails.paddingBottom
+            }
+
+            override fun onStart(
+                animation: WindowInsetsAnimationCompat,
+                bounds: WindowInsetsAnimationCompat.BoundsCompat
+            ): WindowInsetsAnimationCompat.BoundsCompat {
+                if (Build.VERSION.SDK_INT >= 30) {
+                    endBottom = paymentDetails.paddingBottom
+                    paymentDetails.translationY = (endBottom - startBottom).toFloat()
+                }
+                if (startBottom < endBottom) {
+                    indicator.isVisible = false
+                }
+                return bounds
+            }
+
+            override fun onProgress(insets: WindowInsetsCompat, runningAnimations: MutableList<WindowInsetsAnimationCompat>): WindowInsetsCompat {
+                if (Build.VERSION.SDK_INT >= 30) {
+                    runningAnimations.find { it.typeMask == windowInsetTypesOf(ime = true) }?.let { animation ->
+                        paymentDetails.translationY = lerp((endBottom - startBottom).toFloat(), 0f, animation.interpolatedFraction)
+                    }
+                }
+                return insets
+            }
+
+            override fun onEnd(animation: WindowInsetsAnimationCompat) {
+                super.onEnd(animation)
+                if (Build.VERSION.SDK_INT >= 30) {
+                    paymentDetails.translationY = 0f
+                }
+                if (startBottom > endBottom && pager.isUserInputEnabled) {
+                    indicator.isVisible = true
                 }
             }
-            return insets
-        }
-
-        override fun onEnd(animation: WindowInsetsAnimationCompat) {
-            super.onEnd(animation)
-            pager.scaleX = 1f
-            pager.scaleY = 1f
-            paymentDetails.translationY = 0f
-        }
-    })
+        })
+    }
 }

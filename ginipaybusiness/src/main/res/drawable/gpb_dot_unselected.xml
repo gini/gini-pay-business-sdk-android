@@ -9,7 +9,7 @@
             android:shape="ring"
             android:thickness="@dimen/gpb_indicator_radius"
             android:useLevel="false">
-            <solid android:color="@color/gpb_unseleted_dot" />
+            <solid android:color="@color/gpb_unselected_dot" />
         </shape>
     </item>
 </layer-list>

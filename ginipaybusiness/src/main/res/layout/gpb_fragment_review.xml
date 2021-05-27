@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gpb_document_background">
@@ -77,10 +78,10 @@
                 style="@style/GiniPay.PaymentInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gpb_input_spacing"
-                android:layout_marginEnd="@dimen/gpb_input_spacing"
+                android:layout_marginTop="@dimen/gpb_input_spacing_vertical"
+                android:layout_marginEnd="@dimen/gpb_input_spacing_horizontal"
                 app:layout_constraintEnd_toStartOf="@id/amount_layout"
-                app:layout_constraintHorizontal_weight=".7"
+                app:layout_constraintHorizontal_weight="@dimen/gpb_input_iban_weight"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recipient_layout">
 
@@ -98,11 +99,12 @@
                 style="@style/GiniPay.PaymentInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gpb_input_spacing"
+                android:layout_marginTop="@dimen/gpb_input_spacing_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight=".3"
+                app:layout_constraintHorizontal_weight="@dimen/gpb_input_amount_weight"
                 app:layout_constraintStart_toEndOf="@id/iban_layout"
-                app:layout_constraintTop_toBottomOf="@id/recipient_layout">
+                app:layout_constraintTop_toBottomOf="@id/recipient_layout"
+                app:suffixText="€">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/amount"
@@ -113,16 +115,6 @@
                     android:digits="0123456789.,"
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/currency"
-                style="@style/GiniPay.CurrencyStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="€"
-                app:layout_constraintEnd_toEndOf="@id/amount_layout"
-                app:layout_constraintTop_toTopOf="@id/amount_layout"
-                tools:ignore="HardcodedText" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/iban_amount_barrier"
@@ -136,7 +128,7 @@
                 style="@style/GiniPay.PaymentInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gpb_input_spacing"
+                android:layout_marginTop="@dimen/gpb_input_spacing_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iban_amount_barrier">

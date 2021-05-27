@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -84,6 +85,20 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
                 type(statusBars = true) {
                     padding(top = true)
                 }
+                type(ime = true) {
+                    padding(bottom = true)
+                }
+            }
+            binding.image.setOnScaleChangeListener { _, _, _ ->
+                binding.root.parent.requestDisallowInterceptTouchEvent(true)
+            }
+            ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+                with(binding.image) {
+                    post {
+                        scale = scale.coerceIn(minimumScale, maximumScale)
+                    }
+                }
+                insets
             }
         }
     }
