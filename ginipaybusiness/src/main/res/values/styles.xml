@@ -7,7 +7,7 @@
     <!-- Root styles shouldn't be overridden, instead override their descendant styles -->
     <style name="Root.GiniPay" />
 
-    <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxStrokeColor">@color/gpb_input_box_stroke_color</item>
         <item name="boxBackgroundColor">@color/gpb_input_box_background_color</item>
         <item name="errorIconDrawable">@null</item>
