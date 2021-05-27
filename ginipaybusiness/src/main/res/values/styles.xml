@@ -8,7 +8,6 @@
     <style name="Root.GiniPay" />
 
     <style name="Root.GiniPay.PaymentInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
         <item name="boxStrokeColor">@color/gpb_input_box_stroke_color</item>
         <item name="boxBackgroundColor">@color/gpb_input_box_background_color</item>
         <item name="errorIconDrawable">@null</item>
