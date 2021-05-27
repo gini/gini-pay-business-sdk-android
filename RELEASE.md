@@ -5,6 +5,7 @@ This document describes the release process for a new version of the Gini Pay Ba
 1. Add new features only in separate `feature` branches and merge them into `develop`
 2. Create a `release` branch from `develop`
   * Update the version in `gradle.properties`
+  * Update the version in `ginipaybusiness/src/doc/source/setup.rst`
   * Update the version in the `README.md`
 3. Push the `release` branch and wait for the Jenkins build to finish
 4. If everything is fine create a PR to merge the `release` branch into `master`
