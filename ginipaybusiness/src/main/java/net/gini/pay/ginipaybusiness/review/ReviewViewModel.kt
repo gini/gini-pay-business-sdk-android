@@ -4,11 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import net.gini.android.models.Document
 import net.gini.android.models.PaymentProvider
@@ -34,6 +30,14 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
     val paymentValidation: SharedFlow<List<ValidationMessage>> = _paymentValidation
 
     var selectedBank: BankApp? = null
+
+    val isPaymentButtonEnabled: Flow<Boolean> = giniBusiness.openBankState
+        .combine(paymentDetails) { paymentState, paymentDetails ->
+            val noEmptyFields = paymentDetails.recipient.isNotEmpty() && paymentDetails.iban.isNotEmpty() &&
+                    paymentDetails.amount.isNotEmpty() && paymentDetails.purpose.isNotEmpty()
+            val isLoading = (paymentState is GiniBusiness.PaymentState.Loading)
+            !isLoading && noEmptyFields
+        }
 
     init {
         viewModelScope.launch {

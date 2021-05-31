@@ -1,7 +1,6 @@
 package net.gini.pay.ginipaybusiness.review
 
 import android.content.ActivityNotFoundException
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -126,6 +125,9 @@ class ReviewFragment(
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.giniBusiness.openBankState.collect { handlePaymentState(it) }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.isPaymentButtonEnabled.collect { payment.isEnabled = it }
+        }
     }
 
     private fun GpbFragmentReviewBinding.handleDocumentResult(documentResult: ResultWrapper<Document>) {
@@ -171,8 +173,6 @@ class ReviewFragment(
         iban.setTextIfDifferent(paymentDetails.iban)
         amount.setTextIfDifferent(paymentDetails.amount)
         purpose.setTextIfDifferent(paymentDetails.purpose)
-        payment.isEnabled =
-            !(paymentDetails.recipient.isEmpty() || paymentDetails.iban.isEmpty() || paymentDetails.amount.isEmpty() || paymentDetails.purpose.isEmpty())
     }
 
     private fun GpbFragmentReviewBinding.setInputListeners() {
@@ -231,7 +231,6 @@ class ReviewFragment(
             amountLayout.isEnabled = !isLoading
             purposeLayout.isEnabled = !isLoading
             bank.isEnabled = !isLoading
-            payment.isEnabled = !isLoading
             payment.text = if (isLoading) "" else getString(R.string.gpb_pay_button)
         }
         when (paymentState) {
