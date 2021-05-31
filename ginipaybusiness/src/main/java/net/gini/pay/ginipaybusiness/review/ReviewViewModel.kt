@@ -39,7 +39,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
         viewModelScope.launch {
             giniBusiness.paymentFlow.collect { extractedPaymentDetails ->
                 if (extractedPaymentDetails is ResultWrapper.Success) {
-                    _paymentDetails.value = paymentDetails.value.add(extractedPaymentDetails.value.copy(
+                    _paymentDetails.value = paymentDetails.value.overwriteEmptyFields(extractedPaymentDetails.value.copy(
                         amount = extractedPaymentDetails.value.amount.adjustToLocalDecimalSeparation()
                     ))
                 }
@@ -142,7 +142,7 @@ internal class ReviewViewModel(internal val giniBusiness: GiniBusiness) : ViewMo
     }
 }
 
-private fun PaymentDetails.add(value: PaymentDetails): PaymentDetails = this.copy(
+private fun PaymentDetails.overwriteEmptyFields(value: PaymentDetails): PaymentDetails = this.copy(
     recipient = if (recipient.trim().isEmpty()) value.recipient else recipient,
     iban = if (iban.trim().isEmpty()) value.iban else iban,
     amount = if (amount.trim().isEmpty()) value.amount else amount,
