@@ -152,6 +152,7 @@
             <Button
                 android:id="@+id/payment"
                 style="@style/GiniPay.PaymentButtonStyle"
+                android:enabled="false"
                 android:text="@string/gpb_pay_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bank"
