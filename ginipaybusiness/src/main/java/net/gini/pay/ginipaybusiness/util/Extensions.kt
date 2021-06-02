@@ -3,7 +3,10 @@ package net.gini.pay.ginipaybusiness.util
 import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.textfield.TextInputEditText
+import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 
 internal fun TextInputEditText.setTextIfDifferent(text: String) {
     if (this.text.toString() != text) {
@@ -34,85 +37,48 @@ internal fun String.toBackendFormat(): String {
 }
 
 internal val amountWatcher = object : TextWatcher {
-    private var fractionPosition = -1
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        fractionPosition = if (s != null && start < s.length && (s[start] == ',' || s[start] == '.')) {
-            start
-        } else -1
+
     }
 
     override fun afterTextChanged(s: Editable?) {
-        val formatSymbols = DecimalFormatSymbols.getInstance()
-        try {
-            if (s != null && s.toString().trim().isNotEmpty()) {
-                val oldString = s.toString().updateFractionPosition(fractionPosition, formatSymbols.decimalSeparator)
-                    .removeLeadingZero()
-                    .takeNumberCharacters(formatSymbols.decimalSeparator)
-                val fractionIndex = oldString.getDecimalSeparatorIndex(formatSymbols.decimalSeparator)
-                val newString = oldString.mapIndexedNotNull { index, c ->
-                    when {
-                        index == 0 -> c.toString()
-                        index < fractionIndex && (fractionIndex - index) % 3 == 0 -> "${formatSymbols.groupingSeparator}$c"
-                        index > fractionIndex && index - fractionIndex > 2 -> null
-                        index > 11 -> null
-                        else -> c.toString()
-                    }
-                }.joinToString(separator = "") { it }
-                if (newString != s.toString()) {
-                    s.replace(0, s.length, newString)
-                }
-            }
-        } catch (_: Throwable) {
+        s?.let { input ->
+            // Take only the first 7 digits (without leading zeros)
+            val onlyDigits = input.toString().trim()
+                .filter { it != '.' && it != ',' }
+                .take(7)
+                .trimStart('0')
 
+             val newString = try {
+                 // Parse to a decimal with two decimal places
+                 val decimal = BigDecimal(onlyDigits).divide(BigDecimal(100))
+                 // Format to a currency string
+                 currencyFormatterWithoutSymbol().format(decimal).trim()
+             } catch (e: NumberFormatException) {
+                 ""
+             }
+
+            if (newString != input.toString()) {
+                input.replace(0, input.length, newString)
+            }
         }
     }
 
 }
-
-private fun String.updateFractionPosition(fractionPosition: Int, decimalSeparator: Char): String {
-    return if (fractionPosition > -1) {
-        this.mapIndexedNotNull { index, c ->
-            when {
-                index == fractionPosition -> decimalSeparator.toString()
-                c == ',' || c == '.' -> null
-                else -> c.toString()
-            }
-        }.joinToString(separator = "") { it }
-    } else {
-        this
-    }
-}
-
-private fun String.getDecimalSeparatorIndex(decimalSeparator: Char): Int {
-    val index = this.indexOf(decimalSeparator)
-    return if (index != -1) {
-        index
-    } else {
-        this.length
-    }
-}
-
-private fun String.takeNumberCharacters(decimalSeparator: Char): String {
-    val fractionIndex = this.indexOf(decimalSeparator)
-    return this.filterIndexed { index, c -> c.isDigit() || index == fractionIndex }
-}
-
-private fun String.removeLeadingZero(): String {
-    return if (length > 1 && first() == '0' && this[1] != ',' && this[1] != '.') {
-        val firstNonZero = indexOfFirst { it != '0' }
-        if (firstNonZero == -1) {
-            "0"
-        } else {
-            this.slice(firstNonZero until length)
-        }
-    } else this
-}
-
 
 internal fun String.adjustToLocalDecimalSeparation(): String {
     return this.replace('.', DecimalFormatSymbols.getInstance().decimalSeparator)
 }
+
+internal fun currencyFormatterWithoutSymbol(): NumberFormat =
+    NumberFormat.getCurrencyInstance().apply {
+        (this as? DecimalFormat)?.apply {
+            decimalFormatSymbols = decimalFormatSymbols.apply {
+                currencySymbol = ""
+            }
+        }
+    }
