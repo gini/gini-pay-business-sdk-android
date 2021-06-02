@@ -273,6 +273,11 @@ class ReviewFragment(
                 padding(bottom = true)
             }
         }
+        close.applyInsetter {
+            type(statusBars = true) {
+                margin(top = true)
+            }
+        }
     }
 
     private fun GpbFragmentReviewBinding.removePagerConstraint() {

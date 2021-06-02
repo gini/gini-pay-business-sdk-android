@@ -110,4 +110,15 @@
     <!-- Style for the progress indicator that is displayed on top of the Pay button in ReviewFragment -->
     <style name="GiniPay.PaymentButtonProgressStyle" parent="Root.GiniPay.PaymentButtonProgressStyle" />
 
+    <style name="Root.GiniPay.CloseButtonStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:minWidth">50dp</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:background">@drawable/gpb_close_button</item>
+    </style>
+
+    <!-- Style for close button in ReviewFragment -->
+    <style name="GiniPay.CloseButtonStyle" parent="Root.GiniPay.CloseButtonStyle"/>
+
 </resources>
