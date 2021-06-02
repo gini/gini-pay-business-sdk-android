@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -49,8 +46,30 @@ data class ReviewConfiguration(
     /**
      * Experimental orientation configuration for document pages.
      */
-    val documentOrientation: Orientation = Orientation.Horizontal
+    val documentOrientation: Orientation = Orientation.Horizontal,
+
+    /**
+     * Set to `true` to show a close button. Set a [ReviewFragmentListener] to be informed when the
+     * button is pressed.
+     */
+    val showCloseButton: Boolean = false
 )
+
+/**
+ * Listener for [ReviewFragment] events.
+ */
+interface ReviewFragmentListener {
+    /**
+     * Called when the close button was pressed.
+     */
+    fun onCloseReview()
+
+    companion object {
+        internal fun noOpInstance() = object : ReviewFragmentListener {
+            override fun onCloseReview() {}
+        }
+    }
+}
 
 enum class Orientation { Horizontal, Vertical }
 
@@ -69,7 +88,8 @@ enum class Orientation { Horizontal, Vertical }
  */
 class ReviewFragment(
     private val giniBusiness: GiniBusiness,
-    private val configuration: ReviewConfiguration = ReviewConfiguration()
+    private val configuration: ReviewConfiguration = ReviewConfiguration(),
+    private val listener: ReviewFragmentListener? = null
 ) : Fragment() {
 
     private val viewModel: ReviewViewModel by viewModels { getReviewViewModelFactory(giniBusiness) }
@@ -80,6 +100,7 @@ class ReviewFragment(
         super.onCreateView(inflater, container, savedInstanceState)
         documentPageAdapter = DocumentPageAdapter(giniBusiness, configuration)
         binding = GpbFragmentReviewBinding.inflate(inflater).apply {
+            configureViews()
             configureOrientation()
             applyInsets()
         }
@@ -152,6 +173,10 @@ class ReviewFragment(
         }
     }
 
+    private fun GpbFragmentReviewBinding.configureViews() {
+        close.isGone = !configuration.showCloseButton
+    }
+
     private fun GpbFragmentReviewBinding.configureOrientation() {
         when (configuration.documentOrientation) {
             Orientation.Horizontal -> {
@@ -185,6 +210,7 @@ class ReviewFragment(
         iban.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) ibanLayout.isErrorEnabled = false }
         amount.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) amountLayout.isErrorEnabled = false }
         purpose.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) purposeLayout.isErrorEnabled = false }
+        close.setOnClickListener { listener?.onCloseReview() }
     }
 
     private fun GpbFragmentReviewBinding.handleValidationResult(messages: List<ValidationMessage>) {
@@ -271,6 +297,11 @@ class ReviewFragment(
         paymentDetails.applyInsetter {
             type(navigationBars = true, ime = true) {
                 padding(bottom = true)
+            }
+        }
+        close.applyInsetter {
+            type(statusBars = true) {
+                margin(top = true)
             }
         }
     }
