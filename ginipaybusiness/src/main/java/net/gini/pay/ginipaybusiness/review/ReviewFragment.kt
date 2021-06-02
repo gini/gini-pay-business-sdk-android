@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -49,7 +46,13 @@ data class ReviewConfiguration(
     /**
      * Experimental orientation configuration for document pages.
      */
-    val documentOrientation: Orientation = Orientation.Horizontal
+    val documentOrientation: Orientation = Orientation.Horizontal,
+
+    /**
+     * Set to `true` to show a close button. Set a [ReviewFragmentListener] to be informed when the
+     * button is pressed.
+     */
+    val showCloseButton: Boolean = false
 )
 
 enum class Orientation { Horizontal, Vertical }
@@ -80,6 +83,7 @@ class ReviewFragment(
         super.onCreateView(inflater, container, savedInstanceState)
         documentPageAdapter = DocumentPageAdapter(giniBusiness, configuration)
         binding = GpbFragmentReviewBinding.inflate(inflater).apply {
+            configureViews()
             configureOrientation()
             applyInsets()
         }
@@ -150,6 +154,10 @@ class ReviewFragment(
         if (paymentResult is ResultWrapper.Error) {
             handleError(getString(R.string.gpb_error_payment_details)) { viewModel.retryDocumentReview() }
         }
+    }
+
+    private fun GpbFragmentReviewBinding.configureViews() {
+        close.isGone = !configuration.showCloseButton
     }
 
     private fun GpbFragmentReviewBinding.configureOrientation() {
