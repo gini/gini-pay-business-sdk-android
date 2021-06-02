@@ -210,6 +210,7 @@ class ReviewFragment(
         iban.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) ibanLayout.isErrorEnabled = false }
         amount.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) amountLayout.isErrorEnabled = false }
         purpose.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) purposeLayout.isErrorEnabled = false }
+        close.setOnClickListener { listener?.onCloseReview() }
     }
 
     private fun GpbFragmentReviewBinding.handleValidationResult(messages: List<ValidationMessage>) {
