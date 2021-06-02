@@ -55,6 +55,22 @@ data class ReviewConfiguration(
     val showCloseButton: Boolean = false
 )
 
+/**
+ * Listener for [ReviewFragment] events.
+ */
+interface ReviewFragmentListener {
+    /**
+     * Called when the close button was pressed.
+     */
+    fun onCloseReview()
+
+    companion object {
+        internal fun noOpInstance() = object : ReviewFragmentListener {
+            override fun onCloseReview() {}
+        }
+    }
+}
+
 enum class Orientation { Horizontal, Vertical }
 
 /**
@@ -72,7 +88,8 @@ enum class Orientation { Horizontal, Vertical }
  */
 class ReviewFragment(
     private val giniBusiness: GiniBusiness,
-    private val configuration: ReviewConfiguration = ReviewConfiguration()
+    private val configuration: ReviewConfiguration = ReviewConfiguration(),
+    private val listener: ReviewFragmentListener? = null
 ) : Fragment() {
 
     private val viewModel: ReviewViewModel by viewModels { getReviewViewModelFactory(giniBusiness) }
