@@ -26,6 +26,7 @@
         android:layout_height="@dimen/gpb_tab_height"
         android:visibility="gone"
         tools:visibility="visible"
+        android:background="@color/gpb_document_background"
         app:layout_constraintBottom_toTopOf="@id/payment_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
