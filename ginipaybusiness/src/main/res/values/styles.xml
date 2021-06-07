@@ -67,6 +67,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/gpb_payment_details_background</item>
+        <item name="android:elevation">12dp</item>
         <item name="android:paddingTop">@dimen/gpb_payment_details_padding_vertical</item>
         <item name="android:paddingStart">@dimen/gpb_payment_details_padding_horizontal</item>
         <item name="android:paddingEnd">@dimen/gpb_payment_details_padding_horizontal</item>
