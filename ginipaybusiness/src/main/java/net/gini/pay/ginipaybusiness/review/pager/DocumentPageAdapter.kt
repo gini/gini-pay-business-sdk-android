@@ -20,19 +20,14 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import net.gini.pay.ginipaybusiness.GiniBusiness
 import net.gini.pay.ginipaybusiness.databinding.GpbItemPageHorizontalBinding
-import net.gini.pay.ginipaybusiness.databinding.GpbItemPageVerticalBinding
-import net.gini.pay.ginipaybusiness.review.Orientation
-import net.gini.pay.ginipaybusiness.review.ReviewConfiguration
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
 import net.gini.pay.ginipaybusiness.review.model.wrapToResult
 
-internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, private val configuration: ReviewConfiguration) :
+internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness) :
     ListAdapter<DocumentPageAdapter.Page, DocumentPageAdapter.PageViewHolder>(DiffUtilCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder = when (configuration.documentOrientation) {
-        Orientation.Horizontal -> HorizontalViewHolder(giniBusiness, GpbItemPageHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        Orientation.Vertical -> VerticalViewHolder(giniBusiness, GpbItemPageVerticalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder =
+        HorizontalViewHolder(giniBusiness, GpbItemPageHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
         holder.onBind(currentList[position])
@@ -99,23 +94,6 @@ internal class DocumentPageAdapter(private val giniBusiness: GiniBusiness, priva
                     }
                 }
                 insets
-            }
-        }
-    }
-
-    class VerticalViewHolder(
-        giniBusiness: GiniBusiness,
-        private val binding: GpbItemPageVerticalBinding,
-        override val loadingView: ProgressBar = binding.loading,
-        override val imageView: ImageView = binding.image,
-        override val errorView: FrameLayout = binding.error.root,
-        override val retry: Button = binding.error.pageErrorRetry,
-    ) : PageViewHolder(giniBusiness, binding.root) {
-        init {
-            imageView.applyInsetter {
-                type(statusBars = true) {
-                    padding(top = true)
-                }
             }
         }
     }
