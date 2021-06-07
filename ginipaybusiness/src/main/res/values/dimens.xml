@@ -4,6 +4,8 @@
     <dimen name="gpb_tab_height">16dp</dimen>
     <dimen name="gpb_tab_width">16dp</dimen>
     <dimen name="gpb_payment_details_radius">12dp</dimen>
+    <dimen name="gpb_payment_details_padding_horizontal">16dp</dimen>
+    <dimen name="gpb_payment_details_padding_vertical">16dp</dimen>
     <dimen name="gpb_input_spacing_vertical">8dp</dimen>
     <dimen name="gpb_input_spacing_horizontal">32dp</dimen>
     <dimen name="gpb_payment_button_spacing">8dp</dimen>
