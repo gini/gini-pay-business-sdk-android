@@ -43,10 +43,6 @@ data class ReviewConfiguration(
      * If false errors will be ignored, in this case the flows exposed by [GiniBusiness] should be observed for errors.
      */
     val handleErrorsInternally: Boolean = true,
-    /**
-     * Experimental orientation configuration for document pages.
-     */
-    val documentOrientation: Orientation = Orientation.Horizontal,
 
     /**
      * Set to `true` to show a close button. Set a [ReviewFragmentListener] to be informed when the
@@ -70,8 +66,6 @@ interface ReviewFragmentListener {
         }
     }
 }
-
-enum class Orientation { Horizontal, Vertical }
 
 /**
  * Fragment that displays document pages and extractions and it lets the user pay using a payment provider.
@@ -98,7 +92,7 @@ class ReviewFragment(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        documentPageAdapter = DocumentPageAdapter(giniBusiness, configuration)
+        documentPageAdapter = DocumentPageAdapter(giniBusiness)
         binding = GpbFragmentReviewBinding.inflate(inflater).apply {
             configureViews()
             configureOrientation()
@@ -155,7 +149,7 @@ class ReviewFragment(
         when (documentResult) {
             is ResultWrapper.Success -> {
                 documentPageAdapter.submitList(viewModel.getPages(documentResult.value).also { pages ->
-                    indicator.isVisible = pages.size != 1
+                    indicator.isVisible = pages.size > 1
                     pager.isUserInputEnabled = pages.size > 1
                 })
                 removePagerConstraint()
@@ -178,19 +172,9 @@ class ReviewFragment(
     }
 
     private fun GpbFragmentReviewBinding.configureOrientation() {
-        when (configuration.documentOrientation) {
-            Orientation.Horizontal -> {
-                pager.isVisible = true
-                indicator.isVisible = true
-                pager.adapter = documentPageAdapter
-                TabLayoutMediator(indicator, pager) { tab, _ -> tab.view.isClickable = false }.attach()
-            }
-            Orientation.Vertical -> {
-                list.isVisible = true
-                list.layoutManager = LinearLayoutManager(requireContext())
-                list.adapter = documentPageAdapter
-            }
-        }
+        pager.isVisible = true
+        pager.adapter = documentPageAdapter
+        TabLayoutMediator(indicator, pager) { tab, _ -> tab.view.isClickable = false }.attach()
     }
 
     private fun GpbFragmentReviewBinding.setPaymentDetails(paymentDetails: PaymentDetails) {
