@@ -21,9 +21,6 @@ $dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentRequest/<get-ba
 $dokka.location:net.gini.pay.ginipaybusiness.review.model/PaymentRequest/<get-id>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-payment-request/get-id.html
 $dokka.location:net.gini.pay.ginipaybusiness.review.model/ResultWrapper.Error/<get-error>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-result-wrapper/-error/get-error.html
 $dokka.location:net.gini.pay.ginipaybusiness.review.model/ResultWrapper.Success/<get-value>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review.model/-result-wrapper/-success/get-value.html
-$dokka.location:net.gini.pay.ginipaybusiness.review/Orientation/<get-name>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-orientation/get-name.html
-$dokka.location:net.gini.pay.ginipaybusiness.review/Orientation/<get-ordinal>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-orientation/get-ordinal.html
-$dokka.location:net.gini.pay.ginipaybusiness.review/ReviewConfiguration/<get-documentOrientation>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-review-configuration/get-document-orientation.html
 $dokka.location:net.gini.pay.ginipaybusiness.review/ReviewConfiguration/<get-handleErrorsInternally>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-review-configuration/get-handle-errors-internally.html
 $dokka.location:net.gini.pay.ginipaybusiness.review/ReviewConfiguration/<get-showCloseButton>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness.review/-review-configuration/get-show-close-button.html
 $dokka.location:net.gini.pay.ginipaybusiness/GiniBusiness.PaymentState.Error/<get-throwable>/#/PointingToDeclaration/net.gini.pay.ginipaybusiness/-gini-business/-payment-state/-error/get-throwable.html
