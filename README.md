@@ -41,7 +41,10 @@ Note: `resources` needs to be a java resources folder, not a regular folder.
 ### Bank
 
 In order to pass the Requirements a bank app needs to be installed on the device.
-An example bank app is in `:bankexample`  
+
+An example bank app is available in the Gini Pay Bank SDK's
+[repository](https://github.com/gini/gini-pay-bank-sdk-android) called
+[`appcreenapi`](https://github.com/gini/gini-pay-bank-sdk-android/tree/main/appscreenapi).
 
 ## License
 

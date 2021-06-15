@@ -16,5 +16,6 @@ Table of contents
     setup
     authentication
     flow
+    testing
     customization
     license
