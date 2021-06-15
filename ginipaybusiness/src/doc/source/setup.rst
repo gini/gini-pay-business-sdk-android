@@ -33,7 +33,7 @@ register one of your activities to respond to a deep link scheme known by the Gi
 
 You should already have a scheme and host from us. Please contact us in case you don't have them.
 
-The following is an example for the deep link ``ginipay-test://payment-requester``:
+The following is an example for the deep link ``ginipay-business://payment-requester``:
 
 .. code-block:: xml
 
@@ -45,7 +45,7 @@ The following is an example for the deep link ``ginipay-test://payment-requester
             
             <data
                 android:host="payment-requester" 
-                android:scheme="ginipay-test" />
+                android:scheme="ginipay-business" />
         </intent-filter>
     </activity>
 
