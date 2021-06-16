@@ -68,3 +68,6 @@ credentials. This will make sure the Gini Pay Business SDK receives real payment
 
 You will also need to install a banking app which uses the Gini Pay Bank SDK. Please contact us in case you don't know
 which banking app(s) to install.
+
+Lastly make sure that for production you register the scheme we provided you for deep linking and you are not using 
+`ginipay-business://payment-requester`.
