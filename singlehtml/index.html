@@ -82,6 +82,8 @@
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-setup">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#gini-pay-deep-link-for-your-app">Gini Pay Deep Link For Your App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#gini-pay-api-client-credentials">Gini Pay API Client Credentials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-authentication">Authentication</a></li>
@@ -89,6 +91,16 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#checking-requirements">Checking requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#setting-a-document-for-review">Setting a document for review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#display-reviewfragment">Display ReviewFragment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-testing">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-testing#example-banking-app">Example banking app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-testing#development-gini-pay-api-client-credentials">Development Gini Pay API client credentials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#end-to-end-testing">End to end testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#testing-in-production">Testing in production</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-customization">Customization</a></li>
@@ -162,6 +174,32 @@ module&#8217;s build.gradle.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="gini-pay-deep-link-for-your-app">
+<h4>Gini Pay Deep Link For Your App<a class="headerlink" href="#gini-pay-deep-link-for-your-app" title="Permalink to this headline">¶</a></h4>
+<p>In order for banking apps to be able to return the user to your app after the payment has been resolved you can
+register one of your activities to respond to a deep link scheme known by the Gini Pay API.</p>
+<p>You should already have a scheme and host from us. Please contact us in case you don&#8217;t have them.</p>
+<p>The following is an example for the deep link <tt class="docutils literal"><span class="pre">ginipay-business://payment-requester</span></tt>:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.YourActivity&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;intent-filter&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.DEFAULT&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;data</span>
+            <span class="na">android:host=</span><span class="s">&quot;payment-requester&quot;</span>
+            <span class="na">android:scheme=</span><span class="s">&quot;ginipay-business&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gini-pay-api-client-credentials">
+<h4>Gini Pay API Client Credentials<a class="headerlink" href="#gini-pay-api-client-credentials" title="Permalink to this headline">¶</a></h4>
+<p>You should have received Gini Pay API client credentials from us. Please get in touch with us in case you don&#8217;t have them.</p>
+<p>Continue to <a class="reference external" href="authentication.html">Authentication</a> to see how to use the client credentials to initialize the Gini Pay
+Business SDK.</p>
+</div>
 </div>
 <span id="document-authentication"></span><div class="section" id="authentication">
 <h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
@@ -232,6 +270,58 @@ so that they can be observed anywhere, the main purpose for this is to observe e
 <p>ReviewFragment handles errors by default, displaying snackbars for errors, but it
 can be configured to ignore them, in which case all flows of <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> should
 be observed for errors.</p>
+</div>
+</div>
+<span id="document-testing"></span><div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="requirements">
+<h4>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="example-banking-app">
+<h5>Example banking app<a class="headerlink" href="#example-banking-app" title="Permalink to this headline">¶</a></h5>
+<p>To pass the requirements for the Gini Pay Business SDK a supported banking app has to be installed on the device running
+your app.</p>
+<p>An example banking app is available in the <a class="reference external" href="https://github.com/gini/gini-pay-bank-sdk-android">Gini Pay Bank SDK&#8217;s</a>
+repository called <tt class="docutils literal"><span class="pre">appscreenapi</span></tt>.</p>
+<p>You can use the same Gini Pay API client credentials in the example banking app as in your app, if not otherwise
+specified.</p>
+</div>
+<div class="section" id="development-gini-pay-api-client-credentials">
+<h5>Development Gini Pay API client credentials<a class="headerlink" href="#development-gini-pay-api-client-credentials" title="Permalink to this headline">¶</a></h5>
+<p>In order to test using our example banking app you need to use development client credentials. This will make sure
+the Gini Pay Business SDK uses a test payment provider which will open our example banking app.</p>
+</div>
+</div>
+<div class="section" id="end-to-end-testing">
+<h4>End to end testing<a class="headerlink" href="#end-to-end-testing" title="Permalink to this headline">¶</a></h4>
+<p>After you&#8217;ve set the client credentials in the example banking app and installed it on your device you can run your app
+and verify that <tt class="docutils literal"><span class="pre">GiniBusiness.checkRequirements()</span></tt> returns an empty list.</p>
+<p>Following the <a class="reference external" href="flow.html">flow guide</a> show the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt> after analyzing a document.</p>
+<p>Check that the extractions and the document preview are shown and then press the <tt class="docutils literal"><span class="pre">Pay</span></tt> button:</p>
+<a class="reference internal image-reference" href="_images/business_review_fragment.png"><img alt="Review Fragment" class="align-center" src="_images/business_review_fragment.png" style="width: 150px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>You should be redirected to the example banking app where the final extractions are shown:</p>
+<a class="reference internal image-reference" href="_images/bank_payment_details.png"><img alt="Banking App - Payment Details" class="align-center" src="_images/bank_payment_details.png" style="width: 150px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>After you press the <tt class="docutils literal"><span class="pre">Pay</span></tt> button the Gini Pay Bank SDK resolves the payment and allows you to return to your app:</p>
+<a class="reference internal image-reference" href="_images/bank_resolved_payment.png"><img alt="Banking App - Resolved Payment" class="align-center" src="_images/bank_resolved_payment.png" style="width: 150px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>With these steps completed you have verified that your app, the Gini Pay API, the Gini Pay Business SDK and the Gini Pay
+Bank SDK work together correctly.</p>
+</div>
+<div class="section" id="testing-in-production">
+<h4>Testing in production<a class="headerlink" href="#testing-in-production" title="Permalink to this headline">¶</a></h4>
+<p>The steps are the same but instead of the development client credentials you will need to use production client
+credentials. This will make sure the Gini Pay Business SDK receives real payment providers which open real banking apps.</p>
+<p>You will also need to install a banking app which uses the Gini Pay Bank SDK. Please contact us in case you don&#8217;t know
+which banking app(s) to install.</p>
+<p>Lastly make sure that for production you register the scheme we provided you for deep linking and you are not using
+<cite>ginipay-business://payment-requester</cite>.</p>
 </div>
 </div>
 <span id="document-customization"></span><div class="section" id="customization">

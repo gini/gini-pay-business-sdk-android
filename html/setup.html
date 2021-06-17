@@ -84,6 +84,8 @@
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gini-pay-deep-link-for-your-app">Gini Pay Deep Link For Your App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gini-pay-api-client-credentials">Gini Pay API Client Credentials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
@@ -91,6 +93,16 @@
 <li class="toctree-l2"><a class="reference internal" href="flow.html#checking-requirements">Checking requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#setting-a-document-for-review">Setting a document for review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#display-reviewfragment">Display ReviewFragment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#example-banking-app">Example banking app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#development-gini-pay-api-client-credentials">Development Gini Pay API client credentials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#end-to-end-testing">End to end testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#testing-in-production">Testing in production</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
@@ -154,6 +166,32 @@ module&#8217;s build.gradle.</p>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="gini-pay-deep-link-for-your-app">
+<h2>Gini Pay Deep Link For Your App<a class="headerlink" href="#gini-pay-deep-link-for-your-app" title="Permalink to this headline">¶</a></h2>
+<p>In order for banking apps to be able to return the user to your app after the payment has been resolved you can
+register one of your activities to respond to a deep link scheme known by the Gini Pay API.</p>
+<p>You should already have a scheme and host from us. Please contact us in case you don&#8217;t have them.</p>
+<p>The following is an example for the deep link <tt class="docutils literal"><span class="pre">ginipay-business://payment-requester</span></tt>:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.YourActivity&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;intent-filter&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.DEFAULT&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;data</span>
+            <span class="na">android:host=</span><span class="s">&quot;payment-requester&quot;</span>
+            <span class="na">android:scheme=</span><span class="s">&quot;ginipay-business&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gini-pay-api-client-credentials">
+<h2>Gini Pay API Client Credentials<a class="headerlink" href="#gini-pay-api-client-credentials" title="Permalink to this headline">¶</a></h2>
+<p>You should have received Gini Pay API client credentials from us. Please get in touch with us in case you don&#8217;t have them.</p>
+<p>Continue to <a class="reference external" href="authentication.html">Authentication</a> to see how to use the client credentials to initialize the Gini Pay
+Business SDK.</p>
 </div>
 </div>
 
