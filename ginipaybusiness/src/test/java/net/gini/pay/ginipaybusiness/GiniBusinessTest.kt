@@ -14,7 +14,7 @@ import net.gini.android.models.ExtractionsContainer
 import net.gini.android.models.SpecificExtraction
 import net.gini.pay.ginipaybusiness.review.model.PaymentDetails
 import net.gini.pay.ginipaybusiness.review.model.ResultWrapper
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -24,11 +24,17 @@ val document =
 val extractions = ExtractionsContainer(
     mapOf(
         "paymentRecipient" to SpecificExtraction("paymentRecipient", "recipient", "", null, listOf()),
-        "iban" to SpecificExtraction("paymentRecipient", "iban", "", null, listOf()),
-        "amountToPay" to SpecificExtraction("paymentRecipient", "123.56", "", null, listOf()),
-        "paymentPurpose" to SpecificExtraction("paymentRecipient", "purpose", "", null, listOf()),
+        "iban" to SpecificExtraction("iban", "iban", "", null, listOf()),
+        "amountToPay" to SpecificExtraction("amountToPay", "123.56", "", null, listOf()),
+        "paymentPurpose" to SpecificExtraction("paymentPurpose", "purpose", "", null, listOf()),
     ),
     mapOf(), emptyList()
+)
+
+fun copyExtractions(extractions: ExtractionsContainer) = ExtractionsContainer(
+    extractions.specificExtractions.toMap(),
+    extractions.compoundExtractions.toMap(),
+    extractions.returnReasons.toList()
 )
 
 @ExperimentalCoroutinesApi
@@ -90,5 +96,35 @@ class GiniBusinessTest {
         giniBusiness.setDocumentForReview("")
         assert(giniBusiness.paymentFlow.value is ResultWrapper.Success<PaymentDetails>) { "Expected Success" }
         assertEquals(paymentDetails, (giniBusiness.paymentFlow.value as ResultWrapper.Success<PaymentDetails>).value)
+    }
+
+    @Test
+    fun `Document is payable if it has an IBAN extraction`() = runBlockingTest {
+        coEvery { documentManager.getExtractions(any()) } returns extractions
+        coEvery { documentManager.getDocument(any<String>()) } returns document
+
+        assertTrue(giniBusiness.checkIfDocumentIsPayable(document.id))
+    }
+
+    @Test
+    fun `Document is not payable if it has no IBAN extraction`() = runBlockingTest {
+        val extractionsWithoutIBAN = copyExtractions(extractions).apply {
+            specificExtractions.remove("iban")
+        }
+        coEvery { documentManager.getExtractions(any()) } returns extractionsWithoutIBAN
+        coEvery { documentManager.getDocument(any<String>()) } returns document
+
+        assertFalse(giniBusiness.checkIfDocumentIsPayable(document.id))
+    }
+
+    @Test
+    fun `Document is not payable if it has an empty IBAN extraction`() = runBlockingTest {
+        val extractionsWithoutIBAN = copyExtractions(extractions).apply {
+            specificExtractions.set("iban", SpecificExtraction("iban", "", "", null, listOf()))
+        }
+        coEvery { documentManager.getExtractions(any()) } returns extractionsWithoutIBAN
+        coEvery { documentManager.getDocument(any<String>()) } returns document
+
+        assertFalse(giniBusiness.checkIfDocumentIsPayable(document.id))
     }
 }
