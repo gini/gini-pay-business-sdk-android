@@ -22,7 +22,7 @@ app/build.gradle:
 .. code-block:: groovy
 
     dependencies {
-        implementation 'net.gini:gini-pay-business-sdk:1.0.2'
+        implementation 'net.gini:gini-pay-business-sdk:1.0.3'
     }
 
 Gini Pay Deep Link For Your App
