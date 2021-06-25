@@ -135,6 +135,19 @@ class GiniBusiness(
      */
     fun checkRequirements(packageManager: PackageManager): List<Requirement> = internalCheckRequirements(packageManager)
 
+    /**
+     * Checks whether the document is payable by fetching the document and its extractions from the
+     * Gini Pay API and verifying that the extractions contain an IBAN.
+     *
+     * @return `true` if the document is payable and `false` otherwise
+     * @throws Exception if there was an error while retrieving the document or the extractions
+     */
+    suspend fun checkIfDocumentIsPayable(documentId: String): Boolean =
+        with(documentManager) {
+            getExtractions(getDocument(documentId))
+                .specificExtractions["iban"]?.value?.isNotEmpty() ?: false
+        }
+
     internal fun setOpenBankState(state: PaymentState) {
         _openBankState.value = state
     }
