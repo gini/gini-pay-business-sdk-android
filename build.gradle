@@ -6,25 +6,24 @@ buildscript {
             "minSdk": 19,
             "targetSdk": 30,
 
-            "kotlin": "1.4.31",
+            "kotlin": "1.5.21",
             "coroutines": "1.4.3",
-            "androidGradlePlugin": "4.1.2",
+            "androidGradlePlugin": "7.0.0",
 
-            "capture": "1.0.0-beta06",
-            "payapi": "1.0.0-beta04",
+            "payapi": "1.0.0",
 
             "core": "1.3.2",
-            "appcompat": "1.2.0",
-            "activity": "1.2.2",
-            "fragment": "1.3.2",
-            "lifecycle": "2.3.0",
-            "material": "1.3.0",
+            "appcompat": "1.3.1",
+            "activity": "1.3.1",
+            "fragment": "1.3.6",
+            "lifecycle": "2.3.1",
+            "material": "1.4.0",
             "recyclerview": "1.1.0",
-            "constraintlayout": "2.0.4",
+            "constraintlayout": "2.1.0",
 
             "insetter": "0.5.0",
 
-            "dokka": "1.4.20",
+            "dokka": "1.5.0",
 
             "junit": "4.13.1",
             "androidxTestJunit": "1.1.2",
@@ -50,9 +49,7 @@ allprojects {
     repositories {
         maven { url 'https://repo.gini.net/nexus/content/repositories/open' }
         google()
-        maven { url "https://dl.bintray.com/kotlin/dokka" }
         mavenCentral()
-        jcenter()
         maven { url "https://www.jitpack.io" }
     }
 }
