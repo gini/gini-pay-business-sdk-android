@@ -4,11 +4,6 @@ pipeline {
     environment {
         NEXUS_MAVEN = credentials('external-nexus-maven-repo-credentials')
         GIT = credentials('github')
-//        COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('gini-vision-library-android_component-api-example-app-release-keystore-password')
-//        COMPONENT_API_EXAMPLE_APP_KEY_PSW = credentials('gini-vision-library-android_component-api-example-app-release-key-password')
-//        SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('gini-vision-library-android_screen-api-example-app-release-keystore-password')
-//        SCREEN_API_EXAMPLE_APP_KEY_PSW = credentials('gini-vision-library-android_screen-api-example-app-release-key-password')
-//        EXAMPLE_APP_CLIENT_CREDENTIALS = credentials('gini-vision-library-android_gini-api-client-credentials')
         JAVA11 = '/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home'
     }
     stages {
@@ -144,27 +139,25 @@ pipeline {
                 archiveArtifacts 'ginipaybusiness/build/outputs/aar/*.aar'
             }
         }
-//        stage('Build Example Apps') {
-//            when {
-//                anyOf {
-//                    not {
-//                        branch 'main'
-//                    }
-//                    allOf {
-//                        branch 'main'
-//                        expression {
-//                            def status = sh(returnStatus: true, script: 'git describe --exact-match HEAD')
-//                            return status == 0
-//                        }
-//                    }
-//                }
-//            }
-//            steps {
-//                sh './gradlew screenapiexample::clean screenapiexample::assembleRelease -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
-//                sh './gradlew componentapiexample::clean componentapiexample::assembleRelease -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
-//                archiveArtifacts 'screenapiexample/build/outputs/apk/release/screenapiexample-release.apk,componentapiexample/build/outputs/apk/release/componentapiexample-release.apk,screenapiexample/build/outputs/mapping/release/mapping.txt,componentapiexample/build/outputs/mapping/release/mapping.txt'
-//            }
-//        }
+        stage('Build Example App') {
+            when {
+                anyOf {
+                    not {
+                        branch 'main'
+                    }
+                    allOf {
+                        branch 'main'
+                        expression {
+                            def status = sh(returnStatus: true, script: 'git describe --exact-match HEAD')
+                            return status == 0
+                        }
+                    }
+                }
+            }
+            steps {
+                sh './gradlew app:clean app:assembleDebug -Dorg.gradle.java.home=$JAVA11'
+            }
+        }
         stage('Release Documentation') {
             when {
                 expression {
