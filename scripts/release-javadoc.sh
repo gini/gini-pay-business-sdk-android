@@ -24,8 +24,7 @@ git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-p
 
 rm -rf gh-pages/kdoc
 mkdir -p gh-pages/kdoc
-cp -a ginipaybusiness/build/dokka/ gh-pages
-mv gh-pages/ginipaybusiness/* gh-pages/kdoc
+cp -a ginipaybusiness/build/dokka/ gh-pages/kdoc
 cd gh-pages
 touch .nojekyll
 git add -u
