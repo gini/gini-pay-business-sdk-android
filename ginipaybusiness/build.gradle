@@ -46,7 +46,6 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
 
     api "net.gini:gini-pay-api-lib-android:${versions.payapi}"

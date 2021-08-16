@@ -38,8 +38,6 @@ dependencies {
 
     implementation project(":ginipaybusiness")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
-
     implementation "androidx.core:core-ktx:${versions.core}"
     implementation "androidx.activity:activity-ktx:${versions.activity}"
     implementation "androidx.fragment:fragment-ktx:${versions.fragment}"
