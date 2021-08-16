@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="None" href="index.html#document-index"/> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -81,33 +83,33 @@
             <ul>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-pay-business-sdk-android/kdoc/index.html">Gini Pay Business KDoc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-setup">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#gini-pay-deep-link-for-your-app">Gini Pay Deep Link For Your App</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-setup#gini-pay-api-client-credentials">Gini Pay API Client Credentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#gini-pay-deep-link-for-your-app">Gini Pay Deep Link For Your App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#gini-pay-api-client-credentials">Gini Pay API Client Credentials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-authentication">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-flow">Flow</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#checking-requirements">Checking requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#setting-a-document-for-review">Setting a document for review</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-flow#display-reviewfragment">Display ReviewFragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#checking-requirements">Checking requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#setting-a-document-for-review">Setting a document for review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#display-reviewfragment">Display ReviewFragment</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-testing">Testing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#requirements">Requirements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="index.html#document-testing#example-banking-app">Example banking app</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#document-testing#development-gini-pay-api-client-credentials">Development Gini Pay API client credentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#example-banking-app">Example banking app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#development-gini-pay-api-client-credentials">Development Gini Pay API client credentials</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#end-to-end-testing">End to end testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-testing#testing-in-production">Testing in production</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#end-to-end-testing">End to end testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#testing-in-production">Testing in production</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-customization">Customization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-license">License</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-license#licenses-and-acknowledgements-for-incorporated-software">Licenses and Acknowledgements for Incorporated Software</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="index.html#document-license#apache-commons-sanselan">Apache Commons Sanselan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="index.html#document-license#gini-android-sdk">Gini Android SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#licenses-and-acknowledgements-for-incorporated-software">Licenses and Acknowledgements for Incorporated Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#apache-commons-sanselan">Apache Commons Sanselan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gini-android-sdk">Gini Android SDK</a></li>
 </ul>
 </li>
 </ul>
@@ -158,9 +160,9 @@ its extractions and pay using a payment provider.</p>
 <div class="section" id="installation">
 <h4>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h4>
 <p>To install add our Maven repo to the root build.gradle file and add it as a dependency to your app
-module&#8217;s build.gradle.</p>
+module’s build.gradle.</p>
 <p>build.gradle:</p>
-<div class="highlight-groovy"><div class="highlight"><pre>repositories {
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span>repositories {
     maven {
         url &#39;https://repo.gini.net/nexus/content/repositories/open
     }
@@ -168,8 +170,8 @@ module&#8217;s build.gradle.</p>
 </pre></div>
 </div>
 <p>app/build.gradle:</p>
-<div class="highlight-groovy"><div class="highlight"><pre><span class="n">dependencies</span> <span class="o">{</span>
-    <span class="n">implementation</span> <span class="s1">&#39;net.gini:gini-pay-business-sdk:1.0.3&#39;</span>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="s1">&#39;net.gini:gini-pay-business-sdk:1.0.4&#39;</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -178,9 +180,9 @@ module&#8217;s build.gradle.</p>
 <h4>Gini Pay Deep Link For Your App<a class="headerlink" href="#gini-pay-deep-link-for-your-app" title="Permalink to this headline">¶</a></h4>
 <p>In order for banking apps to be able to return the user to your app after the payment has been resolved you can
 register one of your activities to respond to a deep link scheme known by the Gini Pay API.</p>
-<p>You should already have a scheme and host from us. Please contact us in case you don&#8217;t have them.</p>
-<p>The following is an example for the deep link <tt class="docutils literal"><span class="pre">ginipay-business://payment-requester</span></tt>:</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.YourActivity&quot;</span><span class="nt">&gt;</span>
+<p>You should already have a scheme and host from us. Please contact us in case you don’t have them.</p>
+<p>The following is an example for the deep link <code class="docutils literal notranslate"><span class="pre">ginipay-business://payment-requester</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.YourActivity&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;intent-filter&gt;</span>
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
 
@@ -196,37 +198,37 @@ register one of your activities to respond to a deep link scheme known by the Gi
 </div>
 <div class="section" id="gini-pay-api-client-credentials">
 <h4>Gini Pay API Client Credentials<a class="headerlink" href="#gini-pay-api-client-credentials" title="Permalink to this headline">¶</a></h4>
-<p>You should have received Gini Pay API client credentials from us. Please get in touch with us in case you don&#8217;t have them.</p>
+<p>You should have received Gini Pay API client credentials from us. Please get in touch with us in case you don’t have them.</p>
 <p>Continue to <a class="reference external" href="authentication.html">Authentication</a> to see how to use the client credentials to initialize the Gini Pay
 Business SDK.</p>
 </div>
 </div>
 <span id="document-authentication"></span><div class="section" id="authentication">
 <h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
-<p>The entry point for Business SDK is <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> class which depends
-on <tt class="docutils literal"><span class="pre">Gini</span></tt> (Gini Pay API lib) to interact with the backend.</p>
-<p>The <tt class="docutils literal"><span class="pre">Gini</span></tt> class can be built either with client credentials (clientId and clientSecret)
-or with a <tt class="docutils literal"><span class="pre">SessionManager</span></tt> if you have a token. For these two cases there are helper methods:</p>
+<p>The entry point for Business SDK is <code class="docutils literal notranslate"><span class="pre">GiniBusiness</span></code> class which depends
+on <code class="docutils literal notranslate"><span class="pre">Gini</span></code> (Gini Pay API lib) to interact with the backend.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Gini</span></code> class can be built either with client credentials (clientId and clientSecret)
+or with a <code class="docutils literal notranslate"><span class="pre">SessionManager</span></code> if you have a token. For these two cases there are helper methods:</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></tt></li>
+<li><code class="docutils literal notranslate"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></code></li>
 </ul>
 </div></blockquote>
-<p><tt class="docutils literal"><span class="pre">SessionManager</span></tt> is an interface which you need to implement to send the token.</p>
-<p>For more details about <tt class="docutils literal"><span class="pre">Gini</span></tt> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SessionManager</span></code> is an interface which you need to implement to send the token.</p>
+<p>For more details about <code class="docutils literal notranslate"><span class="pre">Gini</span></code> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
 </div>
 <span id="document-flow"></span><div class="section" id="flow">
 <h3>Flow<a class="headerlink" href="#flow" title="Permalink to this headline">¶</a></h3>
 <p>GiniBusiness is the main class for interacting with Gini Pay Business SDK.
 It provides a way to submit a document for reviewing its extracted payment details and
-let&#8217;s the user make the payment with one of the payment providers.</p>
+let’s the user make the payment with one of the payment providers.</p>
 <dl class="docutils">
 <dt>The recommended flow is to:</dt>
 <dd><ol class="first last arabic simple">
-<li>Call <tt class="docutils literal"><span class="pre">GiniBusiness.checkRequirements()</span></tt> to make sure that the flow can be completed.</li>
-<li>Call one of the overloads of <tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt>, to submit a document.</li>
-<li>Display <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</li>
+<li>Call <code class="docutils literal notranslate"><span class="pre">GiniBusiness.checkRequirements()</span></code> to make sure that the flow can be completed.</li>
+<li>Call one of the overloads of <code class="docutils literal notranslate"><span class="pre">setDocumentForReview</span></code>, to submit a document.</li>
+<li>Display <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code>.</li>
 </ol>
 </dd>
 </dl>
@@ -234,31 +236,31 @@ let&#8217;s the user make the payment with one of the payment providers.</p>
 <h4>Checking requirements<a class="headerlink" href="#checking-requirements" title="Permalink to this headline">¶</a></h4>
 <p>Requirements are not enforced, but recommended. Review Fragment will still start, but
 the flow cannot be completed if not all requirements are met.</p>
-<p><tt class="docutils literal"><span class="pre">checkRequirements()</span></tt> returns a list of missing requirements. Empty list means all requirements are met.</p>
+<p><code class="docutils literal notranslate"><span class="pre">checkRequirements()</span></code> returns a list of missing requirements. Empty list means all requirements are met.</p>
 </div>
 <div class="section" id="setting-a-document-for-review">
 <h4>Setting a document for review<a class="headerlink" href="#setting-a-document-for-review" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt> can be called with:</dt>
+<dt><code class="docutils literal notranslate"><span class="pre">setDocumentForReview</span></code> can be called with:</dt>
 <dd><ol class="first last arabic simple">
-<li><tt class="docutils literal"><span class="pre">Document</span></tt> instance in the case the upload was performed with Gini Pay Api lib (see <tt class="docutils literal"><span class="pre">Gini</span></tt> class).</li>
-<li>Document id, this will probably be the case when there&#8217;s backend integration between the Business Client and Gini.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Document</span></code> instance in the case the upload was performed with Gini Pay Api lib (see <code class="docutils literal notranslate"><span class="pre">Gini</span></code> class).</li>
+<li>Document id, this will probably be the case when there’s backend integration between the Business Client and Gini.</li>
 </ol>
 </dd>
 </dl>
-<p>When calling it with an id the SDK will make a network call to obtain a <tt class="docutils literal"><span class="pre">Document</span></tt> instance.
-So it is preferred to use the <tt class="docutils literal"><span class="pre">Document</span></tt> instance if you already have it.
-The same applies to the optional <tt class="docutils literal"><span class="pre">PaymentDetails</span></tt>, if they are present they will be displayed
+<p>When calling it with an id the SDK will make a network call to obtain a <code class="docutils literal notranslate"><span class="pre">Document</span></code> instance.
+So it is preferred to use the <code class="docutils literal notranslate"><span class="pre">Document</span></code> instance if you already have it.
+The same applies to the optional <code class="docutils literal notranslate"><span class="pre">PaymentDetails</span></code>, if they are present they will be displayed
 and network calls to get extractions will be skipped.</p>
-<p>The exposed flows of <tt class="docutils literal"><span class="pre">GiniBussines</span></tt> are used by the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt> to observe the state of the document and extractions, but they are public
+<p>The exposed flows of <code class="docutils literal notranslate"><span class="pre">GiniBussines</span></code> are used by the <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code> to observe the state of the document and extractions, but they are public
 so that they can be observed anywhere, the main purpose for this is to observe errors.</p>
-<p>Note: If you observe payment details flow, you can check PaymentDetails.isPayable as an extra condition before displaying the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</p>
+<p>Note: If you observe payment details flow, you can check PaymentDetails.isPayable as an extra condition before displaying the <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code>.</p>
 </div>
 <div class="section" id="display-reviewfragment">
 <h4>Display ReviewFragment<a class="headerlink" href="#display-reviewfragment" title="Permalink to this headline">¶</a></h4>
 <p>ReviewFragment displays document pages and extractions and it lets the user pay using a payment provider</p>
-<p>To instantiate it you need to create a <tt class="docutils literal"><span class="pre">FragmentFactory</span></tt> and set it to fragment manager:</p>
-<div class="highlight-kotlin"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ReviewFragmentFactory</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">giniBusiness</span><span class="p">:</span> <span class="n">GiniBusiness</span><span class="p">)</span> <span class="p">:</span> <span class="n">FragmentFactory</span><span class="p">()</span> <span class="p">{</span>
+<p>To instantiate it you need to create a <code class="docutils literal notranslate"><span class="pre">FragmentFactory</span></code> and set it to fragment manager:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ReviewFragmentFactory</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">giniBusiness</span><span class="p">:</span> <span class="n">GiniBusiness</span><span class="p">)</span> <span class="p">:</span> <span class="n">FragmentFactory</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">instantiate</span><span class="p">(</span><span class="n">classLoader</span><span class="p">:</span> <span class="n">ClassLoader</span><span class="p">,</span> <span class="n">className</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Fragment</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">ReviewFragment</span><span class="p">(</span><span class="n">giniBusiness</span><span class="p">)</span>
     <span class="p">}</span>
@@ -268,7 +270,7 @@ so that they can be observed anywhere, the main purpose for this is to observe e
 </pre></div>
 </div>
 <p>ReviewFragment handles errors by default, displaying snackbars for errors, but it
-can be configured to ignore them, in which case all flows of <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> should
+can be configured to ignore them, in which case all flows of <code class="docutils literal notranslate"><span class="pre">GiniBusiness</span></code> should
 be observed for errors.</p>
 </div>
 </div>
@@ -280,8 +282,8 @@ be observed for errors.</p>
 <h5>Example banking app<a class="headerlink" href="#example-banking-app" title="Permalink to this headline">¶</a></h5>
 <p>To pass the requirements for the Gini Pay Business SDK a supported banking app has to be installed on the device running
 your app.</p>
-<p>An example banking app is available in the <a class="reference external" href="https://github.com/gini/gini-pay-bank-sdk-android">Gini Pay Bank SDK&#8217;s</a>
-repository called <tt class="docutils literal"><span class="pre">appscreenapi</span></tt>.</p>
+<p>An example banking app is available in the <a class="reference external" href="https://github.com/gini/gini-pay-bank-sdk-android">Gini Pay Bank SDK’s</a>
+repository called <code class="docutils literal notranslate"><span class="pre">appscreenapi</span></code>.</p>
 <p>You can use the same Gini Pay API client credentials in the example banking app as in your app, if not otherwise
 specified.</p>
 </div>
@@ -293,10 +295,10 @@ the Gini Pay Business SDK uses a test payment provider which will open our examp
 </div>
 <div class="section" id="end-to-end-testing">
 <h4>End to end testing<a class="headerlink" href="#end-to-end-testing" title="Permalink to this headline">¶</a></h4>
-<p>After you&#8217;ve set the client credentials in the example banking app and installed it on your device you can run your app
-and verify that <tt class="docutils literal"><span class="pre">GiniBusiness.checkRequirements()</span></tt> returns an empty list.</p>
-<p>Following the <a class="reference external" href="flow.html">flow guide</a> show the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt> after analyzing a document.</p>
-<p>Check that the extractions and the document preview are shown and then press the <tt class="docutils literal"><span class="pre">Pay</span></tt> button:</p>
+<p>After you’ve set the client credentials in the example banking app and installed it on your device you can run your app
+and verify that <code class="docutils literal notranslate"><span class="pre">GiniBusiness.checkRequirements()</span></code> returns an empty list.</p>
+<p>Following the <a class="reference external" href="flow.html">flow guide</a> show the <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code> after analyzing a document.</p>
+<p>Check that the extractions and the document preview are shown and then press the <code class="docutils literal notranslate"><span class="pre">Pay</span></code> button:</p>
 <a class="reference internal image-reference" href="_images/business_review_fragment.png"><img alt="Review Fragment" class="align-center" src="_images/business_review_fragment.png" style="width: 150px;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -306,7 +308,7 @@ and verify that <tt class="docutils literal"><span class="pre">GiniBusiness.chec
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>After you press the <tt class="docutils literal"><span class="pre">Pay</span></tt> button the Gini Pay Bank SDK resolves the payment and allows you to return to your app:</p>
+<p>After you press the <code class="docutils literal notranslate"><span class="pre">Pay</span></code> button the Gini Pay Bank SDK resolves the payment and allows you to return to your app:</p>
 <a class="reference internal image-reference" href="_images/bank_resolved_payment.png"><img alt="Banking App - Resolved Payment" class="align-center" src="_images/bank_resolved_payment.png" style="width: 150px;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -318,7 +320,7 @@ Bank SDK work together correctly.</p>
 <h4>Testing in production<a class="headerlink" href="#testing-in-production" title="Permalink to this headline">¶</a></h4>
 <p>The steps are the same but instead of the development client credentials you will need to use production client
 credentials. This will make sure the Gini Pay Business SDK receives real payment providers which open real banking apps.</p>
-<p>You will also need to install a banking app which uses the Gini Pay Bank SDK. Please contact us in case you don&#8217;t know
+<p>You will also need to install a banking app which uses the Gini Pay Bank SDK. Please contact us in case you don’t know
 which banking app(s) to install.</p>
 <p>Lastly make sure that for production you register the scheme we provided you for deep linking and you are not using
 <cite>ginipay-business://payment-requester</cite>.</p>
@@ -326,7 +328,7 @@ which banking app(s) to install.</p>
 </div>
 <span id="document-customization"></span><div class="section" id="customization">
 <h3>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h3>
-<p>Customization of is achieved through Android&#8217;s resourcing system.
+<p>Customization of is achieved through Android’s resourcing system.
 This means that all <a class="reference external" href="https://github.com/gini/gini-pay-business-sdk-android/tree/main/ginipaybusiness/src/main/res">resources of the library</a>
 can be overridden by providing resources with the same name in the
 application.</p>
@@ -334,7 +336,7 @@ application.</p>
 components will pick attributes of the hosting activity if it uses
 a Material Theme.</p>
 <p>Some attributes are set inside the library (styles that start with
-<tt class="docutils literal"><span class="pre">Root.</span></tt>) to provide the basic UI, but you can hook into the other
+<code class="docutils literal notranslate"><span class="pre">Root.</span></code>) to provide the basic UI, but you can hook into the other
 styles to customize the screen further.</p>
 <p><a class="reference external" href="https://github.com/gini/gini-pay-business-sdk-android/blob/main/ginipaybusiness/src/main/res/values/styles.xml">See styles file</a></p>
 </div>
@@ -346,18 +348,18 @@ also integrate several third party libraries.</p>
 <p class="first admonition-title">Important</p>
 <p class="last">Always make sure to ship all license notices and permissions with your application.</p>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Copyright (c) 2014-2021, Gini GmbH
-All rights reserved.
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">2021</span><span class="p">,</span> <span class="n">Gini</span> <span class="n">GmbH</span>
+<span class="n">All</span> <span class="n">rights</span> <span class="n">reserved</span><span class="o">.</span>
 
-The Gini Pay Business SDK is licensed through Gini GmbH (&quot;Gini&quot;) and may not be
-used, altered or copied in any way without explicit permission by Gini. The
-terms of usage are defined in a separate usage agreement between Gini and the
-licensee, where the licensee can gain access to a non-exclusive,
-non-transferable usage right which is restricted for the time of a contractual
-relationship between Gini and the licensee.
+<span class="n">The</span> <span class="n">Gini</span> <span class="n">Pay</span> <span class="n">Business</span> <span class="n">SDK</span> <span class="ow">is</span> <span class="n">licensed</span> <span class="n">through</span> <span class="n">Gini</span> <span class="n">GmbH</span> <span class="p">(</span><span class="s2">&quot;Gini&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">be</span>
+<span class="n">used</span><span class="p">,</span> <span class="n">altered</span> <span class="ow">or</span> <span class="n">copied</span> <span class="ow">in</span> <span class="nb">any</span> <span class="n">way</span> <span class="n">without</span> <span class="n">explicit</span> <span class="n">permission</span> <span class="n">by</span> <span class="n">Gini</span><span class="o">.</span> <span class="n">The</span>
+<span class="n">terms</span> <span class="n">of</span> <span class="n">usage</span> <span class="n">are</span> <span class="n">defined</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">separate</span> <span class="n">usage</span> <span class="n">agreement</span> <span class="n">between</span> <span class="n">Gini</span> <span class="ow">and</span> <span class="n">the</span>
+<span class="n">licensee</span><span class="p">,</span> <span class="n">where</span> <span class="n">the</span> <span class="n">licensee</span> <span class="n">can</span> <span class="n">gain</span> <span class="n">access</span> <span class="n">to</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">exclusive</span><span class="p">,</span>
+<span class="n">non</span><span class="o">-</span><span class="n">transferable</span> <span class="n">usage</span> <span class="n">right</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">restricted</span> <span class="k">for</span> <span class="n">the</span> <span class="n">time</span> <span class="n">of</span> <span class="n">a</span> <span class="n">contractual</span>
+<span class="n">relationship</span> <span class="n">between</span> <span class="n">Gini</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">licensee</span><span class="o">.</span>
 
-For license related inquiries contact Gini via the email address
-technical-support@gini.net.
+<span class="n">For</span> <span class="n">license</span> <span class="n">related</span> <span class="n">inquiries</span> <span class="n">contact</span> <span class="n">Gini</span> <span class="n">via</span> <span class="n">the</span> <span class="n">email</span> <span class="n">address</span>
+<span class="n">technical</span><span class="o">-</span><span class="n">support</span><span class="nd">@gini</span><span class="o">.</span><span class="n">net</span><span class="o">.</span>
 </pre></div>
 </div>
 <div class="section" id="licenses-and-acknowledgements-for-incorporated-software">
@@ -365,7 +367,7 @@ technical-support@gini.net.
 <p>This library makes use of the following third party libraries:</p>
 <div class="section" id="apache-commons-sanselan">
 <h5>Apache Commons Sanselan<a class="headerlink" href="#apache-commons-sanselan" title="Permalink to this headline">¶</a></h5>
-<div class="highlight-python"><div class="highlight"><pre>                              Apache License
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                              Apache License
                         Version 2.0, January 2004
                      http://www.apache.org/licenses/
 
@@ -625,27 +627,27 @@ limitations under the License.
 </div>
 <div class="section" id="gini-android-sdk">
 <h5>Gini Android SDK<a class="headerlink" href="#gini-android-sdk" title="Permalink to this headline">¶</a></h5>
-<div class="highlight-python"><div class="highlight"><pre>The MIT License (MIT)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">MIT</span> <span class="n">License</span> <span class="p">(</span><span class="n">MIT</span><span class="p">)</span>
 
-Copyright (c) 2021 Gini GmbH
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2021</span> <span class="n">Gini</span> <span class="n">GmbH</span>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+<span class="n">Permission</span> <span class="ow">is</span> <span class="n">hereby</span> <span class="n">granted</span><span class="p">,</span> <span class="n">free</span> <span class="n">of</span> <span class="n">charge</span><span class="p">,</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">person</span> <span class="n">obtaining</span> <span class="n">a</span> <span class="n">copy</span>
+<span class="n">of</span> <span class="n">this</span> <span class="n">software</span> <span class="ow">and</span> <span class="n">associated</span> <span class="n">documentation</span> <span class="n">files</span> <span class="p">(</span><span class="n">the</span> <span class="s2">&quot;Software&quot;</span><span class="p">),</span> <span class="n">to</span> <span class="n">deal</span>
+<span class="ow">in</span> <span class="n">the</span> <span class="n">Software</span> <span class="n">without</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">including</span> <span class="n">without</span> <span class="n">limitation</span> <span class="n">the</span> <span class="n">rights</span>
+<span class="n">to</span> <span class="n">use</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">modify</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span> <span class="n">publish</span><span class="p">,</span> <span class="n">distribute</span><span class="p">,</span> <span class="n">sublicense</span><span class="p">,</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">sell</span>
+<span class="n">copies</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span><span class="p">,</span> <span class="ow">and</span> <span class="n">to</span> <span class="n">permit</span> <span class="n">persons</span> <span class="n">to</span> <span class="n">whom</span> <span class="n">the</span> <span class="n">Software</span> <span class="ow">is</span>
+<span class="n">furnished</span> <span class="n">to</span> <span class="n">do</span> <span class="n">so</span><span class="p">,</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span><span class="p">:</span>
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+<span class="n">The</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span> <span class="n">permission</span> <span class="n">notice</span> <span class="n">shall</span> <span class="n">be</span> <span class="n">included</span> <span class="ow">in</span>
+<span class="nb">all</span> <span class="n">copies</span> <span class="ow">or</span> <span class="n">substantial</span> <span class="n">portions</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span><span class="o">.</span>
 
-THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+<span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="s2">&quot;AS IS&quot;</span><span class="p">,</span> <span class="n">WITHOUT</span> <span class="n">WARRANTY</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span><span class="p">,</span> <span class="n">EXPRESS</span> <span class="n">OR</span>
+<span class="n">IMPLIED</span><span class="p">,</span> <span class="n">INCLUDING</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span> <span class="n">THE</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span><span class="p">,</span>
+<span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">AND</span> <span class="n">NONINFRINGEMENT</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span>
+<span class="n">AUTHORS</span> <span class="n">OR</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">BE</span> <span class="n">LIABLE</span> <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">CLAIM</span><span class="p">,</span> <span class="n">DAMAGES</span> <span class="n">OR</span> <span class="n">OTHER</span>
+<span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">AN</span> <span class="n">ACTION</span> <span class="n">OF</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">TORT</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">,</span> <span class="n">ARISING</span> <span class="n">FROM</span><span class="p">,</span>
+<span class="n">OUT</span> <span class="n">OF</span> <span class="n">OR</span> <span class="n">IN</span> <span class="n">CONNECTION</span> <span class="n">WITH</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">OR</span> <span class="n">THE</span> <span class="n">USE</span> <span class="n">OR</span> <span class="n">OTHER</span> <span class="n">DEALINGS</span> <span class="n">IN</span>
+<span class="n">THE</span> <span class="n">SOFTWARE</span><span class="o">.</span>
 </pre></div>
 </div>
 </div>

@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gini Capture SDK for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Flow" href="flow.html"/>
         <link rel="prev" title="Getting started" href="setup.html"/> 
@@ -88,7 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="setup.html#gini-pay-api-client-credentials">Gini Pay API Client Credentials</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Authentication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flow.html">Flow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#checking-requirements">Checking requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flow.html#setting-a-document-for-review">Setting a document for review</a></li>
@@ -148,18 +150,18 @@
             
   <div class="section" id="authentication">
 <h1>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h1>
-<p>The entry point for Business SDK is <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> class which depends
-on <tt class="docutils literal"><span class="pre">Gini</span></tt> (Gini Pay API lib) to interact with the backend.</p>
-<p>The <tt class="docutils literal"><span class="pre">Gini</span></tt> class can be built either with client credentials (clientId and clientSecret)
-or with a <tt class="docutils literal"><span class="pre">SessionManager</span></tt> if you have a token. For these two cases there are helper methods:</p>
+<p>The entry point for Business SDK is <code class="docutils literal notranslate"><span class="pre">GiniBusiness</span></code> class which depends
+on <code class="docutils literal notranslate"><span class="pre">Gini</span></code> (Gini Pay API lib) to interact with the backend.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Gini</span></code> class can be built either with client credentials (clientId and clientSecret)
+or with a <code class="docutils literal notranslate"><span class="pre">SessionManager</span></code> if you have a token. For these two cases there are helper methods:</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></tt></li>
+<li><code class="docutils literal notranslate"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">clientId:</span> <span class="pre">String,</span> <span class="pre">clientSecret:</span> <span class="pre">String,</span> <span class="pre">emailDomain:</span> <span class="pre">String)</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">getGiniApi(context:</span> <span class="pre">Context,</span> <span class="pre">sessionManager:</span> <span class="pre">SessionManager)</span></code></li>
 </ul>
 </div></blockquote>
-<p><tt class="docutils literal"><span class="pre">SessionManager</span></tt> is an interface which you need to implement to send the token.</p>
-<p>For more details about <tt class="docutils literal"><span class="pre">Gini</span></tt> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">SessionManager</span></code> is an interface which you need to implement to send the token.</p>
+<p>For more details about <code class="docutils literal notranslate"><span class="pre">Gini</span></code> see <a class="reference external" href="https://github.com/gini/gini-pay-api-lib-android/">Gini Pay API lib</a>.</p>
 </div>
 
 

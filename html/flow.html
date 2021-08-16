@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gini Capture SDK for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Testing" href="testing.html"/>
         <link rel="prev" title="Authentication" href="authentication.html"/> 
@@ -89,7 +91,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Flow</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Flow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#checking-requirements">Checking requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-a-document-for-review">Setting a document for review</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#display-reviewfragment">Display ReviewFragment</a></li>
@@ -150,13 +152,13 @@
 <h1>Flow<a class="headerlink" href="#flow" title="Permalink to this headline">¶</a></h1>
 <p>GiniBusiness is the main class for interacting with Gini Pay Business SDK.
 It provides a way to submit a document for reviewing its extracted payment details and
-let&#8217;s the user make the payment with one of the payment providers.</p>
+let’s the user make the payment with one of the payment providers.</p>
 <dl class="docutils">
 <dt>The recommended flow is to:</dt>
 <dd><ol class="first last arabic simple">
-<li>Call <tt class="docutils literal"><span class="pre">GiniBusiness.checkRequirements()</span></tt> to make sure that the flow can be completed.</li>
-<li>Call one of the overloads of <tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt>, to submit a document.</li>
-<li>Display <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</li>
+<li>Call <code class="docutils literal notranslate"><span class="pre">GiniBusiness.checkRequirements()</span></code> to make sure that the flow can be completed.</li>
+<li>Call one of the overloads of <code class="docutils literal notranslate"><span class="pre">setDocumentForReview</span></code>, to submit a document.</li>
+<li>Display <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code>.</li>
 </ol>
 </dd>
 </dl>
@@ -164,31 +166,31 @@ let&#8217;s the user make the payment with one of the payment providers.</p>
 <h2>Checking requirements<a class="headerlink" href="#checking-requirements" title="Permalink to this headline">¶</a></h2>
 <p>Requirements are not enforced, but recommended. Review Fragment will still start, but
 the flow cannot be completed if not all requirements are met.</p>
-<p><tt class="docutils literal"><span class="pre">checkRequirements()</span></tt> returns a list of missing requirements. Empty list means all requirements are met.</p>
+<p><code class="docutils literal notranslate"><span class="pre">checkRequirements()</span></code> returns a list of missing requirements. Empty list means all requirements are met.</p>
 </div>
 <div class="section" id="setting-a-document-for-review">
 <h2>Setting a document for review<a class="headerlink" href="#setting-a-document-for-review" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">setDocumentForReview</span></tt> can be called with:</dt>
+<dt><code class="docutils literal notranslate"><span class="pre">setDocumentForReview</span></code> can be called with:</dt>
 <dd><ol class="first last arabic simple">
-<li><tt class="docutils literal"><span class="pre">Document</span></tt> instance in the case the upload was performed with Gini Pay Api lib (see <tt class="docutils literal"><span class="pre">Gini</span></tt> class).</li>
-<li>Document id, this will probably be the case when there&#8217;s backend integration between the Business Client and Gini.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Document</span></code> instance in the case the upload was performed with Gini Pay Api lib (see <code class="docutils literal notranslate"><span class="pre">Gini</span></code> class).</li>
+<li>Document id, this will probably be the case when there’s backend integration between the Business Client and Gini.</li>
 </ol>
 </dd>
 </dl>
-<p>When calling it with an id the SDK will make a network call to obtain a <tt class="docutils literal"><span class="pre">Document</span></tt> instance.
-So it is preferred to use the <tt class="docutils literal"><span class="pre">Document</span></tt> instance if you already have it.
-The same applies to the optional <tt class="docutils literal"><span class="pre">PaymentDetails</span></tt>, if they are present they will be displayed
+<p>When calling it with an id the SDK will make a network call to obtain a <code class="docutils literal notranslate"><span class="pre">Document</span></code> instance.
+So it is preferred to use the <code class="docutils literal notranslate"><span class="pre">Document</span></code> instance if you already have it.
+The same applies to the optional <code class="docutils literal notranslate"><span class="pre">PaymentDetails</span></code>, if they are present they will be displayed
 and network calls to get extractions will be skipped.</p>
-<p>The exposed flows of <tt class="docutils literal"><span class="pre">GiniBussines</span></tt> are used by the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt> to observe the state of the document and extractions, but they are public
+<p>The exposed flows of <code class="docutils literal notranslate"><span class="pre">GiniBussines</span></code> are used by the <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code> to observe the state of the document and extractions, but they are public
 so that they can be observed anywhere, the main purpose for this is to observe errors.</p>
-<p>Note: If you observe payment details flow, you can check PaymentDetails.isPayable as an extra condition before displaying the <tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>.</p>
+<p>Note: If you observe payment details flow, you can check PaymentDetails.isPayable as an extra condition before displaying the <code class="docutils literal notranslate"><span class="pre">ReviewFragment</span></code>.</p>
 </div>
 <div class="section" id="display-reviewfragment">
 <h2>Display ReviewFragment<a class="headerlink" href="#display-reviewfragment" title="Permalink to this headline">¶</a></h2>
 <p>ReviewFragment displays document pages and extractions and it lets the user pay using a payment provider</p>
-<p>To instantiate it you need to create a <tt class="docutils literal"><span class="pre">FragmentFactory</span></tt> and set it to fragment manager:</p>
-<div class="highlight-kotlin"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ReviewFragmentFactory</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">giniBusiness</span><span class="p">:</span> <span class="n">GiniBusiness</span><span class="p">)</span> <span class="p">:</span> <span class="n">FragmentFactory</span><span class="p">()</span> <span class="p">{</span>
+<p>To instantiate it you need to create a <code class="docutils literal notranslate"><span class="pre">FragmentFactory</span></code> and set it to fragment manager:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ReviewFragmentFactory</span><span class="p">(</span><span class="k">private</span> <span class="k">val</span> <span class="py">giniBusiness</span><span class="p">:</span> <span class="n">GiniBusiness</span><span class="p">)</span> <span class="p">:</span> <span class="n">FragmentFactory</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">instantiate</span><span class="p">(</span><span class="n">classLoader</span><span class="p">:</span> <span class="n">ClassLoader</span><span class="p">,</span> <span class="n">className</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Fragment</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">ReviewFragment</span><span class="p">(</span><span class="n">giniBusiness</span><span class="p">)</span>
     <span class="p">}</span>
@@ -198,7 +200,7 @@ so that they can be observed anywhere, the main purpose for this is to observe e
 </pre></div>
 </div>
 <p>ReviewFragment handles errors by default, displaying snackbars for errors, but it
-can be configured to ignore them, in which case all flows of <tt class="docutils literal"><span class="pre">GiniBusiness</span></tt> should
+can be configured to ignore them, in which case all flows of <code class="docutils literal notranslate"><span class="pre">GiniBusiness</span></code> should
 be observed for errors.</p>
 </div>
 </div>
