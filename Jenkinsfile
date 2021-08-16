@@ -195,7 +195,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    ./gradlew ginipaybusiness:uploadArchives \
+                    ./gradlew publishReleasePublicationToSnapshotsRepository \
                     -PmavenSnapshotsRepoUrl=https://repo.gini.net/nexus/content/repositories/snapshots \
                     -PrepoUser=$NEXUS_MAVEN_USR \
                     -PrepoPassword=$NEXUS_MAVEN_PSW
@@ -223,8 +223,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    ./gradlew ginipaybusiness:uploadArchives \
-                    -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
+                    ./gradlew publishReleasePublicationToOpenRepository \
+                    -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
                     -PrepoUser=$NEXUS_MAVEN_USR \
                     -PrepoPassword=$NEXUS_MAVEN_PSW
                 '''

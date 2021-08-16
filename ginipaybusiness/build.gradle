@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'org.jetbrains.dokka'
     id 'kotlin-parcelize'
+    id 'maven-publish'
 }
 
 android {
@@ -71,7 +72,6 @@ dependencies {
 
 
 apply from: rootProject.file('gradle/codequality.gradle')
-apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
 dokkaHtml {
@@ -109,7 +109,4 @@ task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     from dokkaJavadoc.outputDirectory
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+apply from: rootProject.file('gradle/maven.gradle')
