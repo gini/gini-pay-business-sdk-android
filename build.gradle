@@ -24,7 +24,7 @@ buildscript {
 
             "insetter": "0.5.0",
 
-            "dokka": "1.4.20",
+            "dokka": "1.5.0",
 
             "junit": "4.13.1",
             "androidxTestJunit": "1.1.2",
@@ -50,9 +50,7 @@ allprojects {
     repositories {
         maven { url 'https://repo.gini.net/nexus/content/repositories/open' }
         google()
-        maven { url "https://dl.bintray.com/kotlin/dokka" }
         mavenCentral()
-        jcenter()
         maven { url "https://www.jitpack.io" }
     }
 }
