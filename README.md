@@ -21,7 +21,7 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-pay-business-sdk:1.0.4'
+    implementation 'net.gini:gini-pay-business-sdk:1.0.5'
 }
 ```
 
