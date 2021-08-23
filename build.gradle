@@ -2,15 +2,15 @@
 
 buildscript {
     ext.versions = [
-            "compileSdk": 30,
+            "compileSdk": 31,
             "minSdk": 19,
-            "targetSdk": 30,
+            "targetSdk": 31,
 
             "kotlin": "1.5.21",
             "coroutines": "1.4.3",
             "androidGradlePlugin": "7.0.0",
 
-            "payapi": "1.0.0",
+            "payapi": "1.0.1",
 
             "core": "1.3.2",
             "appcompat": "1.3.1",

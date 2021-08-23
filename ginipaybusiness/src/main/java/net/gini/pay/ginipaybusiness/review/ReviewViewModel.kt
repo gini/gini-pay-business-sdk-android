@@ -151,6 +151,7 @@ private fun PaymentDetails.overwriteEmptyFields(value: PaymentDetails): PaymentD
     iban = if (iban.trim().isEmpty()) value.iban else iban,
     amount = if (amount.trim().isEmpty()) value.amount else amount,
     purpose = if (purpose.trim().isEmpty()) value.purpose else purpose,
+    extractions = extractions ?: value.extractions,
 )
 
 internal fun getReviewViewModelFactory(giniBusiness: GiniBusiness) = object : ViewModelProvider.Factory {
