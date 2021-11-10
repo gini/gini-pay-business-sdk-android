@@ -1,6 +1,16 @@
 Gini Pay Business SDK for Android
 ===============================
 
+**Deprecation Notice**
+----------------------
+
+The Gini Pay Business SDK for Android was replaced by the 
+[Gini Health SDK](https://github.com/gini/gini-mobile-android/blob/main/health-sdk/).
+
+This SDK won't be developed further and we kindly ask you to switch to the Gini Health SDK. Migration entails only a
+few steps which you can find in this 
+[migration guide](https://github.com/gini/gini-mobile-android/blob/main/health-sdk/migrate-from-pay-business-sdk.md).
+
 Installation
 ------------
 
